@@ -77,7 +77,9 @@
           account: account
         });
       }
-      return res.redirect("/");
+      return req.login(account, function() {
+        return res.redirect("/");
+      });
     });
   });
 

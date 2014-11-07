@@ -57,8 +57,8 @@ router.post "/signup", (req, res) ->
       return res.render "signup",
         account: account
 
-    # TODO: implement login here
-    res.redirect "/"
+    req.login account, ->
+      res.redirect "/"
 
 router.get "/signup/fail", (req, res) ->
   res.render "signup",
