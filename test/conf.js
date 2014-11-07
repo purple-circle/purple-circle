@@ -5,8 +5,7 @@ exports.config = {
   },
   jasmineNodeOpts: {
     showColors: true,
-    isVerbose: true,
-    includeStackTrace: true
+    isVerbose: true
   },
   specs: ['specs/**/*.js']
 };
