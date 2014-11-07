@@ -1,0 +1,19 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <h1>{{group.name}}</h1>
+      <p ng-if="group.description">
+        {{group.description}}
+      </p>
+
+      <a ui-sref="profile.show({id: created_by._id})">{{created_by.name}}</a>
+    </div>
+    <div class="col-md-9">
+      group id: {{id}}
+      <hr />
+      group: {{group}}
+    </div>
+  </div>
+</div>
+
