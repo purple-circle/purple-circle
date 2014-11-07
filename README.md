@@ -30,7 +30,7 @@ pm2 start jobs/api.js --watch
 npm install -g protractor
 webdriver-manager update
 webdriver-manager start
-``
+```
 
 
 If gulp not working
