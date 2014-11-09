@@ -28,7 +28,7 @@
       gender: 'String',
       bio: 'String',
       birthday: 'Date',
-      facebook_id: 'Number',
+      facebook_id: 'String',
       created: {
         type: Date,
         "default": Date.now
@@ -46,7 +46,7 @@
       }
     });
     facebookUserSchema = mongoose.Schema({
-      id: 'Number',
+      id: 'String',
       user_id: 'String',
       name: 'String',
       first_name: 'String',

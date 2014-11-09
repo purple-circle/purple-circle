@@ -72,7 +72,7 @@ passport.use new FacebookStrategy facebookOptions, (accessToken, refreshToken, p
         #console.log "profile", profile
 
         userData =
-          facebook_id: Number profile.id
+          facebook_id: profile.id
           name: profile.displayName
           gender: profile.gender
           email: profile._json.email
@@ -81,7 +81,7 @@ passport.use new FacebookStrategy facebookOptions, (accessToken, refreshToken, p
           # Username hack for now
 
         facebook_profile =
-          id: Number profile.id
+          id: profile.id
           name: profile.displayName
           url: profile.profileUrl
           first_name: profile._json.first_name

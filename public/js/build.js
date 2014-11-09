@@ -220,7 +220,11 @@
         if (daysUntilCakeday < 0) {
           daysUntilCakeday = moment([currentYear + 1, cakedayMonth, cakedayDay]).diff(new Date(), 'days');
         }
-        return $scope.daysUntilCakeday = daysUntilCakeday;
+        $scope.daysUntilCakeday = daysUntilCakeday;
+        $scope.profile_picture = "http://i.imgur.com/0pXux.jpg";
+        if (data.facebook_id) {
+          return $scope.profile_picture = "https://graph.facebook.com/" + data.facebook_id + "/picture?type=large";
+        }
       }
     };
     return api.findUser($stateParams.id).then(function(data) {

@@ -32,6 +32,11 @@ app.controller 'profile', ($scope, $stateParams, $timeout, api) ->
 
       $scope.daysUntilCakeday = daysUntilCakeday
 
+      $scope.profile_picture = "http://i.imgur.com/0pXux.jpg"
+
+      if data.facebook_id
+        $scope.profile_picture = "https://graph.facebook.com/#{data.facebook_id}/picture?type=large"
+
   api
     .findUser($stateParams.id)
     .then (data) ->

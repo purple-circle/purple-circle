@@ -76,7 +76,7 @@
         return done(null, data);
       } else {
         userData = {
-          facebook_id: Number(profile.id),
+          facebook_id: profile.id,
           name: profile.displayName,
           gender: profile.gender,
           email: profile._json.email,
@@ -84,7 +84,7 @@
           username: profile.displayName.replace(" ", ".") + Math.ceil(Math.random() * 1000)
         };
         facebook_profile = {
-          id: Number(profile.id),
+          id: profile.id,
           name: profile.displayName,
           url: profile.profileUrl,
           first_name: profile._json.first_name,

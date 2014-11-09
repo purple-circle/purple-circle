@@ -14,14 +14,14 @@ module.exports = (settings) ->
     gender: 'String'
     bio: 'String'
     birthday: 'Date'
-    facebook_id: 'Number'
+    facebook_id: 'String'
     created: { type: Date, default: Date.now }
     hidden: { type: Boolean, default: false }
     random: {type: [Number], index: '2d', default: -> return [Math.random(), Math.random()]}
   }
 
   facebookUserSchema = mongoose.Schema {
-    id: 'Number'
+    id: 'String'
     user_id: 'String'
     name: 'String'
     first_name: 'String'
