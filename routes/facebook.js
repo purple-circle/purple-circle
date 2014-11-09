@@ -96,7 +96,8 @@
           birthday: profile._json.birthday,
           locale: profile._json.locale,
           timezone: profile._json.timezone,
-          verified: profile._json.verified
+          verified: profile._json.verified,
+          metadata: profile
         };
         return UserApi.create(userData).then(function(result) {
           facebook_profile.user_id = result._id;

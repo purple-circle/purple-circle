@@ -69,6 +69,7 @@
       locale: 'String',
       timezone: 'String',
       verified: 'String',
+      metadata: 'Object',
       created: {
         type: Date,
         "default": Date.now
