@@ -7,7 +7,7 @@
         {{user.username}}
       </p>
       <p ng-if="user.birthday">
-        <i class="fa fa-birthday-cake"></i>
+        <i class="fa fa-birthday-cake birthday-cake"></i>
         {{user.birthday | amDateFormat:'MMMM Do YYYY'}}<br />
         <span am-time-ago="user.birthday"><span>
 
@@ -19,6 +19,23 @@
           {{daysUntilBirthday}} days until next birthday.
         </p>
       </p>
+
+      <hr>
+
+      <p ng-if="user.created" class="created-date">
+        Joined {{user.created | amDateFormat:'MMMM Do YYYY'}}<br />
+        <span am-time-ago="user.created"><span>
+
+        <p ng-if="isCakeday">
+          <i class="fa fa-birthday-cake cakeday-cake"></i>
+          Happy cakeday!
+        </p>
+
+        <p ng-if="daysUntilBirthday">
+          {{daysUntilCakeday}} days until next cakeday.
+        </p>
+      </p>
+
     </div>
 
     <div class="col-md-4">

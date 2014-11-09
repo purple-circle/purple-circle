@@ -179,19 +179,28 @@
     var setUser;
     $scope.loggedin = api.checkLogin();
     setUser = function(data) {
-      var birthdayDay, birthdayMoment, birthdayMonth, currentYear, daysUntilBirthday;
+      var birthdayDay, birthdayMoment, birthdayMonth, cakedayDay, cakedayMoment, cakedayMonth, currentYear, daysUntilBirthday, daysUntilCakeday;
       $scope.user = data;
       if (data.birthday) {
-        birthdayMoment = moment(data.birthday);
         currentYear = moment().year();
+        birthdayMoment = moment(data.birthday);
         birthdayMonth = birthdayMoment.month();
         birthdayDay = birthdayMoment.date();
         daysUntilBirthday = moment([currentYear, birthdayMonth, birthdayDay]).diff(new Date(), 'days');
-        $scope.isBirthday = daysUntilBirthday > 0;
+        $scope.isBirthday = daysUntilBirthday === 0;
         if (daysUntilBirthday < 0) {
           daysUntilBirthday = moment([currentYear + 1, birthdayMonth, birthdayDay]).diff(new Date(), 'days');
         }
-        return $scope.daysUntilBirthday = daysUntilBirthday;
+        $scope.daysUntilBirthday = daysUntilBirthday;
+        cakedayMoment = moment(data.created);
+        cakedayMonth = cakedayMoment.month();
+        cakedayDay = cakedayMoment.date();
+        daysUntilCakeday = moment([currentYear, cakedayMonth, cakedayDay]).diff(new Date(), 'days');
+        $scope.isCakeday = daysUntilCakeday === 0;
+        if (daysUntilCakeday < 0) {
+          daysUntilCakeday = moment([currentYear + 1, cakedayMonth, cakedayDay]).diff(new Date(), 'days');
+        }
+        return $scope.daysUntilCakeday = daysUntilCakeday;
       }
     };
     return api.findUser($stateParams.id).then(function(data) {
