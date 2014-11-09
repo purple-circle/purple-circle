@@ -2,7 +2,7 @@
   'use strict';
   var app;
 
-  app = angular.module('app', ['ui.router', 'ui.router.compat', 'templates', 'angularMoment']);
+  app = angular.module('app', ['ui.router', 'ui.router.compat', 'templates', 'angularMoment', 'angular-parallax']);
 
   app.config(["$stateProvider", "$locationProvider", function($stateProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
@@ -83,7 +83,7 @@
       position = top / height * 100;
       barElement.css("background-position", "left " + position + "%");
     };
-    $(window).on("scroll", _.throttle(scroll, 50));
+    $(window).on("scroll", _.throttle(scroll, 24));
   });
 
 }).call(this);

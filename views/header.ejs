@@ -28,6 +28,7 @@
     <script src="/bower_components/lodash/dist/lodash.min.js"></script>
     <script src="/bower_components/moment/min/moment.min.js"></script>
     <script src="/bower_components/angular-moment/angular-moment.min.js"></script>
+    <script src="/bower_components/angular-parallax/scripts/angular-parallax.js"></script>
 
     <script src="/js/templates/templates.min.js"></script>
 
@@ -51,12 +52,11 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <% if(userLoginStatus) { %>
+            <li><my-profile-info></my-profile-info></li>
             <li><a href="/logout">Logout</a></li>
           <% } %>
         </ul>
       </div>
     </div>
-
-    <my-profile-info></my-profile-info>
 
     <div id="content" ui-view>

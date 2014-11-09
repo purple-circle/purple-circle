@@ -27,7 +27,7 @@
 
 
 body {
-  padding-top: 60px;
+  padding-top: 55px;
 }
 
 a {
@@ -70,9 +70,7 @@ a {
 }
 
 .my-profile-info-box {
-  margin: 10px 20px 40px;
-  padding: 20px;
-  background: rgba(247, 247, 247, 0.5);
+  color: @white;
 }
 
 .footer-bunny {
@@ -83,5 +81,25 @@ a {
 
   &:hover {
     opacity: 0;
+  }
+}
+
+.profile-cover {
+  background-attachment: fixed;
+  background-position: 50% 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url('http://i.imgur.com/Q0CaJ.jpg');
+
+  height: 400px;
+  position: relative;
+  margin-bottom: 50px;
+
+  .profile-picture-thumbnail {
+    border-radius: 3px;
+    max-width: 250px;
+    max-height: 250px;
+    position: absolute;
+    bottom: -35px;
   }
 }

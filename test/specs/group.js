@@ -1,4 +1,4 @@
-ddescribe('group view', function() {
+describe('group view', function() {
   beforeEach(function() {
     // TODO: change this
     browser.get('http://localhost:3000/group/545fb2d14f928b02bce2b45f');

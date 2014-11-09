@@ -5,6 +5,7 @@ app = angular.module('app', [
   'ui.router.compat'
   'templates'
   'angularMoment'
+  'angular-parallax'
 ])
 
 app.config ($stateProvider, $locationProvider) ->
@@ -92,5 +93,5 @@ $(document).ready ->
     barElement.css "background-position", "left " + position + "%"
     return
 
-  $(window).on "scroll", _.throttle(scroll, 50)
+  $(window).on "scroll", _.throttle(scroll, 24)
   return

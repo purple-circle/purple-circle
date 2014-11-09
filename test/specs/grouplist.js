@@ -1,4 +1,4 @@
-ddescribe('grouplist view', function() {
+describe('grouplist view', function() {
   beforeEach(function() {
     browser.get('http://localhost:3000/logout');
     browser.get('http://localhost:3000/login');
@@ -43,7 +43,7 @@ ddescribe('grouplist view', function() {
     expect(element.all(by.repeater('group in groups')).count()).toBeGreaterThan(0);
   });
 
-  iit('should only show development category groups', function() {
+  it('should only show development category groups', function() {
     browser.get('http://localhost:3000/groups?category=Development');
     expect(element(by.css('h2.category')).isPresent()).toEqual(true);
     expect(element(by.css('h2.category')).getText()).toEqual("Development");
