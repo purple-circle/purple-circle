@@ -1,6 +1,9 @@
 body {
   padding-top: 20px;
 }
+a {
+  cursor: pointer;
+}
 .bar {
   background: url(http://cdn.socket.io/website/imgs/galaxy.jpg);
   height: 7px;

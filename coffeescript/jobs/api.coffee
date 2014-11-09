@@ -5,6 +5,8 @@ jobs = kue.createQueue()
 settings = require("../settings")
 require("../mongo")(settings)
 
+console.log "api worker running"
+
 jobs.process "api.getUserlist", (job, done) ->
   Users = mongoose.model 'users'
   Users
@@ -60,9 +62,16 @@ jobs.process "api.createGroup", (job, done) ->
 
 
 jobs.process "api.getGroups", (job, done) ->
+  filters = {}
+
+  if job.data.category
+    filters.category = job.data.category
+
+  console.log "filters", filters
+
   Groups = mongoose.model 'groups'
   Groups
-    .find()
+    .find(filters)
     .exec()
     .then (result) ->
       done(null, result)

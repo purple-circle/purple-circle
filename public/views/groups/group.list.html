@@ -4,14 +4,33 @@
     <div class="col-md-4">
       <group-create ng-if="loggedin"></group-create>
     </div>
-    <div class="col-md-4">
-      Grouplist
+    <div class="col-md-8">
 
-      <ul>
-        <li ng-repeat="group in groups | orderBy:'-created'">
-          g: <a ui-sref="group.show({id: group._id})">{{group.name}}</a>
-        </li>
-      </ul>
+      <div ng-if="category">
+        <h2>{{category}}</h2>
+        <a ng-click="show_all()">Show all</a>
+      </div>
+
+
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Category</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="group in groups | filter:filter | orderBy:'-created'">
+            <td><a ui-sref="group.show({id: group._id})">{{group.name}}</a></td>
+            <td>
+              <a ui-sref="groups({category: group.category})">
+                {{group.category}}
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
     </div>
   </div>
 </div>

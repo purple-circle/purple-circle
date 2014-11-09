@@ -9,8 +9,8 @@
     return api.createQueue("api.createGroup", data);
   };
 
-  groups.getGroups = function() {
-    return api.createQueue("api.getGroups");
+  groups.getGroups = function(data) {
+    return api.createQueue("api.getGroups", data);
   };
 
   groups.getGroup = function(id) {

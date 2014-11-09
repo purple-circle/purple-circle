@@ -1,12 +1,29 @@
 app = angular.module('app')
-app.controller 'group.list', ($scope, $timeout, api) ->
+app.controller 'group.list', ($scope, $stateParams, $state, $timeout, api) ->
   $scope.loggedin = api.checkLogin()
   $scope.list = []
+  $scope.filter = {}
+
+  $scope.category = $stateParams.category
+
+  setCategoryFilter = (category) ->
+    $scope.filter.category = category
+
+
+  if $scope.category
+    setCategoryFilter $scope.category
+
+  $scope.show_all = ->
+    $scope.category = false
+    $scope.filter = {}
+    $state.transitionTo "groups"
+
 
   api
-    .getGroupList()
+    .getGroupList({category: $scope.category})
     .then (groups) ->
-      $scope.groups = groups
+      $timeout ->
+        $scope.groups = groups
 
   api
     .socket

@@ -25,9 +25,10 @@ app.config ($stateProvider, $locationProvider) ->
       controller: 'profile.show'
 
     .state 'groups',
-      url: '/groups'
+      url: '/groups?category'
       templateUrl: 'groups/group.list.html'
       controller: 'group.list'
+
     .state 'group',
       abstract: true
       url: '/group'

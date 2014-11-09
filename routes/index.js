@@ -24,6 +24,12 @@
     });
   });
 
+  router.get("/groups/:category", function(req, res) {
+    return res.render("index", {
+      userLoginStatus: req.user !== void 0
+    });
+  });
+
   router.get("/group/:id", function(req, res) {
     return res.render("index", {
       userLoginStatus: req.user !== void 0

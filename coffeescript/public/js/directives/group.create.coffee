@@ -7,6 +7,12 @@ app.directive 'groupCreate', (api) ->
       {
         name: "Generic"
       }
+      {
+        name: "Music"
+      }
+      {
+        name: "Development"
+      }
     ]
 
     $scope.data = {

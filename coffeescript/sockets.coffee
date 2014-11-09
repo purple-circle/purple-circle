@@ -39,9 +39,9 @@ module.exports = (server, sessionStore) ->
         .then (group) ->
           socket.emit "getGroup", group
 
-    socket.on "getGroupList", ->
+    socket.on "getGroupList", (data) ->
       groups
-        .getGroups()
+        .getGroups(data)
         .then (result) ->
           socket.emit "getGroupList", result
 

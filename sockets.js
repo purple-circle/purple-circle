@@ -38,8 +38,8 @@
           return socket.emit("getGroup", group);
         });
       });
-      socket.on("getGroupList", function() {
-        return groups.getGroups().then(function(result) {
+      socket.on("getGroupList", function(data) {
+        return groups.getGroups(data).then(function(result) {
           return socket.emit("getGroupList", result);
         });
       });

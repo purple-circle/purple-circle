@@ -20,7 +20,7 @@
       templateUrl: 'profile/profile.show.html',
       controller: 'profile.show'
     }).state('groups', {
-      url: '/groups',
+      url: '/groups?category',
       templateUrl: 'groups/group.list.html',
       controller: 'group.list'
     }).state('group', {
@@ -113,11 +113,29 @@
 
   app = angular.module('app');
 
-  app.controller('group.list', ["$scope", "$timeout", "api", function($scope, $timeout, api) {
+  app.controller('group.list', ["$scope", "$stateParams", "$state", "$timeout", "api", function($scope, $stateParams, $state, $timeout, api) {
+    var setCategoryFilter;
     $scope.loggedin = api.checkLogin();
     $scope.list = [];
-    api.getGroupList().then(function(groups) {
-      return $scope.groups = groups;
+    $scope.filter = {};
+    $scope.category = $stateParams.category;
+    setCategoryFilter = function(category) {
+      return $scope.filter.category = category;
+    };
+    if ($scope.category) {
+      setCategoryFilter($scope.category);
+    }
+    $scope.show_all = function() {
+      $scope.category = false;
+      $scope.filter = {};
+      return $state.transitionTo("groups");
+    };
+    api.getGroupList({
+      category: $scope.category
+    }).then(function(groups) {
+      return $timeout(function() {
+        return $scope.groups = groups;
+      });
     });
     return api.socket.on("createGroup", function(group) {
       return $timeout(function() {
@@ -239,6 +257,10 @@
         $scope.categories = [
           {
             name: "Generic"
+          }, {
+            name: "Music"
+          }, {
+            name: "Development"
           }
         ];
         $scope.data = {
@@ -356,8 +378,8 @@
         socket.emit("getGroup", id);
         return this.on("getGroup");
       },
-      getGroupList: function() {
-        socket.emit("getGroupList");
+      getGroupList: function(data) {
+        socket.emit("getGroupList", data);
         return this.on("getGroupList");
       }
     };

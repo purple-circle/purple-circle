@@ -11,6 +11,8 @@
 
   require("../mongo")(settings);
 
+  console.log("api worker running");
+
   jobs.process("api.getUserlist", function(job, done) {
     var Users;
     Users = mongoose.model('users');
@@ -71,9 +73,14 @@
   });
 
   jobs.process("api.getGroups", function(job, done) {
-    var Groups;
+    var Groups, filters;
+    filters = {};
+    if (job.data.category) {
+      filters.category = job.data.category;
+    }
+    console.log("filters", filters);
     Groups = mongoose.model('groups');
-    return Groups.find().exec().then(function(result) {
+    return Groups.find(filters).exec().then(function(result) {
       return done(null, result);
     }, function(error) {
       return done(error);
