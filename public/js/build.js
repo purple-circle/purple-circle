@@ -157,11 +157,14 @@
 
   app = angular.module('app');
 
-  app.controller('index', ["$scope", "api", function($scope, api) {
+  app.controller('index', ["$scope", "$timeout", "api", function($scope, $timeout, api) {
     $scope.loggedin = api.checkLogin();
     api.userlist();
     return api.on("userlist").then(function(users) {
-      return $scope.users = users;
+      return $timeout(function() {
+        $scope.loaded = true;
+        return $scope.users = users;
+      });
     });
   }]);
 

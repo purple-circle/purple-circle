@@ -1,8 +1,10 @@
 app = angular.module('app')
-app.controller 'index', ($scope, api) ->
+app.controller 'index', ($scope, $timeout, api) ->
   $scope.loggedin = api.checkLogin()
   api.userlist()
   api
     .on("userlist")
     .then (users) ->
-      $scope.users = users
+      $timeout ->
+        $scope.loaded = true
+        $scope.users = users

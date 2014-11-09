@@ -2,6 +2,16 @@ describe('index logout view', function() {
   beforeEach(function() {
     browser.get('http://localhost:3000/logout');
     browser.get('http://localhost:3000/');
+
+    browser.wait(function() {
+      var deferred = protractor.promise.defer();
+      element(by.css('.loaded')).isPresent()
+        .then(function (isPresent) {
+          deferred.fulfill(!isPresent);
+        });
+      return deferred.promise;
+    });
+
   });
 
   it('should have three some login buttons', function() {
