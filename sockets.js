@@ -23,6 +23,16 @@
         loggedinUser = ((_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0) != null;
         return socket.emit("checkLogin", loggedinUser);
       });
+      socket.on("getLoggedinUser", function() {
+        var loggedinUser, _ref, _ref1, _ref2;
+        loggedinUser = (_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0;
+        if (!loggedinUser) {
+          return false;
+        }
+        return api.getUser(loggedinUser).then(function(user) {
+          return socket.emit("getLoggedinUser", user);
+        });
+      });
       socket.on("getGroup", function(id) {
         return groups.getGroup(id).then(function(group) {
           return socket.emit("getGroup", group);

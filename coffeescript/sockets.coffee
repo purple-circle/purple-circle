@@ -23,6 +23,16 @@ module.exports = (server, sessionStore) ->
       loggedinUser = socket.request?.session?.passport?.user?
       socket.emit "checkLogin", loggedinUser
 
+    socket.on "getLoggedinUser", ->
+      loggedinUser = socket.request?.session?.passport?.user
+      if !loggedinUser
+        return false
+
+      api
+        .getUser(loggedinUser)
+        .then (user) ->
+          socket.emit "getLoggedinUser", user
+
     socket.on "getGroup", (id) ->
       groups
         .getGroup(id)

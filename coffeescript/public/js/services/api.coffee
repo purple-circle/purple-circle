@@ -21,6 +21,10 @@ app.factory 'api', ($q) ->
   checkLogin: ->
     window.userLoginStatus
 
+  getLoggedinUser: ->
+    socket.emit("getLoggedinUser")
+    this.on("getLoggedinUser")
+
   createGroup: (data) ->
     socket.emit("createGroup", data)
     this.on("createGroup")

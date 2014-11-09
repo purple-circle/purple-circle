@@ -1,5 +1,5 @@
 body {
-  padding-top: 50px;
+  padding-top: 20px;
 }
 .bar {
   background: url(http://cdn.socket.io/website/imgs/galaxy.jpg);
@@ -31,4 +31,9 @@ body {
   border: 10px solid purple;
   width: 200px;
   height: 200px;
+}
+.my-profile-info-box {
+  margin: 10px 20px 40px;
+  padding: 20px;
+  background: rgba(247, 247, 247, 0.5);
 }

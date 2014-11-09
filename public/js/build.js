@@ -252,6 +252,28 @@
 
   app = angular.module('app');
 
+  app.directive('myProfileInfo', ["$timeout", "api", function($timeout, api) {
+    return {
+      restrict: 'E',
+      templateUrl: 'directives/my-profile-info.html',
+      link: function($scope, el, attrs) {
+        $scope.loggedin = api.checkLogin();
+        return api.getLoggedinUser().then(function(data) {
+          return $timeout(function() {
+            return $scope.mydata = data;
+          });
+        });
+      }
+    };
+  }]);
+
+}).call(this);
+
+(function() {
+  var app;
+
+  app = angular.module('app');
+
   app.directive('signup', function() {
     return {
       restrict: 'E',
@@ -288,6 +310,10 @@
       },
       checkLogin: function() {
         return window.userLoginStatus;
+      },
+      getLoggedinUser: function() {
+        socket.emit("getLoggedinUser");
+        return this.on("getLoggedinUser");
       },
       createGroup: function(data) {
         socket.emit("createGroup", data);

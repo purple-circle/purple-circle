@@ -13,6 +13,12 @@ describe('index logout view', function() {
   });
 
   it('should have atleast one user on the userlist', function() {
+    expect(element(by.repeater('user in users')).isPresent()).toEqual(true);
     expect(element.all(by.repeater('user in users')).count()).toBeGreaterThan(0);
+  });
+
+  it('should not have "my profile info" box', function() {
+    expect(element.all(by.css('.my-profile-info-box')).count()).toEqual(0);
+    expect(element(by.binding('mydata.username')).isPresent()).toEqual(false);
   });
 });

@@ -31,4 +31,9 @@ describe('index loggedin view', function() {
     expect(element(by.binding('loggedin')).getText()).toEqual("i'm logged in: true");
   });
 
+  it('should have "my profile info" box', function() {
+    expect(element.all(by.css('.my-profile-info-box')).count()).toEqual(1);
+    expect(element(by.binding('mydata.username')).getText()).toEqual("test");
+  });
+
 });
