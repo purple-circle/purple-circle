@@ -1,5 +1,6 @@
 describe('load grouplist', function() {
   beforeEach(function() {
+    browser.get('http://localhost:3000/logout');
     browser.get('http://localhost:3000/login');
     element(by.model('login.username')).sendKeys('test');
     element(by.model('login.password')).sendKeys('test');
@@ -8,6 +9,10 @@ describe('load grouplist', function() {
     button.click();
 
     browser.get('http://localhost:3000/groups');
+  });
+
+  afterEach(function() {
+    browser.get('http://localhost:3000/logout');
   });
 
   it('should create new group', function() {
