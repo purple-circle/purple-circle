@@ -22,14 +22,13 @@ describe('load grouplist', function() {
       .then(function(originalCount) {
         var groupName = 'juhq on ihq' + Math.ceil(Math.random() * 10000);
 
-        expect(element.all(by.repeater('group in groups')).count()).toBeGreaterThan(0);
-
         element(by.model('data.name')).sendKeys(groupName);
         element(by.model('data.description')).sendKeys('juhq on ihq ja paras');
 
         var button = element(By.css('.save-group'));
         button.click();
 
+        expect(element.all(by.repeater('group in groups')).count()).toBeGreaterThan(0);
         var groups = element.all(by.repeater('group in groups'))
         expect(groups.count()).toEqual(originalCount + 1);
 
