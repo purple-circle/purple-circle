@@ -37,3 +37,13 @@ body {
   padding: 20px;
   background: rgba(247, 247, 247, 0.5);
 }
+.footer-bunny {
+  position: fixed;
+  bottom: 0;
+  right: 5px;
+  -webkit-transition: all 1s;
+          transition: all 1s;
+}
+.footer-bunny:hover {
+  opacity: 0;
+}

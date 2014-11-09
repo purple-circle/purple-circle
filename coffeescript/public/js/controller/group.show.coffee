@@ -1,19 +1,18 @@
 app = angular.module('app')
-app.controller 'group.show', ($scope, $stateParams, api) ->
+app.controller 'group.show', ($scope, $stateParams, $timeout, api) ->
   $scope.loggedin = api.checkLogin()
   $scope.id = $stateParams.id
-  api.getGroup($stateParams.id)
 
   api
-    .on("getGroup")
+    .getGroup($scope.id)
     .then (group) ->
-      $scope.group = group
-      getCreator(group.created_by)
+      $timeout ->
+        $scope.group = group
+        getCreator(group.created_by)
 
   getCreator = (userid) ->
-    api.findUser(userid)
-
     api
-      .on("user")
+      .findUser(userid)
       .then (data) ->
-        $scope.created_by = data
+        $timeout ->
+          $scope.created_by = data

@@ -1,4 +1,4 @@
-describe('load grouplist', function() {
+describe('grouplist view', function() {
   beforeEach(function() {
     browser.get('http://localhost:3000/logout');
     browser.get('http://localhost:3000/login');

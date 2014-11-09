@@ -133,19 +133,21 @@
 
   app = angular.module('app');
 
-  app.controller('group.show', ["$scope", "$stateParams", "api", function($scope, $stateParams, api) {
+  app.controller('group.show', ["$scope", "$stateParams", "$timeout", "api", function($scope, $stateParams, $timeout, api) {
     var getCreator;
     $scope.loggedin = api.checkLogin();
     $scope.id = $stateParams.id;
-    api.getGroup($stateParams.id);
-    api.on("getGroup").then(function(group) {
-      $scope.group = group;
-      return getCreator(group.created_by);
+    api.getGroup($scope.id).then(function(group) {
+      return $timeout(function() {
+        $scope.group = group;
+        return getCreator(group.created_by);
+      });
     });
     return getCreator = function(userid) {
-      api.findUser(userid);
-      return api.on("user").then(function(data) {
-        return $scope.created_by = data;
+      return api.findUser(userid).then(function(data) {
+        return $timeout(function() {
+          return $scope.created_by = data;
+        });
       });
     };
   }]);
