@@ -3,8 +3,24 @@
   <div class="row">
     <div class="col-md-4">
       <h2>{{user.name}}</h2>
-      <p>{{user.username}}</p>
+      <p ng-if="user.username" class="username">
+        {{user.username}}
+      </p>
+      <p ng-if="user.birthday">
+        <i class="fa fa-birthday-cake"></i>
+        {{user.birthday | amDateFormat:'MMMM Do YYYY'}}<br />
+        <span am-time-ago="user.birthday"><span>
+
+        <p ng-if="isBirthday">
+          Happy birthday!
+        </p>
+
+        <p ng-if="daysUntilBirthday">
+          {{daysUntilBirthday}} days until next birthday.
+        </p>
+      </p>
     </div>
+
     <div class="col-md-4">
       profile data: {{user}}<br/>
     </div>

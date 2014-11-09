@@ -4,6 +4,7 @@ app = angular.module('app', [
   'ui.router'
   'ui.router.compat'
   'templates'
+  'angularMoment'
 ])
 
 app.config ($stateProvider, $locationProvider) ->
