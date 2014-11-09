@@ -7,5 +7,6 @@ exports.config = {
     showColors: true,
     isVerbose: true
   },
+  rootElement: "html",
   specs: ['specs/**/*.js']
 };
