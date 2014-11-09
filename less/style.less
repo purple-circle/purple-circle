@@ -1,3 +1,31 @@
+
+// Colors from https://github.com/mrmrs/colors
+
+// Cool
+@aqua:  #7FDBFF;
+@blue:  #0074D9;
+@navy:  #001F3F;
+@teal:  #39CCCC;
+@green: #2ECC40;
+@olive: #3D9970;
+@lime:  #01FF70;
+
+// Warm
+@yellow:  #FFDC00;
+@orange:  #FF851B;
+@red:     #FF4136;
+@fuchsia: #F012BE;
+@purple:  #B10DC9;
+@maroon:  #85144B;
+
+// Gray Scale
+@white:  #fff;
+@silver: #ddd;
+@gray:   #aaa;
+@black:  #111;
+
+
+
 body {
   padding-top: 60px;
 }
@@ -7,7 +35,7 @@ a {
 }
 .navbar-fixed-top {
   top: 7px;
-  box-shadow: 0 0 10px #2C2C2C;
+  box-shadow: 0 0 10px @black;
 }
 
 .bar {
@@ -27,7 +55,7 @@ a {
 
 #logo {
   border-radius: 100%;
-  border: 5px solid purple;
+  border: 5px solid @purple;
   background: transparent;
   width: 100px;
   height: 100px;
@@ -35,7 +63,7 @@ a {
   transform: translate(0,0,0);
 
   &:hover {
-    border: 10px solid purple;
+    border: 10px solid @purple;
     width: 200px;
     height: 200px;
   }
