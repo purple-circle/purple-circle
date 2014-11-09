@@ -14,6 +14,7 @@ app.factory 'api', ($q) ->
 
   findUser: (id) ->
     socket.emit("getuser", id)
+    this.on("user")
 
   userlist: ->
     socket.emit("getuserlist")

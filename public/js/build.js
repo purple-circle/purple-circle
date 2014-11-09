@@ -175,10 +175,10 @@
 
   app = angular.module('app');
 
-  app.controller('profile', ["$scope", "$stateParams", "api", function($scope, $stateParams, api) {
+  app.controller('profile', ["$scope", "$stateParams", "$timeout", "api", function($scope, $stateParams, $timeout, api) {
+    var setUser;
     $scope.loggedin = api.checkLogin();
-    api.findUser($stateParams.id);
-    return api.on("user").then(function(data) {
+    setUser = function(data) {
       var birthdayDay, birthdayMoment, birthdayMonth, currentYear, daysUntilBirthday;
       $scope.user = data;
       if (data.birthday) {
@@ -193,6 +193,11 @@
         }
         return $scope.daysUntilBirthday = daysUntilBirthday;
       }
+    };
+    return api.findUser($stateParams.id).then(function(data) {
+      return $timeout(function() {
+        return setUser(data);
+      });
     });
   }]);
 
@@ -319,7 +324,8 @@
         return socket.emit("savecomment", data);
       },
       findUser: function(id) {
-        return socket.emit("getuser", id);
+        socket.emit("getuser", id);
+        return this.on("user");
       },
       userlist: function() {
         return socket.emit("getuserlist");
