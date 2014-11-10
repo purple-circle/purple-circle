@@ -18,9 +18,10 @@
       </span>
 
       <p>
-        Created: {{group.created | amDateFormat:'MMMM Do YYYY'}}
+        Created: {{group.created_at | amDateFormat:'MMMM Do YYYY'}}
       </p>
-      <p>
+
+      <p ng-if="loggedin">
         <a ui-sref="group.edit({id: group._id})">Edit</a>
       </p>
 
@@ -30,9 +31,7 @@
     </div>
     <div class="col-md-9">
 
-      <p ng-if="group.description" class="well">
-        {{group.description}}
-      </p>
+      <p ng-if="group.description" ng-bind="group.description" class="well white-space-pre"></p>
 
       group id: {{id}}
       <hr />

@@ -273,15 +273,7 @@
       templateUrl: 'directives/group-create.html',
       link: function($scope, el, attrs) {
         var originalData;
-        $scope.categories = [
-          {
-            name: "Generic"
-          }, {
-            name: "Music"
-          }, {
-            name: "Development"
-          }
-        ];
+        $scope.categories = api.getGroupCategories();
         $scope.data = {
           category: $scope.categories[0]
         };
@@ -319,21 +311,7 @@
         groupId: '='
       },
       link: function($scope, el, attrs) {
-        var originalData;
-        console.log("$scope", $scope);
-        $scope.categories = [
-          {
-            name: "Generic"
-          }, {
-            name: "Music"
-          }, {
-            name: "Development"
-          }
-        ];
-        $scope.data = {
-          category: $scope.categories[0]
-        };
-        originalData = angular.copy($scope.data);
+        $scope.categories = api.getGroupCategories();
         api.getGroup($scope.groupId).then(function(data) {
           return $timeout(function() {
             data.category = _.find($scope.categories, {
@@ -350,19 +328,13 @@
           if (!api.checkLogin()) {
             return false;
           }
-          console.log("mmmm");
           data = angular.copy($scope.data);
           data.category = data.category.name;
-          return $state.transitionTo("group.show", {
-            id: $scope.id
+          return api.saveGroupEdit($scope.groupId, data).then(function(result) {
+            return $state.transitionTo("group.show", {
+              id: $scope.groupId
+            });
           });
-
-          /*
-          api
-            .saveGroupEdit($scope.id, data)
-            .then (result) ->
-              $scope.data = originalData
-           */
         };
       }
     };
@@ -457,6 +429,13 @@
         socket.emit("createGroup", data);
         return this.on("createGroup");
       },
+      saveGroupEdit: function(id, data) {
+        socket.emit("editGroup", {
+          id: id,
+          data: data
+        });
+        return this.on("editGroup");
+      },
       getGroup: function(id) {
         socket.emit("getGroup", id);
         return this.on("getGroup");
@@ -464,6 +443,17 @@
       getGroupList: function(data) {
         socket.emit("getGroupList", data);
         return this.on("getGroupList");
+      },
+      getGroupCategories: function() {
+        return [
+          {
+            name: "Generic"
+          }, {
+            name: "Music"
+          }, {
+            name: "Development"
+          }
+        ];
       }
     };
   }]);

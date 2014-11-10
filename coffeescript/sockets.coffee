@@ -60,3 +60,20 @@ module.exports = (server, sessionStore) ->
         .then (result) ->
           socket.emit "createGroup", result
           socket.broadcast.emit "createGroup", result
+
+    socket.on "editGroup", ({id, data}) ->
+      userid = socket.request?.session?.passport?.user
+      loggedinUser = userid?
+      if !data.name
+        return
+
+      if !loggedinUser
+        return
+
+      data.edited_by = userid
+      delete data._id
+
+      groups
+        .update(id, data)
+        .then (result) ->
+          socket.emit "editGroup", result

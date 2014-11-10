@@ -43,7 +43,7 @@
           return socket.emit("getGroupList", result);
         });
       });
-      return socket.on("createGroup", function(data) {
+      socket.on("createGroup", function(data) {
         var loggedinUser, _ref, _ref1, _ref2, _ref3, _ref4, _ref5;
         loggedinUser = ((_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0) != null;
         if (!data.name) {
@@ -56,6 +56,23 @@
         return groups.create(data).then(function(result) {
           socket.emit("createGroup", result);
           return socket.broadcast.emit("createGroup", result);
+        });
+      });
+      return socket.on("editGroup", function(_arg) {
+        var data, id, loggedinUser, userid, _ref, _ref1, _ref2;
+        id = _arg.id, data = _arg.data;
+        userid = (_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0;
+        loggedinUser = userid != null;
+        if (!data.name) {
+          return;
+        }
+        if (!loggedinUser) {
+          return;
+        }
+        data.edited_by = userid;
+        delete data._id;
+        return groups.update(id, data).then(function(result) {
+          return socket.emit("editGroup", result);
         });
       });
     });

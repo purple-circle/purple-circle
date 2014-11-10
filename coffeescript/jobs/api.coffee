@@ -63,6 +63,20 @@ jobs.process "api.createGroup", (job, done) ->
       done null, group
 
 
+jobs.process "api.editGroup", (job, done) ->
+  Groups = mongoose.model 'groups'
+
+  {id, data} = job.data
+
+  Groups
+    .findByIdAndUpdate id, data, (err, group) ->
+      if err
+        handleError(err)
+        done(err)
+      else
+        done null, group
+
+
 jobs.process "api.getGroups", (job, done) ->
   filters = {}
 

@@ -48,8 +48,10 @@ module.exports = (settings) ->
     description: 'String'
     category: 'String'
     created_by: 'String'
+    edited_by: 'String'
     private: { type: Boolean, default: false }
-    created: { type: Date, default: Date.now }
+    created_at: { type: Date, default: Date.now }
+    edited_at: { type: Date, default: Date.now }
   }
 
 

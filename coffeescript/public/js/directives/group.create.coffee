@@ -3,21 +3,9 @@ app.directive 'groupCreate', (api) ->
   restrict: 'E'
   templateUrl: 'directives/group-create.html'
   link: ($scope, el, attrs) ->
-    $scope.categories = [
-      {
-        name: "Generic"
-      }
-      {
-        name: "Music"
-      }
-      {
-        name: "Development"
-      }
-    ]
-
-    $scope.data = {
+    $scope.categories = api.getGroupCategories()
+    $scope.data =
       category: $scope.categories[0]
-    }
 
     originalData = angular.copy($scope.data)
 

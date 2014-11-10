@@ -80,11 +80,16 @@
       description: 'String',
       category: 'String',
       created_by: 'String',
+      edited_by: 'String',
       "private": {
         type: Boolean,
         "default": false
       },
-      created: {
+      created_at: {
+        type: Date,
+        "default": Date.now
+      },
+      edited_at: {
         type: Date,
         "default": Date.now
       }

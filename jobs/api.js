@@ -72,6 +72,20 @@
     });
   });
 
+  jobs.process("api.editGroup", function(job, done) {
+    var Groups, data, id, _ref;
+    Groups = mongoose.model('groups');
+    _ref = job.data, id = _ref.id, data = _ref.data;
+    return Groups.findByIdAndUpdate(id, data, function(err, group) {
+      if (err) {
+        handleError(err);
+        return done(err);
+      } else {
+        return done(null, group);
+      }
+    });
+  });
+
   jobs.process("api.getGroups", function(job, done) {
     var Groups, filters;
     filters = {};

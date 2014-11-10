@@ -30,6 +30,10 @@ app.factory 'api', ($q) ->
     socket.emit("createGroup", data)
     this.on("createGroup")
 
+  saveGroupEdit: (id, data) ->
+    socket.emit("editGroup", {id, data})
+    this.on("editGroup")
+
   getGroup: (id) ->
     socket.emit("getGroup", id)
     this.on("getGroup")
@@ -37,3 +41,16 @@ app.factory 'api', ($q) ->
   getGroupList: (data) ->
     socket.emit("getGroupList", data)
     this.on("getGroupList")
+
+  getGroupCategories: ->
+    [
+      {
+        name: "Generic"
+      }
+      {
+        name: "Music"
+      }
+      {
+        name: "Development"
+      }
+    ]
