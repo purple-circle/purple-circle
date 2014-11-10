@@ -17,6 +17,8 @@ api = require("./routes/api")
 routes = require("./routes/index")
 facebook = require("./routes/facebook")
 profile = require("./routes/profile")
+group = require("./routes/group")
+groups = require("./routes/groups")
 
 
 app = express()
@@ -51,6 +53,8 @@ app.use "/", routes
 app.use "/api", api
 app.use "/auth/facebook", facebook
 app.use "/profile", profile
+app.use "/group", group
+app.use "/groups", groups
 
 
 #/ catch 404 and forwarding to error handler

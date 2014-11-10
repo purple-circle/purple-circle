@@ -18,24 +18,6 @@
     });
   });
 
-  router.get("/groups", function(req, res) {
-    return res.render("index", {
-      userLoginStatus: req.user !== void 0
-    });
-  });
-
-  router.get("/groups/:category", function(req, res) {
-    return res.render("index", {
-      userLoginStatus: req.user !== void 0
-    });
-  });
-
-  router.get("/group/:id", function(req, res) {
-    return res.render("index", {
-      userLoginStatus: req.user !== void 0
-    });
-  });
-
   router.get("/logout", function(req, res) {
     req.logout();
     return res.redirect('/');

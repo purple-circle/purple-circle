@@ -10,21 +10,6 @@ router.get "/", (req, res) ->
   res.render "index",
     userLoginStatus: req.user isnt undefined
 
-
-# TODO: this needs to be somewhere else
-router.get "/groups", (req, res) ->
-  res.render "index",
-    userLoginStatus: req.user isnt undefined
-# TODO: this needs to be somewhere else
-router.get "/groups/:category", (req, res) ->
-  res.render "index",
-    userLoginStatus: req.user isnt undefined
-# TODO: this needs to be somewhere else
-router.get "/group/:id", (req, res) ->
-  res.render "index",
-    userLoginStatus: req.user isnt undefined
-
-
 router.get "/logout", (req, res) ->
   req.logout()
   res.redirect('/')

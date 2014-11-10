@@ -46,6 +46,10 @@ app.config ($stateProvider, $locationProvider) ->
       url: '/create'
       templateUrl: 'groups/group.create.html'
       controller: 'group.create'
+    .state 'group.edit',
+      url: '/:id/edit'
+      templateUrl: 'groups/group.edit.html'
+      controller: 'group.edit'
 
 
     .state 'signup',

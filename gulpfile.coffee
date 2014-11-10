@@ -80,7 +80,6 @@ gulp.task "lint", ->
       "routes/*.js"
       "public/**/*.js"
       "!public/report/**/*.js"
-      "!public/js/libs/**/*.js"
       "!node_modules/**/*.js"
       "!public/bower_components/**/*.js"
       "public/js/build.js"
@@ -111,7 +110,6 @@ gulp.task "partials", ->
 gulp.task "concat", ->
   gulp
     .src([
-      "!public/js/libs/*.js"
       "!public/js/build.js"
       "!node_modules/**/*.js"
       "!public/bower_components/**/*.js"
@@ -156,7 +154,6 @@ gulp.task "build", ->
 
   gulp
     .src([
-      "!public/js/libs/*.js"
       "!public/js/build.js"
       "public/js/**/*.js"
     ])
@@ -174,12 +171,6 @@ gulp.task "build", ->
 gulp.task "default", ->
 
   gulp.watch "coffeescript/**/*.coffee", ["coffee"]
-  gulp.watch [
-    "**/*.js"
-    "!node_modules/**/*.js"
-    "!public/report/**/*.js"
-    "!public/bower_components/**/*.js"
-  ], ["lint"]
 
   gulp.watch "less/**/*.less", ["less"]
   gulp.watch "public/css/*.css", ["autoprefixer"]
@@ -191,6 +182,6 @@ gulp.task "default", ->
     "public/**/*.js"
     "!node_modules/**/*.js"
     "!public/report/**/*.js"
-    "!public/js/libs/**/*.js"
+    "!public/bower_components/**/*.js"
   ], ["lint"]
 

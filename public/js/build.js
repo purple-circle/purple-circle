@@ -39,6 +39,10 @@
       url: '/create',
       templateUrl: 'groups/group.create.html',
       controller: 'group.create'
+    }).state('group.edit', {
+      url: '/:id/edit',
+      templateUrl: 'groups/group.edit.html',
+      controller: 'group.edit'
     }).state('signup', {
       url: '/signup',
       templateUrl: 'signup.html'
@@ -105,6 +109,17 @@
   app = angular.module('app');
 
   app.controller('group.create', ["$scope", "api", function($scope, api) {}]);
+
+}).call(this);
+
+(function() {
+  var app;
+
+  app = angular.module('app');
+
+  app.controller('group.edit', ["$scope", "$stateParams", "api", function($scope, $stateParams, api) {
+    return $scope.id = $stateParams.id;
+  }]);
 
 }).call(this);
 
@@ -284,6 +299,70 @@
           return api.createGroup(data).then(function(result) {
             return $scope.data = originalData;
           });
+        };
+      }
+    };
+  }]);
+
+}).call(this);
+
+(function() {
+  var app;
+
+  app = angular.module('app');
+
+  app.directive('groupEdit', ["$timeout", "$state", "api", function($timeout, $state, api) {
+    return {
+      restrict: 'E',
+      templateUrl: 'directives/group-edit.html',
+      scope: {
+        groupId: '='
+      },
+      link: function($scope, el, attrs) {
+        var originalData;
+        console.log("$scope", $scope);
+        $scope.categories = [
+          {
+            name: "Generic"
+          }, {
+            name: "Music"
+          }, {
+            name: "Development"
+          }
+        ];
+        $scope.data = {
+          category: $scope.categories[0]
+        };
+        originalData = angular.copy($scope.data);
+        api.getGroup($scope.groupId).then(function(data) {
+          return $timeout(function() {
+            data.category = _.find($scope.categories, {
+              name: data.category
+            });
+            return $scope.data = data;
+          });
+        });
+        return $scope.save = function() {
+          var data;
+          if (!$scope.data) {
+            return false;
+          }
+          if (!api.checkLogin()) {
+            return false;
+          }
+          console.log("mmmm");
+          data = angular.copy($scope.data);
+          data.category = data.category.name;
+          return $state.transitionTo("group.show", {
+            id: $scope.id
+          });
+
+          /*
+          api
+            .saveGroupEdit($scope.id, data)
+            .then (result) ->
+              $scope.data = originalData
+           */
         };
       }
     };

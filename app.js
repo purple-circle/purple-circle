@@ -1,5 +1,5 @@
 (function() {
-  var MongoStore, api, app, bodyParser, cookieParser, express, facebook, favicon, logger, mongoStore, passport, path, profile, routes, server, session, sessionStore, settings;
+  var MongoStore, api, app, bodyParser, cookieParser, express, facebook, favicon, group, groups, logger, mongoStore, passport, path, profile, routes, server, session, sessionStore, settings;
 
   express = require("express");
 
@@ -28,6 +28,10 @@
   facebook = require("./routes/facebook");
 
   profile = require("./routes/profile");
+
+  group = require("./routes/group");
+
+  groups = require("./routes/groups");
 
   app = express();
 
@@ -75,6 +79,10 @@
   app.use("/auth/facebook", facebook);
 
   app.use("/profile", profile);
+
+  app.use("/group", group);
+
+  app.use("/groups", groups);
 
   app.use(function(req, res, next) {
     var err;
