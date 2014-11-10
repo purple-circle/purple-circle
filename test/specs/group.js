@@ -64,7 +64,7 @@ ddescribe('group view', function() {
     expect(element(by.css('.group-edit')).getText()).toBe("Edit");
   });
 
-  iit('should save group edit', function() {
+  it('should save group edit', function() {
     login("5461196563bef400007fb48d")
     console.log("this will keep the test from not failing, wtf", element(by.css('.group-edit')).isPresent())
     expect(element(by.css('.group-edit')).isPresent()).toBe(true);
