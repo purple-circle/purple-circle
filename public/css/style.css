@@ -69,3 +69,32 @@ a {
   position: absolute;
   bottom: -35px;
 }
+.purple {
+  color: #b10dc9;
+}
+.purple.animate {
+  -webkit-animation: purpleToRed 10s infinite ease;
+          animation: purpleToRed 10s infinite ease;
+}
+@-webkit-keyframes purpleToRed {
+  0% {
+    color: #b10dc9;
+  }
+  50% {
+    color: #ff4136;
+  }
+  100% {
+    color: #b10dc9;
+  }
+}
+@keyframes purpleToRed {
+  0% {
+    color: #b10dc9;
+  }
+  50% {
+    color: #ff4136;
+  }
+  100% {
+    color: #b10dc9;
+  }
+}

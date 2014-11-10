@@ -103,3 +103,23 @@ a {
     bottom: -35px;
   }
 }
+
+
+.purple {
+  color: @purple;
+  &.animate {
+    animation: purpleToRed 10s infinite ease;
+  }
+}
+
+@keyframes purpleToRed {
+  0% {
+    color: @purple;
+  }
+  50% {
+    color: @red;
+  }
+  100% {
+    color: @purple;
+  }
+}
