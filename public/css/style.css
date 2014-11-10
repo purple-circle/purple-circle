@@ -52,7 +52,8 @@ a {
 .footer-bunny:hover {
   opacity: 0;
 }
-.profile-cover {
+.profile-cover,
+.group-cover {
   background-attachment: fixed;
   background-position: 50% 0;
   background-repeat: no-repeat;
@@ -62,12 +63,16 @@ a {
   position: relative;
   margin-bottom: 50px;
 }
-.profile-cover .profile-picture-thumbnail {
+.profile-cover .cover-picture-thumbnail,
+.group-cover .cover-picture-thumbnail {
   border-radius: 3px;
   max-width: 250px;
   max-height: 250px;
   position: absolute;
   bottom: -35px;
+}
+.group-cover {
+  background-image: url('http://i.imgur.com/AHyEhHG.jpg');
 }
 .purple {
   color: #b10dc9;

@@ -11,6 +11,7 @@ jobs.process "api.getUserlist", (job, done) ->
   Users = mongoose.model 'users'
   Users
     .find()
+    .select('-hash -salt')
     .exec()
     .then (result) ->
       done(null, result)
@@ -24,6 +25,7 @@ jobs.process "api.getUser", (job, done) ->
     .findOne()
     .where('_id')
     .equals(job.data._id)
+    .select('-hash -salt')
     .exec()
     .then (result) ->
       done(null, result)
@@ -66,8 +68,6 @@ jobs.process "api.getGroups", (job, done) ->
 
   if job.data.category
     filters.category = job.data.category
-
-  console.log "filters", filters
 
   Groups = mongoose.model 'groups'
   Groups

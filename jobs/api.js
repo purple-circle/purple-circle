@@ -16,7 +16,7 @@
   jobs.process("api.getUserlist", function(job, done) {
     var Users;
     Users = mongoose.model('users');
-    return Users.find().exec().then(function(result) {
+    return Users.find().select('-hash -salt').exec().then(function(result) {
       return done(null, result);
     }, function(error) {
       return done(error);
@@ -26,7 +26,7 @@
   jobs.process("api.getUser", function(job, done) {
     var Users;
     Users = mongoose.model('users');
-    return Users.findOne().where('_id').equals(job.data._id).exec().then(function(result) {
+    return Users.findOne().where('_id').equals(job.data._id).select('-hash -salt').exec().then(function(result) {
       return done(null, result);
     }, function(error) {
       return done(error);
@@ -78,7 +78,6 @@
     if (job.data.category) {
       filters.category = job.data.category;
     }
-    console.log("filters", filters);
     Groups = mongoose.model('groups');
     return Groups.find(filters).exec().then(function(result) {
       return done(null, result);
