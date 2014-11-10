@@ -228,20 +228,22 @@
         birthdayMoment = moment(data.birthday);
         birthdayMonth = birthdayMoment.month();
         birthdayDay = birthdayMoment.date();
-        daysUntilBirthday = moment([currentYear, birthdayMonth, birthdayDay]).diff(new Date(), 'days');
+        birthdayMoment = moment([currentYear, birthdayMonth, birthdayDay]);
         $scope.isBirthday = daysUntilBirthday === 0;
         if (daysUntilBirthday < 0) {
-          daysUntilBirthday = moment([currentYear + 1, birthdayMonth, birthdayDay]).diff(new Date(), 'days');
+          birthdayMoment = moment([currentYear + 1, birthdayMonth, birthdayDay]);
         }
+        daysUntilBirthday = birthdayMoment.diff(new Date(), 'days');
         $scope.daysUntilBirthday = daysUntilBirthday;
         cakedayMoment = moment(data.created);
         cakedayMonth = cakedayMoment.month();
         cakedayDay = cakedayMoment.date();
-        daysUntilCakeday = moment([currentYear, cakedayMonth, cakedayDay]).diff(new Date(), 'days');
+        cakedayMoment = moment([currentYear, cakedayMonth, cakedayDay]);
         $scope.isCakeday = daysUntilCakeday === 0;
         if (daysUntilCakeday < 0) {
-          daysUntilCakeday = moment([currentYear + 1, cakedayMonth, cakedayDay]).diff(new Date(), 'days');
+          cakedayMoment = moment([currentYear + 1, cakedayMonth, cakedayDay]);
         }
+        daysUntilCakeday = cakedayMoment.diff(new Date(), 'days');
         $scope.daysUntilCakeday = daysUntilCakeday;
       }
       $scope.profile_picture = "http://i.imgur.com/0pXux.jpg";

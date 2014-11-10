@@ -12,11 +12,13 @@ app.controller 'profile', ($scope, $stateParams, $timeout, api) ->
       birthdayMonth = birthdayMoment.month()
       birthdayDay = birthdayMoment.date()
 
-      daysUntilBirthday = moment([currentYear, birthdayMonth, birthdayDay]).diff(new Date(), 'days')
+      birthdayMoment = moment([currentYear, birthdayMonth, birthdayDay])
       $scope.isBirthday = daysUntilBirthday is 0
 
       if daysUntilBirthday < 0
-        daysUntilBirthday = moment([currentYear + 1, birthdayMonth, birthdayDay]).diff(new Date(), 'days')
+        birthdayMoment = moment([currentYear + 1, birthdayMonth, birthdayDay])
+
+      daysUntilBirthday = birthdayMoment.diff(new Date(), 'days')
 
       $scope.daysUntilBirthday = daysUntilBirthday
 
@@ -24,12 +26,13 @@ app.controller 'profile', ($scope, $stateParams, $timeout, api) ->
       cakedayMonth = cakedayMoment.month()
       cakedayDay = cakedayMoment.date()
 
-      daysUntilCakeday = moment([currentYear, cakedayMonth, cakedayDay]).diff(new Date(), 'days')
+      cakedayMoment = moment([currentYear, cakedayMonth, cakedayDay])
       $scope.isCakeday = daysUntilCakeday is 0
 
       if daysUntilCakeday < 0
-        daysUntilCakeday = moment([currentYear + 1, cakedayMonth, cakedayDay]).diff(new Date(), 'days')
+        cakedayMoment = moment([currentYear + 1, cakedayMonth, cakedayDay])
 
+      daysUntilCakeday = cakedayMoment.diff(new Date(), 'days')
       $scope.daysUntilCakeday = daysUntilCakeday
 
     $scope.profile_picture = "http://i.imgur.com/0pXux.jpg"

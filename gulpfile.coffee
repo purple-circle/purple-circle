@@ -13,6 +13,7 @@ autoprefixer = require("autoprefixer-core")
 
 # Code linting
 jshint = require("gulp-jshint")
+coffeelint = require('gulp-coffeelint')
 
 # Code minification
 concat = require("gulp-concat")
@@ -79,10 +80,10 @@ gulp.task "lint", ->
     .src([
       "routes/*.js"
       "public/**/*.js"
-      "!public/report/**/*.js"
-      "!node_modules/**/*.js"
-      "!public/bower_components/**/*.js"
       "public/js/build.js"
+      "!node_modules/**/*.js"
+      "!public/report/**/*.js"
+      "!public/bower_components/**/*.js"
     ])
     .pipe(plumber({errorHandler}))
     .pipe(jshint())
@@ -106,20 +107,6 @@ gulp.task "partials", ->
     .src('public/views/**/*.html')
     .pipe(ngTemplates())
     .pipe(gulp.dest("public/js/templates"))
-
-gulp.task "concat", ->
-  gulp
-    .src([
-      "!public/js/build.js"
-      "!node_modules/**/*.js"
-      "!public/bower_components/**/*.js"
-      "!public/js/templates/*.js"
-      "!public/report/**/*.js"
-      "public/js/**/*.js"
-    ])
-    .pipe(ngAnnotate())
-    .pipe(concat("build.js"))
-    .pipe(gulp.dest("./public/js"))
 
 
 gulp.task "test", ->
@@ -151,27 +138,42 @@ gulp.task "plato", ->
 
 
 gulp.task "build", ->
+  gulp.start("coffee")
+  gulp.start("partials")
+  gulp.start("less")
+  gulp.start("autoprefixer")
 
   gulp
-    .src([
-      "!public/js/build.js"
-      "public/js/**/*.js"
-    ])
-    .pipe(concat("build.js"))
+    .src("public/js/build.js")
     .pipe(uglify())
-    .pipe(gulp.dest("./public/js"))
+    .pipe(gulp.dest("public/js"))
 
   gulp
-    .src("./public/css/style.css")
+    .src("public/css/style.css")
     .pipe(minifycss())
-    .pipe(gulp.dest("./public/css"))
+    .pipe(gulp.dest("public/css"))
+
+  gulp.start("lintcode")
+  gulp.start("plato")
 
 
+gulp.task "coffeelint", ->
+  gulp
+    .src("coffeescript/**/*.coffee")
+    .pipe(plumber({errorHandler}))
+    .pipe(coffeelint())
+    .pipe(coffeelint.reporter())
+    .pipe(coffeelint.reporter('fail'))
+    .on('error', gutil.log)
+    .on('error', gutil.beep)
 
-gulp.task "default", ->
+gulp.task "lintcode", ->
+  gulp.start("coffeelint")
+  gulp.start("lint")
 
-  gulp.watch "coffeescript/**/*.coffee", ["coffee"]
 
+gulp.task "watch", ->
+  gulp.watch "coffeescript/**/*.coffee", ["coffeelint", "coffee"]
   gulp.watch "less/**/*.less", ["less"]
   gulp.watch "public/css/*.css", ["autoprefixer"]
   gulp.watch "public/views/**/*.html", ["partials"]

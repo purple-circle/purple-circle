@@ -7,7 +7,7 @@ npm install pm2 -g
 
 
 ```
-gulp
+gulp watch
 ```
 
 
@@ -32,17 +32,17 @@ webdriver-manager update
 webdriver-manager start
 ```
 
-
-If gulp not working
-
-```
-protractor test/conf.js
-```
-
-If gulp working
+To run protractor
 
 ```
 gulp test
+```
+
+
+To lint the code
+
+```
+gulp lintcode
 ```
 
 
