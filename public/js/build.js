@@ -170,6 +170,13 @@
     var getCreator;
     $scope.loggedin = api.checkLogin();
     $scope.id = $stateParams.id;
+    if ($scope.loggedin) {
+      api.getLoggedinUser().then(function(user) {
+        return $timeout(function() {
+          return $scope.loggedinUser = user;
+        });
+      });
+    }
     api.getGroup($scope.id).then(function(group) {
       return $timeout(function() {
         $scope.group = group;

@@ -26,8 +26,8 @@
         Created: {{group.created_at | amDateFormat:'MMMM Do YYYY'}}
       </p>
 
-      <p ng-if="loggedin">
-        <a ui-sref="group.edit({id: group._id})">Edit</a>
+      <p ng-if="loggedin && loggedinUser._id == group.created_by">
+        <a ui-sref="group.edit({id: group._id})" class="group-edit">Edit</a>
       </p>
 
       <a ui-sref="profile.show({id: created_by._id})" ng-if="created_by.name">

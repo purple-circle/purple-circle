@@ -1,4 +1,4 @@
-ddescribe('profile view', function() {
+describe('profile view', function() {
   beforeEach(function() {
     // TODO: change this
     browser.get('http://localhost:3000/profile/545f929b24e8d678b05a8e5c');
