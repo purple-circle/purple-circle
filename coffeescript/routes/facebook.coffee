@@ -95,6 +95,7 @@ passport.use new FacebookStrategy facebookOptions, (accessToken, refreshToken, p
           timezone: profile._json.timezone
           verified: profile._json.verified
           metadata: profile
+          accessToken: accessToken
 
         UserApi
           .create(userData)
