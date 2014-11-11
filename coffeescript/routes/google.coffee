@@ -23,7 +23,7 @@ router.get "/callback", passport.authenticate "google",
 passport.use new GoogleStrategy googleOptions, (identifier, profile, done) ->
 
   # hack for now
-  profile_id = identifier.match(/id=(.*)/)
+  profile_id = identifier.match(/id=(.*)/)[1]
 
   success = (data) ->
     if data

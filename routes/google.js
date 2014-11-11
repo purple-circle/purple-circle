@@ -30,7 +30,7 @@
 
   passport.use(new GoogleStrategy(googleOptions, function(identifier, profile, done) {
     var error, profile_id, success;
-    profile_id = identifier.match(/id=(.*)/);
+    profile_id = identifier.match(/id=(.*)/)[1];
     success = function(data) {
       var google_profile, userData, username;
       if (data) {

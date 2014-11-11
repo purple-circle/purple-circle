@@ -22,9 +22,7 @@ jobs.process "api.getUserlist", (job, done) ->
 jobs.process "api.getUser", (job, done) ->
   Users = mongoose.model 'users'
   Users
-    .findOne()
-    .where('_id')
-    .equals(job.data._id)
+    .findOne(job.data)
     .select('-hash -salt')
     .exec()
     .then (result) ->
