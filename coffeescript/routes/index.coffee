@@ -3,6 +3,7 @@ express = require("express")
 passport = require("passport")
 mongoose = require("mongoose")
 LocalStrategy = require("passport-local").Strategy
+UserApi = require('../models/user')
 
 router = express.Router()
 
@@ -45,13 +46,18 @@ router.get "/signup", (req, res) ->
     signupFailed: false
 
 router.post "/signup", (req, res) ->
-  Users.register new Users(username: req.body.username), req.body.password, (err, account) ->
-    if err
-      return res.render "signup",
-        account: account
+  error = ->
+    res.render "signup",
+      account: account
 
+  success = (account) ->
     req.login account, ->
       res.redirect "/"
+
+  UserApi
+    .localSignup(req.body)
+    .then success, error
+
 
 router.get "/signup/fail", (req, res) ->
   res.render "signup",

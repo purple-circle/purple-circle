@@ -46,6 +46,20 @@
     });
   });
 
+  jobs.process("api.localSignupUser", function(job, done) {
+    var User;
+    User = mongoose.model('users');
+    return User.register(new User({
+      username: job.data.username
+    }), job.data.password, function(err, account) {
+      if (err) {
+        return done(err);
+      } else {
+        return done(null, account);
+      }
+    });
+  });
+
   jobs.process("api.saveFacebookData", function(job, done) {
     var Facebook, facebook;
     Facebook = mongoose.model('facebook_user_data');

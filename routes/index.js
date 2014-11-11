@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  var LocalStrategy, Users, express, loginOptions, mongoose, passport, router;
+  var LocalStrategy, UserApi, Users, express, loginOptions, mongoose, passport, router;
 
   express = require("express");
 
@@ -9,6 +9,8 @@
   mongoose = require("mongoose");
 
   LocalStrategy = require("passport-local").Strategy;
+
+  UserApi = require('../models/user');
 
   router = express.Router();
 
@@ -63,18 +65,18 @@
   });
 
   router.post("/signup", function(req, res) {
-    return Users.register(new Users({
-      username: req.body.username
-    }), req.body.password, function(err, account) {
-      if (err) {
-        return res.render("signup", {
-          account: account
-        });
-      }
+    var error, success;
+    error = function() {
+      return res.render("signup", {
+        account: account
+      });
+    };
+    success = function(account) {
       return req.login(account, function() {
         return res.redirect("/");
       });
-    });
+    };
+    return UserApi.localSignup(req.body).then(success, error);
   });
 
   router.get("/signup/fail", function(req, res) {

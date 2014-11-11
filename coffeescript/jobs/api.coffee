@@ -43,6 +43,15 @@ jobs.process "api.createUser", (job, done) ->
       done null, user
 
 
+jobs.process "api.localSignupUser", (job, done) ->
+  User = mongoose.model 'users'
+  User.register new User(username: job.data.username), job.data.password, (err, account) ->
+    if err
+      done err
+    else
+      done null, account
+
+
 jobs.process "api.saveFacebookData", (job, done) ->
   Facebook = mongoose.model 'facebook_user_data'
   facebook = new Facebook(job.data)
