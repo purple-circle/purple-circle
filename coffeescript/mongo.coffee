@@ -6,15 +6,21 @@ module.exports = (settings) ->
      num = Math.ceil(Math.random() * 1000)
      "Anonymous Monkeyhandler #{num}"
 
+  getRandomUserName = ->
+     num = Math.ceil(Math.random() * 1000)
+     "anonymous.manbearpig.#{num}"
+
   userSchema = mongoose.Schema {
     name: { type: String, trim: true, default: getRandomName }
-    username: { type: String, lowercase: true, trim: true }
+    username: { type: String, lowercase: true, trim: true, default: getRandomUserName }
     email: { type: String, lowercase: true, trim: true }
     password: 'String'
     gender: 'String'
     bio: 'String'
     birthday: 'Date'
     facebook_id: 'String'
+    google_id: 'String'
+    instagram_id: 'String'
     created: { type: Date, default: Date.now }
     hidden: { type: Boolean, default: false }
     random: {type: [Number], index: '2d', default: -> return [Math.random(), Math.random()]}
@@ -58,6 +64,21 @@ module.exports = (settings) ->
     created: { type: Date, default: Date.now }
   }
 
+  instagramUserSchema = mongoose.Schema {
+    id: 'String'
+    user_id: 'String'
+    name: 'String'
+    first_name: 'String'
+    last_name: 'String'
+    bio: 'String'
+    website: 'String'
+    profile_picture: 'String'
+    metadata: 'Object'
+    accessToken: 'String'
+
+    created: { type: Date, default: Date.now }
+  }
+
   groupSchema = mongoose.Schema {
     name: 'String'
     description: 'String'
@@ -75,6 +96,7 @@ module.exports = (settings) ->
   mongoose.model 'users', userSchema
   mongoose.model 'groups', groupSchema
   mongoose.model 'facebook_user_data', facebookUserSchema
+  mongoose.model 'instagram_user_data', instagramUserSchema
   mongoose.model 'google_user_data', googleUserSchema
 
   db = mongoose.connection

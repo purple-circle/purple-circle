@@ -20,23 +20,6 @@ router.get "/callback", passport.authenticate "google",
   successRedirect: "/login/success"
   failureRedirect: "/login/fail"
 
-passport.serializeUser (user, done) ->
-  done null, user._id
-
-passport.deserializeUser (id, done) ->
-  Users = mongoose.model 'users'
-  Users
-    .findOne({_id: id})
-    .exec (err, data) ->
-      if err
-        done err
-      else if data
-        done null, data._id
-      else
-        done 'user not found'
-
-      #done null, {id: 1}
-
 
 passport.use new GoogleStrategy googleOptions, (identifier, profile, done) ->
 
@@ -54,9 +37,6 @@ passport.use new GoogleStrategy googleOptions, (identifier, profile, done) ->
         done null, data
 
       else
-
-        console.log "profile", profile
-
 
         userData =
           google_id: profile_id
@@ -79,20 +59,14 @@ passport.use new GoogleStrategy googleOptions, (identifier, profile, done) ->
           identifier: identifier
 
 
-        console.log "sending to GoogleApi"
-
         UserApi
           .create(userData)
           .then (result) ->
-
-            console.log "google user created", result
-
             google_profile.user_id = result._id
             GoogleApi.save(google_profile)
 
             done null, result
           , (error) ->
-            console.log "err", error
             done error
 
 

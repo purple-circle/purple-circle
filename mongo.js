@@ -1,12 +1,17 @@
 (function() {
   module.exports = function(settings) {
-    var db, facebookUserSchema, getRandomName, googleUserSchema, groupSchema, mongoose, passportLocalMongoose, userSchema;
+    var db, facebookUserSchema, getRandomName, getRandomUserName, googleUserSchema, groupSchema, instagramUserSchema, mongoose, passportLocalMongoose, userSchema;
     mongoose = require('mongoose');
     passportLocalMongoose = require('passport-local-mongoose');
     getRandomName = function() {
       var num;
       num = Math.ceil(Math.random() * 1000);
       return "Anonymous Monkeyhandler " + num;
+    };
+    getRandomUserName = function() {
+      var num;
+      num = Math.ceil(Math.random() * 1000);
+      return "anonymous.manbearpig." + num;
     };
     userSchema = mongoose.Schema({
       name: {
@@ -17,7 +22,8 @@
       username: {
         type: String,
         lowercase: true,
-        trim: true
+        trim: true,
+        "default": getRandomUserName
       },
       email: {
         type: String,
@@ -29,6 +35,8 @@
       bio: 'String',
       birthday: 'Date',
       facebook_id: 'String',
+      google_id: 'String',
+      instagram_id: 'String',
       created: {
         type: Date,
         "default": Date.now
@@ -92,6 +100,22 @@
         "default": Date.now
       }
     });
+    instagramUserSchema = mongoose.Schema({
+      id: 'String',
+      user_id: 'String',
+      name: 'String',
+      first_name: 'String',
+      last_name: 'String',
+      bio: 'String',
+      website: 'String',
+      profile_picture: 'String',
+      metadata: 'Object',
+      accessToken: 'String',
+      created: {
+        type: Date,
+        "default": Date.now
+      }
+    });
     groupSchema = mongoose.Schema({
       name: 'String',
       description: 'String',
@@ -115,6 +139,7 @@
     mongoose.model('users', userSchema);
     mongoose.model('groups', groupSchema);
     mongoose.model('facebook_user_data', facebookUserSchema);
+    mongoose.model('instagram_user_data', instagramUserSchema);
     mongoose.model('google_user_data', googleUserSchema);
     db = mongoose.connection;
     db.on('error', function(error) {

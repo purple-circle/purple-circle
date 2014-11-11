@@ -28,26 +28,6 @@
     failureRedirect: "/login/fail"
   }));
 
-  passport.serializeUser(function(user, done) {
-    return done(null, user._id);
-  });
-
-  passport.deserializeUser(function(id, done) {
-    var Users;
-    Users = mongoose.model('users');
-    return Users.findOne({
-      _id: id
-    }).exec(function(err, data) {
-      if (err) {
-        return done(err);
-      } else if (data) {
-        return done(null, data._id);
-      } else {
-        return done('user not found');
-      }
-    });
-  });
-
   passport.use(new GoogleStrategy(googleOptions, function(identifier, profile, done) {
     var Users, profile_id;
     profile_id = identifier.match(/id=(.*)/);
@@ -61,7 +41,6 @@
       } else if (data) {
         return done(null, data);
       } else {
-        console.log("profile", profile);
         userData = {
           google_id: profile_id,
           name: profile.displayName,
@@ -79,14 +58,11 @@
           metadata: profile,
           identifier: identifier
         };
-        console.log("sending to GoogleApi");
         return UserApi.create(userData).then(function(result) {
-          console.log("google user created", result);
           google_profile.user_id = result._id;
           GoogleApi.save(google_profile);
           return done(null, result);
         }, function(error) {
-          console.log("err", error);
           return done(error);
         });
       }

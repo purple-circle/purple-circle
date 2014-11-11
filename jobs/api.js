@@ -72,6 +72,19 @@
     });
   });
 
+  jobs.process("api.saveInstagramData", function(job, done) {
+    var Instagram, instagram;
+    Instagram = mongoose.model('instagram_user_data');
+    instagram = new Instagram(job.data);
+    return instagram.save(function(err) {
+      if (err) {
+        return done(err);
+      } else {
+        return done(null, instagram);
+      }
+    });
+  });
+
   jobs.process("api.createGroup", function(job, done) {
     var Groups, group;
     Groups = mongoose.model('groups');

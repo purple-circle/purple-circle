@@ -5,6 +5,7 @@ logger = require("morgan")
 cookieParser = require("cookie-parser")
 bodyParser = require("body-parser")
 passport = require("passport")
+mongoose = require('mongoose')
 
 require('monitor').start()
 
@@ -15,11 +16,14 @@ require("./mongo")(settings)
 # Routes
 api = require("./routes/api")
 routes = require("./routes/index")
-facebook = require("./routes/facebook")
-google = require("./routes/google")
-profile = require("./routes/profile")
 group = require("./routes/group")
 groups = require("./routes/groups")
+
+# Auth routes
+facebook = require("./routes/facebook")
+google = require("./routes/google")
+instagram = require("./routes/instagram")
+profile = require("./routes/profile")
 
 
 app = express()
@@ -55,6 +59,8 @@ passport.serializeUser (user, done) ->
   done null, user._id
 
 passport.deserializeUser (id, done) ->
+  #done null, {id: 1}
+
   Users = mongoose.model 'users'
   Users
     .findOne({_id: id})
@@ -66,13 +72,12 @@ passport.deserializeUser (id, done) ->
       else
         done 'user not found'
 
-      #done null, {id: 1}
-
 
 app.use "/", routes
 app.use "/api", api
 app.use "/auth/facebook", facebook
 app.use "/auth/google", google
+app.use "/auth/instagram", instagram
 
 app.use "/profile", profile
 app.use "/group", group

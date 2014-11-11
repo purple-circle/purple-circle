@@ -62,6 +62,15 @@ jobs.process "api.saveGoogleData", (job, done) ->
     else
       done null, google
 
+jobs.process "api.saveInstagramData", (job, done) ->
+  Instagram = mongoose.model 'instagram_user_data'
+  instagram = new Instagram(job.data)
+  instagram.save (err) ->
+    if err
+      done(err)
+    else
+      done null, instagram
+
 
 jobs.process "api.createGroup", (job, done) ->
   Groups = mongoose.model 'groups'
