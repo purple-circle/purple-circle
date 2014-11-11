@@ -1,15 +1,13 @@
 "use strict"
 express = require("express")
 passport = require("passport")
-mongoose = require('mongoose')
-
+api = require("../models/api")
 UserApi = require("../models/user")
 InstagramModel = require("../models/instagram")
 
 InstagramStrategy = require("passport-instagram").Strategy
 
 router = express.Router()
-
 
 router.get "/", passport.authenticate("instagram")
 
@@ -24,49 +22,48 @@ instagramOptions =
   callbackURL: "http://localhost:3000/auth/instagram/callback"
 
 
-
 passport.use new InstagramStrategy instagramOptions, (accessToken, refreshToken, profile, done) ->
-  Users = mongoose.model 'users'
-  Users
-    .findOne({instagram_id: profile.id})
-    .exec (err, data) ->
-      if err
-        done(err)
-      else if data
-        done null, data
+  success = (data) ->
+    if data
+      done null, data
+      return true
 
-      else
+    if profile.displayName.length
+      username = profile.displayName.replace(" ", ".") + Math.ceil(Math.random() * 1000)
 
-        if profile.displayName.length
-          username = profile.displayName.replace(" ", ".") + Math.ceil(Math.random() * 1000)
+    userData =
+      instagram_id: profile.id
+      name: profile.displayName
+      username: username
+      # Username hack for now
 
-        userData =
-          instagram_id: profile.id
-          name: profile.displayName
-          username: username
-          # Username hack for now
+    instagram_profile =
+      id: profile.id
+      name: profile.displayName
+      first_name: profile.name.givenName
+      last_name: profile.name.familyName
+      bio: profile._json.data.bio
+      website: profile._json.data.website
+      profile_picture: profile._json.data.profile_picture
+      metadata: profile
+      accessToken: accessToken
 
-        instagram_profile =
-          id: profile.id
-          name: profile.displayName
-          first_name: profile.name.givenName
-          last_name: profile.name.familyName
-          bio: profile._json.data.bio
-          website: profile._json.data.website
-          profile_picture: profile._json.data.profile_picture
-          metadata: profile
-          accessToken: accessToken
+    UserApi
+      .create(userData)
+      .then (result) ->
+        instagram_profile.user_id = result._id
+        InstagramModel.save(instagram_profile)
 
-        UserApi
-          .create(userData)
-          .then (result) ->
-            instagram_profile.user_id = result._id
-            InstagramModel.save(instagram_profile)
+        done null, result
+      , (error) ->
+        done error
 
-            done null, result
-          , (error) ->
-            done error
+  error = (err) ->
+    done err
 
+  api
+    .getUserByFilters({instagram_id: profile.id})
+    .then success, error
 
 
 module.exports = router

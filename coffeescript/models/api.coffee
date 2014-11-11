@@ -20,5 +20,8 @@ api.getUserlist = ->
 api.getUser = (id) ->
   api.createQueue("api.getUser", {_id: id})
 
+api.getUserByFilters = (filters) ->
+  api.createQueue("api.getUser", filters)
+
 
 module.exports = api

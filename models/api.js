@@ -26,6 +26,10 @@
     });
   };
 
+  api.getUserByFilters = function(filters) {
+    return api.createQueue("api.getUser", filters);
+  };
+
   module.exports = api;
 
 }).call(this);
