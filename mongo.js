@@ -1,6 +1,6 @@
 (function() {
   module.exports = function(settings) {
-    var db, facebookUserSchema, getRandomName, groupSchema, mongoose, passportLocalMongoose, userSchema;
+    var db, facebookUserSchema, getRandomName, googleUserSchema, groupSchema, mongoose, passportLocalMongoose, userSchema;
     mongoose = require('mongoose');
     passportLocalMongoose = require('passport-local-mongoose');
     getRandomName = function() {
@@ -70,6 +70,23 @@
       timezone: 'String',
       verified: 'String',
       metadata: 'Object',
+      accessToken: 'String',
+      created: {
+        type: Date,
+        "default": Date.now
+      }
+    });
+    googleUserSchema = mongoose.Schema({
+      id: 'String',
+      user_id: 'String',
+      name: 'String',
+      first_name: 'String',
+      last_name: 'String',
+      emails: {
+        type: Array
+      },
+      metadata: 'Object',
+      identifier: 'String',
       created: {
         type: Date,
         "default": Date.now
@@ -98,6 +115,7 @@
     mongoose.model('users', userSchema);
     mongoose.model('groups', groupSchema);
     mongoose.model('facebook_user_data', facebookUserSchema);
+    mongoose.model('google_user_data', googleUserSchema);
     db = mongoose.connection;
     db.on('error', function(error) {
       return console.log('Mongodb returned error: %s', error);

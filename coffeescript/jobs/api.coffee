@@ -53,6 +53,16 @@ jobs.process "api.saveFacebookData", (job, done) ->
       done null, facebook
 
 
+jobs.process "api.saveGoogleData", (job, done) ->
+  Google = mongoose.model 'google_user_data'
+  google = new Google(job.data)
+  google.save (err) ->
+    if err
+      done(err)
+    else
+      done null, google
+
+
 jobs.process "api.createGroup", (job, done) ->
   Groups = mongoose.model 'groups'
   group = new Groups(job.data)

@@ -39,6 +39,21 @@ module.exports = (settings) ->
     timezone: 'String'
     verified: 'String'
     metadata: 'Object'
+    accessToken: 'String'
+
+    created: { type: Date, default: Date.now }
+  }
+
+
+  googleUserSchema = mongoose.Schema {
+    id: 'String'
+    user_id: 'String'
+    name: 'String'
+    first_name: 'String'
+    last_name: 'String'
+    emails: { type: Array }
+    metadata: 'Object'
+    identifier: 'String'
 
     created: { type: Date, default: Date.now }
   }
@@ -60,6 +75,7 @@ module.exports = (settings) ->
   mongoose.model 'users', userSchema
   mongoose.model 'groups', groupSchema
   mongoose.model 'facebook_user_data', facebookUserSchema
+  mongoose.model 'google_user_data', googleUserSchema
 
   db = mongoose.connection
 

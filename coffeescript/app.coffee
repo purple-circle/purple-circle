@@ -16,6 +16,7 @@ require("./mongo")(settings)
 api = require("./routes/api")
 routes = require("./routes/index")
 facebook = require("./routes/facebook")
+google = require("./routes/google")
 profile = require("./routes/profile")
 group = require("./routes/group")
 groups = require("./routes/groups")
@@ -52,6 +53,8 @@ app.use passport.session()
 app.use "/", routes
 app.use "/api", api
 app.use "/auth/facebook", facebook
+app.use "/auth/google", google
+
 app.use "/profile", profile
 app.use "/group", group
 app.use "/groups", groups

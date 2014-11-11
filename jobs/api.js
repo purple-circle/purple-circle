@@ -59,6 +59,19 @@
     });
   });
 
+  jobs.process("api.saveGoogleData", function(job, done) {
+    var Google, google;
+    Google = mongoose.model('google_user_data');
+    google = new Google(job.data);
+    return google.save(function(err) {
+      if (err) {
+        return done(err);
+      } else {
+        return done(null, google);
+      }
+    });
+  });
+
   jobs.process("api.createGroup", function(job, done) {
     var Groups, group;
     Groups = mongoose.model('groups');
