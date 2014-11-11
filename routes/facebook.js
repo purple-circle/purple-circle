@@ -49,19 +49,22 @@
     return Users.findOne({
       facebook_id: profile.id
     }).exec(function(err, data) {
-      var facebook_profile, userData;
+      var facebook_profile, userData, username;
       if (err) {
         return done(err);
       } else if (data) {
         return done(null, data);
       } else {
+        if (profile.displayName.length) {
+          username = profile.displayName.replace(" ", ".") + Math.ceil(Math.random() * 1000);
+        }
         userData = {
           facebook_id: profile.id,
           name: profile.displayName,
           gender: profile.gender,
           email: profile._json.email,
           birthday: profile._json.birthday,
-          username: profile.displayName.replace(" ", ".") + Math.ceil(Math.random() * 1000)
+          username: username
         };
         facebook_profile = {
           id: profile.id,

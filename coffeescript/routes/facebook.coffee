@@ -52,13 +52,16 @@ passport.use new FacebookStrategy facebookOptions, (accessToken, refreshToken, p
 
         #console.log "profile", profile
 
+        if profile.displayName.length
+          username = profile.displayName.replace(" ", ".") + Math.ceil(Math.random() * 1000)
+
         userData =
           facebook_id: profile.id
           name: profile.displayName
           gender: profile.gender
           email: profile._json.email
           birthday: profile._json.birthday
-          username: profile.displayName.replace(" ", ".") + Math.ceil(Math.random() * 1000)
+          username: username
           # Username hack for now
 
         facebook_profile =

@@ -38,10 +38,13 @@ passport.use new GoogleStrategy googleOptions, (identifier, profile, done) ->
 
       else
 
+        if profile.displayName.length
+          username = profile.displayName.replace(" ", ".") + Math.ceil(Math.random() * 1000)
+
         userData =
           google_id: profile_id
           name: profile.displayName
-          username: profile.displayName.replace(" ", ".") + Math.ceil(Math.random() * 1000)
+          username: username
           # Username hack for now
 
 

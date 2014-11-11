@@ -35,16 +35,19 @@
     return Users.findOne({
       google_id: profile_id
     }).exec(function(err, data) {
-      var google_profile, userData;
+      var google_profile, userData, username;
       if (err) {
         return done(err);
       } else if (data) {
         return done(null, data);
       } else {
+        if (profile.displayName.length) {
+          username = profile.displayName.replace(" ", ".") + Math.ceil(Math.random() * 1000);
+        }
         userData = {
           google_id: profile_id,
           name: profile.displayName,
-          username: profile.displayName.replace(" ", ".") + Math.ceil(Math.random() * 1000)
+          username: username
         };
         if (profile.emails.length) {
           userData.email = profile.emails[0].value;
