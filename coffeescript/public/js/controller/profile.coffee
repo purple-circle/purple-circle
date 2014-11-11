@@ -13,6 +13,7 @@ app.controller 'profile', ($scope, $stateParams, $timeout, api) ->
       birthdayDay = birthdayMoment.date()
 
       birthdayMoment = moment([currentYear, birthdayMonth, birthdayDay])
+      daysUntilBirthday = birthdayMoment.diff(new Date(), 'days')
       $scope.isBirthday = daysUntilBirthday is 0
 
       if daysUntilBirthday < 0
@@ -27,6 +28,8 @@ app.controller 'profile', ($scope, $stateParams, $timeout, api) ->
       cakedayDay = cakedayMoment.date()
 
       cakedayMoment = moment([currentYear, cakedayMonth, cakedayDay])
+      daysUntilCakeday = cakedayMoment.diff(new Date(), 'days')
+
       $scope.isCakeday = daysUntilCakeday is 0
 
       if daysUntilCakeday < 0

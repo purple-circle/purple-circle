@@ -229,6 +229,7 @@
         birthdayMonth = birthdayMoment.month();
         birthdayDay = birthdayMoment.date();
         birthdayMoment = moment([currentYear, birthdayMonth, birthdayDay]);
+        daysUntilBirthday = birthdayMoment.diff(new Date(), 'days');
         $scope.isBirthday = daysUntilBirthday === 0;
         if (daysUntilBirthday < 0) {
           birthdayMoment = moment([currentYear + 1, birthdayMonth, birthdayDay]);
@@ -239,6 +240,7 @@
         cakedayMonth = cakedayMoment.month();
         cakedayDay = cakedayMoment.date();
         cakedayMoment = moment([currentYear, cakedayMonth, cakedayDay]);
+        daysUntilCakeday = cakedayMoment.diff(new Date(), 'days');
         $scope.isCakeday = daysUntilCakeday === 0;
         if (daysUntilCakeday < 0) {
           cakedayMoment = moment([currentYear + 1, cakedayMonth, cakedayDay]);
