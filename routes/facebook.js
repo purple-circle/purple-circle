@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  var FacebookApi, FacebookStrategy, UserApi, express, facebookOptions, facebook_options, mongoose, passport, router;
+  var FacebookModel, FacebookStrategy, UserApi, express, facebookOptions, facebook_options, mongoose, passport, router;
 
   express = require("express");
 
@@ -14,7 +14,7 @@
 
   UserApi = require("../models/user");
 
-  FacebookApi = require("../models/facebook");
+  FacebookModel = require("../models/facebook");
 
   router.get("/", passport.authenticate("facebook", {
     scope: ['email', 'user_birthday']
@@ -82,7 +82,7 @@
         };
         return UserApi.create(userData).then(function(result) {
           facebook_profile.user_id = result._id;
-          FacebookApi.save(facebook_profile);
+          FacebookModel.save(facebook_profile);
           return done(null, result);
         }, function(error) {
           return done(error);

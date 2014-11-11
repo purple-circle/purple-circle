@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  var GoogleApi, GoogleStrategy, UserApi, express, googleOptions, mongoose, passport, router;
+  var GoogleModel, GoogleStrategy, UserApi, express, googleOptions, mongoose, passport, router;
 
   express = require("express");
 
@@ -10,7 +10,7 @@
 
   UserApi = require("../models/user");
 
-  GoogleApi = require("../models/google");
+  GoogleModel = require("../models/google");
 
   GoogleStrategy = require("passport-google").Strategy;
 
@@ -60,7 +60,7 @@
         };
         return UserApi.create(userData).then(function(result) {
           google_profile.user_id = result._id;
-          GoogleApi.save(google_profile);
+          GoogleModel.save(google_profile);
           return done(null, result);
         }, function(error) {
           return done(error);

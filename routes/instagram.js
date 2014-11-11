@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  var InstagramApi, InstagramStrategy, UserApi, express, instagramOptions, mongoose, passport, router;
+  var InstagramModel, InstagramStrategy, UserApi, express, instagramOptions, mongoose, passport, router;
 
   express = require("express");
 
@@ -10,7 +10,7 @@
 
   UserApi = require("../models/user");
 
-  InstagramApi = require("../models/instagram");
+  InstagramModel = require("../models/instagram");
 
   InstagramStrategy = require("passport-instagram").Strategy;
 
@@ -62,7 +62,7 @@
         };
         return UserApi.create(userData).then(function(result) {
           instagram_profile.user_id = result._id;
-          InstagramApi.save(instagram_profile);
+          InstagramModel.save(instagram_profile);
           return done(null, result);
         }, function(error) {
           return done(error);

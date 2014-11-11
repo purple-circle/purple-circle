@@ -1,8 +1,5 @@
 "use strict"
 express = require("express")
-passport = require("passport")
-mongoose = require("mongoose")
-LocalStrategy = require("passport-local").Strategy
 
 router = express.Router()
 

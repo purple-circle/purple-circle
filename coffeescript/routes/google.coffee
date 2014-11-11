@@ -4,7 +4,7 @@ passport = require("passport")
 mongoose = require('mongoose')
 
 UserApi = require("../models/user")
-GoogleApi = require("../models/google")
+GoogleModel = require("../models/google")
 
 GoogleStrategy = require("passport-google").Strategy
 
@@ -63,7 +63,7 @@ passport.use new GoogleStrategy googleOptions, (identifier, profile, done) ->
           .create(userData)
           .then (result) ->
             google_profile.user_id = result._id
-            GoogleApi.save(google_profile)
+            GoogleModel.save(google_profile)
 
             done null, result
           , (error) ->

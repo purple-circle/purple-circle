@@ -4,7 +4,7 @@ passport = require("passport")
 mongoose = require('mongoose')
 
 UserApi = require("../models/user")
-InstagramApi = require("../models/instagram")
+InstagramModel = require("../models/instagram")
 
 InstagramStrategy = require("passport-instagram").Strategy
 
@@ -61,7 +61,7 @@ passport.use new InstagramStrategy instagramOptions, (accessToken, refreshToken,
           .create(userData)
           .then (result) ->
             instagram_profile.user_id = result._id
-            InstagramApi.save(instagram_profile)
+            InstagramModel.save(instagram_profile)
 
             done null, result
           , (error) ->

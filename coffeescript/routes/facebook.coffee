@@ -6,7 +6,7 @@ mongoose = require('mongoose')
 router = express.Router()
 
 UserApi = require("../models/user")
-FacebookApi = require("../models/facebook")
+FacebookModel = require("../models/facebook")
 
 
 # Redirect the user to Facebook for authentication.  When complete,
@@ -83,7 +83,7 @@ passport.use new FacebookStrategy facebookOptions, (accessToken, refreshToken, p
           .then (result) ->
 
             facebook_profile.user_id = result._id
-            FacebookApi.save(facebook_profile)
+            FacebookModel.save(facebook_profile)
 
             done null, result
           , (error) ->

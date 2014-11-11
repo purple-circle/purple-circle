@@ -1,14 +1,8 @@
 (function() {
   "use strict";
-  var LocalStrategy, express, mongoose, passport, router;
+  var express, router;
 
   express = require("express");
-
-  passport = require("passport");
-
-  mongoose = require("mongoose");
-
-  LocalStrategy = require("passport-local").Strategy;
 
   router = express.Router();
 
