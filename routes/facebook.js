@@ -25,26 +25,6 @@
     failureRedirect: "/login/fail"
   }));
 
-  passport.serializeUser(function(user, done) {
-    return done(null, user._id);
-  });
-
-  passport.deserializeUser(function(id, done) {
-    var Users;
-    Users = mongoose.model('users');
-    return Users.findOne({
-      _id: id
-    }).exec(function(err, data) {
-      if (err) {
-        return done(err);
-      } else if (data) {
-        return done(null, data._id);
-      } else {
-        return done('user not found');
-      }
-    });
-  });
-
   facebook_options = {
     api: "dev",
     options: {

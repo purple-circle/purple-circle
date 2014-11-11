@@ -50,6 +50,25 @@ app.use passport.initialize()
 app.use passport.session()
 
 
+
+passport.serializeUser (user, done) ->
+  done null, user._id
+
+passport.deserializeUser (id, done) ->
+  Users = mongoose.model 'users'
+  Users
+    .findOne({_id: id})
+    .exec (err, data) ->
+      if err
+        done err
+      else if data
+        done null, data._id
+      else
+        done 'user not found'
+
+      #done null, {id: 1}
+
+
 app.use "/", routes
 app.use "/api", api
 app.use "/auth/facebook", facebook
