@@ -1,5 +1,5 @@
 (function() {
-  var MongoStore, api, app, bodyParser, cookieParser, express, facebook, favicon, google, group, groups, instagram, logger, mongoStore, mongoose, passport, path, profile, routes, server, session, sessionStore, settings;
+  var MongoStore, apiModel, apiRoute, app, bodyParser, cookieParser, express, facebook, favicon, google, group, groups, instagram, logger, mongoStore, mongoose, passport, path, profile, routes, server, session, sessionStore, settings;
 
   express = require("express");
 
@@ -17,13 +17,15 @@
 
   mongoose = require('mongoose');
 
-  require('monitor').start();
-
   settings = require("./settings");
+
+  require('monitor').start();
 
   require("./mongo")(settings);
 
-  api = require("./routes/api");
+  apiModel = require("./models/api");
+
+  apiRoute = require("./routes/api");
 
   routes = require("./routes/index");
 
@@ -83,24 +85,23 @@
   });
 
   passport.deserializeUser(function(id, done) {
-    var Users;
-    Users = mongoose.model('users');
-    return Users.findOne({
-      _id: id
-    }).exec(function(err, data) {
-      if (err) {
-        return done(err);
-      } else if (data) {
+    var error, success;
+    success = function(data) {
+      if (data) {
         return done(null, data._id);
       } else {
         return done('user not found');
       }
-    });
+    };
+    error = function(err) {
+      return done(err);
+    };
+    return apiModel.getUser(id).then(success, error);
   });
 
   app.use("/", routes);
 
-  app.use("/api", api);
+  app.use("/api", apiRoute);
 
   app.use("/auth/facebook", facebook);
 

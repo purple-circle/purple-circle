@@ -6,15 +6,16 @@ cookieParser = require("cookie-parser")
 bodyParser = require("body-parser")
 passport = require("passport")
 mongoose = require('mongoose')
+settings = require("./settings")
 
 require('monitor').start()
 
-settings = require("./settings")
-
 require("./mongo")(settings)
 
+apiModel = require("./models/api")
+
 # Routes
-api = require("./routes/api")
+apiRoute = require("./routes/api")
 routes = require("./routes/index")
 group = require("./routes/group")
 groups = require("./routes/groups")
@@ -61,20 +62,22 @@ passport.serializeUser (user, done) ->
 passport.deserializeUser (id, done) ->
   #done null, {id: 1}
 
-  Users = mongoose.model 'users'
-  Users
-    .findOne({_id: id})
-    .exec (err, data) ->
-      if err
-        done err
-      else if data
-        done null, data._id
-      else
-        done 'user not found'
+  success = (data) ->
+    if data
+      done null, data._id
+    else
+      done 'user not found'
+
+  error = (err) ->
+    done err
+
+  apiModel
+    .getUser(id)
+    .then success, error
 
 
 app.use "/", routes
-app.use "/api", api
+app.use "/api", apiRoute
 app.use "/auth/facebook", facebook
 app.use "/auth/google", google
 app.use "/auth/instagram", instagram
