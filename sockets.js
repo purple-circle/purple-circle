@@ -1,9 +1,10 @@
 (function() {
   module.exports = function(server, sessionStore) {
-    var api, groups, io;
+    var Q, api, groups, io;
     io = require("socket.io").listen(server);
     api = require("./models/api");
     groups = require("./models/groups");
+    Q = require("q");
     io.use(function(socket, next) {
       return sessionStore(socket.request, socket.request.res, next);
     });
@@ -53,8 +54,16 @@
         });
       });
       socket.on("getMemberList", function(id) {
-        return groups.getMemberList(id).then(function(result) {
-          return socket.emit("getMemberList", result);
+        return groups.getMemberList(id).then(function(members) {
+          var list, member, _i, _len;
+          list = [];
+          for (_i = 0, _len = members.length; _i < _len; _i++) {
+            member = members[_i];
+            list.push(api.getUser(member.user_id));
+          }
+          return Q.all(list).then(function(users) {
+            return socket.emit("getMemberList", users);
+          });
         });
       });
       socket.on("getGroupList", function(data) {

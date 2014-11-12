@@ -2,6 +2,7 @@ module.exports = (server, sessionStore) ->
   io = require("socket.io").listen(server)
   api = require("./models/api")
   groups = require("./models/groups")
+  Q = require("q")
 
   io.use (socket, next) ->
     sessionStore socket.request, socket.request.res, next
@@ -56,8 +57,14 @@ module.exports = (server, sessionStore) ->
     socket.on "getMemberList", (id) ->
       groups
         .getMemberList(id)
-        .then (result) ->
-          socket.emit "getMemberList", result
+        .then (members) ->
+          list = []
+          for member in members
+            list.push api.getUser(member.user_id)
+
+          Q.all(list)
+            .then (users) ->
+              socket.emit "getMemberList", users
 
     socket.on "getGroupList", (data) ->
       groups

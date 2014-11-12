@@ -16,7 +16,7 @@
   jobs.process("api.getUserlist", function(job, done) {
     var Users;
     Users = mongoose.model('users');
-    return Users.find().select('-hash -salt').exec().then(function(result) {
+    return Users.find().select('name created birthday').exec().then(function(result) {
       return done(null, result);
     }, function(error) {
       return done(error);
@@ -26,7 +26,7 @@
   jobs.process("api.getUser", function(job, done) {
     var Users;
     Users = mongoose.model('users');
-    return Users.findOne(job.data).select('-hash -salt').exec().then(function(result) {
+    return Users.findOne(job.data).select('name created birthday').exec().then(function(result) {
       return done(null, result);
     }, function(error) {
       return done(error);
