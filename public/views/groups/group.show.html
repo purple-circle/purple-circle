@@ -47,9 +47,12 @@
       group: {{group}}
 
 
-      <div ng-repeat="member in memberlist">
-        m = {{member}}
-      </div>
+      <h2>Members</h2>
+      <ul>
+        <li ng-repeat="member in memberlist">
+          <a ui-sref="profile.show({id: member._id})">{{member.username}}</a>
+        </li>
+      </ul>
 
     </div>
   </div>

@@ -11,7 +11,7 @@ jobs.process "api.getUserlist", (job, done) ->
   Users = mongoose.model 'users'
   Users
     .find()
-    .select('name created birthday')
+    .select('name username created birthday')
     .exec()
     .then (result) ->
       done(null, result)
@@ -23,7 +23,7 @@ jobs.process "api.getUser", (job, done) ->
   Users = mongoose.model 'users'
   Users
     .findOne(job.data)
-    .select('name created birthday')
+    .select('name username created birthday')
     .exec()
     .then (result) ->
       done(null, result)
