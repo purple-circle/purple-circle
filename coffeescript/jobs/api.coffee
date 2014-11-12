@@ -88,6 +88,26 @@ jobs.process "api.createGroup", (job, done) ->
     else
       done null, group
 
+jobs.process "api.joinGroup", (job, done) ->
+  GroupMembers = mongoose.model 'group_members'
+  member = new GroupMembers(job.data)
+  member.save (err) ->
+    if err
+      done(err)
+    else
+      done null, member
+
+
+jobs.process "api.getMemberList", (job, done) ->
+  Members = mongoose.model 'group_members'
+  Members
+    .find({group_id: job.data})
+    .exec()
+    .then (result) ->
+      done(null, result)
+    , (error) ->
+      done error
+
 
 jobs.process "api.editGroup", (job, done) ->
   Groups = mongoose.model 'groups'

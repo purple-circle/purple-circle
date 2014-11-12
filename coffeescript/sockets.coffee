@@ -39,6 +39,26 @@ module.exports = (server, sessionStore) ->
         .then (group) ->
           socket.emit "getGroup", group
 
+    socket.on "joinGroup", (id) ->
+      loggedinUser = socket.request?.session?.passport?.user
+      if !loggedinUser
+        return false
+
+      data =
+        group_id: id
+        user_id: loggedinUser
+
+      groups
+        .joinGroup(data)
+        .then (result) ->
+          socket.emit "joinGroup", result
+
+    socket.on "getMemberList", (id) ->
+      groups
+        .getMemberList(id)
+        .then (result) ->
+          socket.emit "getMemberList", result
+
     socket.on "getGroupList", (data) ->
       groups
         .getGroups(data)

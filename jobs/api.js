@@ -112,6 +112,31 @@
     });
   });
 
+  jobs.process("api.joinGroup", function(job, done) {
+    var GroupMembers, member;
+    GroupMembers = mongoose.model('group_members');
+    member = new GroupMembers(job.data);
+    return member.save(function(err) {
+      if (err) {
+        return done(err);
+      } else {
+        return done(null, member);
+      }
+    });
+  });
+
+  jobs.process("api.getMemberList", function(job, done) {
+    var Members;
+    Members = mongoose.model('group_members');
+    return Members.find({
+      group_id: job.data
+    }).exec().then(function(result) {
+      return done(null, result);
+    }, function(error) {
+      return done(error);
+    });
+  });
+
   jobs.process("api.editGroup", function(job, done) {
     var Groups, data, id, _ref;
     Groups = mongoose.model('groups');

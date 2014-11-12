@@ -38,6 +38,14 @@ app.factory 'api', ($q) ->
     socket.emit("getGroup", id)
     this.on("getGroup")
 
+  joinGroup: (id) ->
+    socket.emit("joinGroup", id)
+    this.on("joinGroup")
+
+  getMemberList: (id) ->
+    socket.emit("getMemberList", id)
+    this.on("getMemberList")
+
   getGroupList: (data) ->
     socket.emit("getGroupList", data)
     this.on("getGroupList")

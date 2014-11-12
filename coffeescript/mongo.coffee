@@ -46,7 +46,6 @@ module.exports = (settings) ->
     verified: 'String'
     metadata: 'Object'
     accessToken: 'String'
-
     created: { type: Date, default: Date.now }
   }
 
@@ -60,7 +59,6 @@ module.exports = (settings) ->
     emails: { type: Array }
     metadata: 'Object'
     identifier: 'String'
-
     created: { type: Date, default: Date.now }
   }
 
@@ -75,7 +73,6 @@ module.exports = (settings) ->
     profile_picture: 'String'
     metadata: 'Object'
     accessToken: 'String'
-
     created: { type: Date, default: Date.now }
   }
 
@@ -90,11 +87,18 @@ module.exports = (settings) ->
     edited_at: { type: Date, default: Date.now }
   }
 
+  groupMemberSchema = mongoose.Schema {
+    group_id: 'ObjectId'
+    user_id: 'ObjectId'
+    created_at: { type: Date, default: Date.now }
+  }
+
 
   userSchema.plugin(passportLocalMongoose)
 
   mongoose.model 'users', userSchema
   mongoose.model 'groups', groupSchema
+  mongoose.model 'group_members', groupMemberSchema
   mongoose.model 'facebook_user_data', facebookUserSchema
   mongoose.model 'instagram_user_data', instagramUserSchema
   mongoose.model 'google_user_data', googleUserSchema

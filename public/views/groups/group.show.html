@@ -38,9 +38,19 @@
 
       <p ng-if="group.description" ng-bind="group.description" class="well white-space-pre"></p>
 
+      <p ng-if="loggedin && membership_checked && not_member">
+        <a class="btn btn-primary" ng-click="join()">Join this group like a champion</a>
+      </p>
+
       group id: {{id}}
       <hr />
       group: {{group}}
+
+
+      <div ng-repeat="member in memberlist">
+        m = {{member}}
+      </div>
+
     </div>
   </div>
 </div>

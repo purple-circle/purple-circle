@@ -167,9 +167,11 @@
   app = angular.module('app');
 
   app.controller('group.show', ["$scope", "$stateParams", "$timeout", "api", function($scope, $stateParams, $timeout, api) {
-    var getCreator;
+    var getCreator, getMemberList;
     $scope.loggedin = api.checkLogin();
     $scope.id = $stateParams.id;
+    $scope.membership_checked = true;
+    $scope.not_member = true;
     if ($scope.loggedin) {
       api.getLoggedinUser().then(function(user) {
         return $timeout(function() {
@@ -183,6 +185,20 @@
         return getCreator(group.created_by);
       });
     });
+    getMemberList = function() {
+      return api.getMemberList($scope.id).then(function(list) {
+        return $timeout(function() {
+          return $scope.memberlist = list;
+        });
+      });
+    };
+    getMemberList();
+    $scope.join = function() {
+      if (!$scope.loggedin) {
+        return false;
+      }
+      return api.joinGroup($scope.id).then(getMemberList);
+    };
     return getCreator = function(userid) {
       return api.findUser(userid).then(function(data) {
         return $timeout(function() {
@@ -450,6 +466,14 @@
       getGroup: function(id) {
         socket.emit("getGroup", id);
         return this.on("getGroup");
+      },
+      joinGroup: function(id) {
+        socket.emit("joinGroup", id);
+        return this.on("joinGroup");
+      },
+      getMemberList: function(id) {
+        socket.emit("getMemberList", id);
+        return this.on("getMemberList");
       },
       getGroupList: function(data) {
         socket.emit("getGroupList", data);
