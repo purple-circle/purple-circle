@@ -5,7 +5,6 @@ logger = require("morgan")
 cookieParser = require("cookie-parser")
 bodyParser = require("body-parser")
 passport = require("passport")
-mongoose = require('mongoose')
 settings = require("./settings")
 
 require('monitor').start()
@@ -98,8 +97,12 @@ app.use (req, res, next) ->
 # will print stacktrace
 if app.get("env") is "development"
   app.use (err, req, res, next) ->
+    view = "error"
+    if err.status is 404
+      view = "error404"
+
     res.status err.status or 500
-    res.render "error",
+    res.render view,
       message: err.message
       error: err
       stack: err.stack
@@ -108,11 +111,12 @@ if app.get("env") is "development"
 # production error handler
 # no stacktraces leaked to user
 app.use (err, req, res, next) ->
-
-  console.log "err", err
+  view = "error"
+  if err.status is 404
+    view = "error404"
 
   res.status err.status or 500
-  res.render "error",
+  res.render view,
     message: err.message
     #error: {}
     error: err

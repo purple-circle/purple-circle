@@ -62,7 +62,7 @@ gulp.task "coffee", ->
 
 gulp.task "less", ->
   gulp
-    .src("less/style.less")
+    .src("less/**/*.less")
     .pipe(plumber({errorHandler}))
     .pipe(less())
     .pipe(gulp.dest("./public/css"))

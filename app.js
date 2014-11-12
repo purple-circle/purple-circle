@@ -1,5 +1,5 @@
 (function() {
-  var MongoStore, apiModel, apiRoute, app, bodyParser, cookieParser, express, facebook, favicon, google, group, groups, instagram, logger, mongoStore, mongoose, passport, path, profile, routes, server, session, sessionStore, settings;
+  var MongoStore, apiModel, apiRoute, app, bodyParser, cookieParser, express, facebook, favicon, google, group, groups, instagram, logger, mongoStore, passport, path, profile, routes, server, session, sessionStore, settings;
 
   express = require("express");
 
@@ -14,8 +14,6 @@
   bodyParser = require("body-parser");
 
   passport = require("passport");
-
-  mongoose = require('mongoose');
 
   settings = require("./settings");
 
@@ -124,8 +122,13 @@
 
   if (app.get("env") === "development") {
     app.use(function(err, req, res, next) {
+      var view;
+      view = "error";
+      if (err.status === 404) {
+        view = "error404";
+      }
       res.status(err.status || 500);
-      return res.render("error", {
+      return res.render(view, {
         message: err.message,
         error: err,
         stack: err.stack
@@ -134,9 +137,13 @@
   }
 
   app.use(function(err, req, res, next) {
-    console.log("err", err);
+    var view;
+    view = "error";
+    if (err.status === 404) {
+      view = "error404";
+    }
     res.status(err.status || 500);
-    return res.render("error", {
+    return res.render(view, {
       message: err.message,
       error: err,
       stack: err.stack
