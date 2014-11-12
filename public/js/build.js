@@ -167,11 +167,22 @@
   app = angular.module('app');
 
   app.controller('group.show', ["$scope", "$stateParams", "$timeout", "api", function($scope, $stateParams, $timeout, api) {
-    var getCreator, getMemberList;
+    var checkMembership, getCreator, getMemberList;
     $scope.loggedin = api.checkLogin();
     $scope.id = $stateParams.id;
-    $scope.membership_checked = true;
+    $scope.membership_checked = false;
     $scope.not_member = true;
+    checkMembership = function() {
+      if (!$scope.loggedin) {
+        return false;
+      }
+      return api.checkMembership($scope.id).then(function(membership) {
+        return $timeout(function() {
+          $scope.membership_checked = true;
+          return $scope.not_member = membership !== true;
+        });
+      });
+    };
     if ($scope.loggedin) {
       api.getLoggedinUser().then(function(user) {
         return $timeout(function() {
@@ -186,6 +197,7 @@
       });
     });
     getMemberList = function() {
+      checkMembership();
       return api.getMemberList($scope.id).then(function(list) {
         return $timeout(function() {
           return $scope.memberlist = list;
@@ -470,6 +482,10 @@
       joinGroup: function(id) {
         socket.emit("joinGroup", id);
         return this.on("joinGroup");
+      },
+      checkMembership: function(id) {
+        socket.emit("checkMembership", id);
+        return this.on("checkMembership");
       },
       getMemberList: function(id) {
         socket.emit("getMemberList", id);

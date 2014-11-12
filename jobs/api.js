@@ -125,6 +125,18 @@
     });
   });
 
+  jobs.process("api.checkMembership", function(job, done) {
+    var Members;
+    Members = mongoose.model('group_members');
+    return Members.findOne(job.data).exec().then(function(result) {
+      var membership;
+      membership = result !== null;
+      return done(null, membership);
+    }, function(error) {
+      return done(error);
+    });
+  });
+
   jobs.process("api.getMemberList", function(job, done) {
     var Members;
     Members = mongoose.model('group_members');

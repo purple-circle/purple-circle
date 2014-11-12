@@ -38,6 +38,13 @@
     });
   };
 
+  groups.checkMembership = function(data) {
+    if (!data.group_id || !data.user_id) {
+      return rejectPromise();
+    }
+    return api.createQueue("api.checkMembership", data);
+  };
+
   groups.getMemberList = function(id) {
     return api.createQueue("api.getMemberList", id);
   };

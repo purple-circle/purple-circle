@@ -3,9 +3,20 @@ app.controller 'group.show', ($scope, $stateParams, $timeout, api) ->
   $scope.loggedin = api.checkLogin()
   $scope.id = $stateParams.id
 
-
-  $scope.membership_checked = true
+  $scope.membership_checked = false
   $scope.not_member = true
+
+  checkMembership = ->
+    if !$scope.loggedin
+      return false
+
+    api
+      .checkMembership($scope.id)
+      .then (membership) ->
+        $timeout ->
+          $scope.membership_checked = true
+          $scope.not_member = membership isnt true
+
 
   if $scope.loggedin
     api
@@ -22,6 +33,7 @@ app.controller 'group.show', ($scope, $stateParams, $timeout, api) ->
         getCreator(group.created_by)
 
   getMemberList = ->
+    checkMembership()
     api
       .getMemberList($scope.id)
       .then (list) ->

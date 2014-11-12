@@ -30,6 +30,14 @@ groups.joinGroup = (data) ->
 
       api.createQueue("api.joinGroup", data)
 
+
+groups.checkMembership = (data) ->
+  if !data.group_id || !data.user_id
+    return rejectPromise()
+
+  api.createQueue("api.checkMembership", data)
+
+
 groups.getMemberList = (id) ->
   api.createQueue("api.getMemberList", id)
 

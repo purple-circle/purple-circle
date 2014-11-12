@@ -53,6 +53,21 @@
           return socket.emit("joinGroup", result);
         });
       });
+      socket.on("checkMembership", function(id) {
+        var data, loggedinUser, _ref, _ref1, _ref2;
+        loggedinUser = (_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0;
+        if (!loggedinUser) {
+          socket.emit("checkMembership", false);
+          return false;
+        }
+        data = {
+          group_id: id,
+          user_id: loggedinUser
+        };
+        return groups.checkMembership(data).then(function(membership) {
+          return socket.emit("checkMembership", membership);
+        });
+      });
       socket.on("getMemberList", function(id) {
         return groups.getMemberList(id).then(function(members) {
           var list, member, _i, _len;

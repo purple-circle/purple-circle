@@ -98,6 +98,17 @@ jobs.process "api.joinGroup", (job, done) ->
       done null, member
 
 
+jobs.process "api.checkMembership", (job, done) ->
+  Members = mongoose.model 'group_members'
+  Members
+    .findOne(job.data)
+    .exec()
+    .then (result) ->
+      membership = result isnt null
+      done(null, membership)
+    , (error) ->
+      done error
+
 jobs.process "api.getMemberList", (job, done) ->
   Members = mongoose.model 'group_members'
   Members
