@@ -8,7 +8,15 @@ rejectPromise = ->
   deferred.promise
 
 groups.create = (data) ->
-  api.createQueue("api.createGroup", data)
+  api
+    .createQueue("api.createGroup", data)
+    .then (group) ->
+      joinData =
+        group_id: group._id
+        user_id: group.created_by
+
+      groups.joinGroup(joinData)
+      group
 
 groups.joinGroup = (data) ->
   if !data.group_id || !data.user_id

@@ -15,7 +15,15 @@
   };
 
   groups.create = function(data) {
-    return api.createQueue("api.createGroup", data);
+    return api.createQueue("api.createGroup", data).then(function(group) {
+      var joinData;
+      joinData = {
+        group_id: group._id,
+        user_id: group.created_by
+      };
+      groups.joinGroup(joinData);
+      return group;
+    });
   };
 
   groups.joinGroup = function(data) {
