@@ -49,8 +49,23 @@
     return api.createQueue("api.getMemberList", id);
   };
 
+  groups.savePicture = function(id, data) {
+    return groups.getGroup(id).then(function(group) {
+      if (!group) {
+        return rejectPromise();
+      }
+      return api.createQueue("api.saveGroupPicture", {
+        id: id,
+        data: data
+      });
+    });
+  };
+
   groups.update = function(id, data) {
     return groups.getGroup(id).then(function(group) {
+      if (!group) {
+        return rejectPromise();
+      }
       if (group.created_by !== data.edited_by) {
         return rejectPromise();
       }

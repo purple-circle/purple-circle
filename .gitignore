@@ -31,3 +31,6 @@ node_modules
 
 # Plato report folder
 public/report
+
+# Uploaded files
+public/uploads

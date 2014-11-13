@@ -1,6 +1,6 @@
 (function() {
   module.exports = function(settings) {
-    var db, facebookUserSchema, getRandomName, getRandomUserName, googleUserSchema, groupMemberSchema, groupSchema, instagramUserSchema, mongoose, passportLocalMongoose, userSchema;
+    var db, facebookUserSchema, getRandomName, getRandomUserName, googleUserSchema, groupMemberSchema, groupPictureSchema, groupSchema, instagramUserSchema, mongoose, passportLocalMongoose, userSchema;
     mongoose = require('mongoose');
     passportLocalMongoose = require('passport-local-mongoose');
     getRandomName = function() {
@@ -143,10 +143,22 @@
         "default": Date.now
       }
     });
+    groupPictureSchema = mongoose.Schema({
+      group_id: 'ObjectId',
+      user_id: 'ObjectId',
+      title: 'String',
+      filename: 'String',
+      file: 'Object',
+      created_at: {
+        type: Date,
+        "default": Date.now
+      }
+    });
     userSchema.plugin(passportLocalMongoose);
     mongoose.model('users', userSchema);
     mongoose.model('groups', groupSchema);
     mongoose.model('group_members', groupMemberSchema);
+    mongoose.model('group_pictures', groupPictureSchema);
     mongoose.model('facebook_user_data', facebookUserSchema);
     mongoose.model('instagram_user_data', instagramUserSchema);
     mongoose.model('google_user_data', googleUserSchema);

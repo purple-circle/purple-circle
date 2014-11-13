@@ -42,11 +42,22 @@ groups.getMemberList = (id) ->
   api.createQueue("api.getMemberList", id)
 
 
+groups.savePicture = (id, data) ->
+  groups
+    .getGroup(id)
+    .then (group) ->
+      if !group
+        return rejectPromise()
+
+      api.createQueue("api.saveGroupPicture", {id, data})
+
 
 groups.update = (id, data) ->
   groups
     .getGroup(id)
     .then (group) ->
+      if !group
+        return rejectPromise()
       if group.created_by isnt data.edited_by
         return rejectPromise()
 

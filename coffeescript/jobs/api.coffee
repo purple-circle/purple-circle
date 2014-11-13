@@ -120,6 +120,25 @@ jobs.process "api.getMemberList", (job, done) ->
       done error
 
 
+
+jobs.process "api.saveGroupPicture", (job, done) ->
+  Pictures = mongoose.model 'group_pictures'
+
+  {data} = job.data
+
+  picture = new Pictures(data)
+  picture.save (err) ->
+    if err
+      done(err)
+    else
+      done null, picture
+
+      jobs
+        .create('processGroupPicture', picture)
+        .save()
+
+
+
 jobs.process "api.editGroup", (job, done) ->
   Groups = mongoose.model 'groups'
 

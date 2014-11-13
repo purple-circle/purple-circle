@@ -1,5 +1,5 @@
 (function() {
-  var MongoStore, apiModel, apiRoute, app, bodyParser, cookieParser, express, facebook, favicon, google, group, groups, instagram, logger, mongoStore, passport, path, profile, routes, server, session, sessionStore, settings;
+  var MongoStore, apiModel, apiRoute, app, bodyParser, cookieParser, express, facebook, favicon, google, group, groups, instagram, logger, mongoStore, multer, passport, path, profile, routes, server, session, sessionStore, settings;
 
   express = require("express");
 
@@ -41,6 +41,8 @@
 
   app = express();
 
+  multer = require("multer");
+
   session = require("express-session");
 
   MongoStore = require("connect-mongo")(session);
@@ -57,6 +59,10 @@
     resave: true,
     saveUninitialized: true
   });
+
+  app.use(multer({
+    dest: path.join(__dirname, "public/uploads")
+  }));
 
   app.use(express["static"](path.join(__dirname, "public")));
 

@@ -28,6 +28,9 @@ profile = require("./routes/profile")
 
 app = express()
 
+multer = require("multer")
+
+
 session = require("express-session")
 MongoStore = require("connect-mongo")(session)
 mongoStore = new MongoStore db: settings.db
@@ -39,6 +42,8 @@ sessionStore = session
   saveUninitialized: true
 
 
+
+app.use multer(dest: path.join(__dirname, "public/uploads"))
 
 # view engine setup
 app.use express.static(path.join(__dirname, "public"))

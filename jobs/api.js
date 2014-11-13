@@ -149,6 +149,21 @@
     });
   });
 
+  jobs.process("api.saveGroupPicture", function(job, done) {
+    var Pictures, data, picture;
+    Pictures = mongoose.model('group_pictures');
+    data = job.data.data;
+    picture = new Pictures(data);
+    return picture.save(function(err) {
+      if (err) {
+        return done(err);
+      } else {
+        done(null, picture);
+        return jobs.create('processGroupPicture', picture).save();
+      }
+    });
+  });
+
   jobs.process("api.editGroup", function(job, done) {
     var Groups, data, id, _ref;
     Groups = mongoose.model('groups');

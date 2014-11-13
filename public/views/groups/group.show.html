@@ -42,14 +42,12 @@
         <a class="btn btn-primary" ng-click="join()">Join this group like a champion</a>
       </p>
 
-      group id: {{id}}
-      <hr />
-      group: {{group}}
-
-
-<hr>
-      not_member = {{not_member}}
-<hr>
+        <form action="/group/upload" enctype="multipart/form-data" method="post">
+          <input type="hidden" name="group_id" value="{{group._id}}">
+          <input type="text" name="title">
+          <input type="file" name="file" accept="image/*">
+          <input type="submit" value="Upload">
+        </form>
 
       <h2>Members</h2>
       <ul>
