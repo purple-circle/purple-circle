@@ -149,6 +149,18 @@
     });
   });
 
+  jobs.process("api.getPictures", function(job, done) {
+    var Pictures;
+    Pictures = mongoose.model('group_pictures');
+    return Pictures.find({
+      group_id: job.data
+    }).exec().then(function(result) {
+      return done(null, result);
+    }, function(error) {
+      return done(error);
+    });
+  });
+
   jobs.process("api.saveGroupPicture", function(job, done) {
     var Pictures, data, picture;
     Pictures = mongoose.model('group_pictures');

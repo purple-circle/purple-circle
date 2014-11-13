@@ -167,7 +167,7 @@
   app = angular.module('app');
 
   app.controller('group.show', ["$scope", "$stateParams", "$timeout", "api", function($scope, $stateParams, $timeout, api) {
-    var checkMembership, getCreator, getMemberList;
+    var checkMembership, getCreator, getMemberList, getPictures;
     $scope.loggedin = api.checkLogin();
     $scope.id = $stateParams.id;
     $scope.membership_checked = false;
@@ -204,20 +204,28 @@
         });
       });
     };
-    getMemberList();
+    getPictures = function() {
+      return api.getGroupPictures($scope.id).then(function(pictures) {
+        return $timeout(function() {
+          return $scope.pictures = pictures;
+        });
+      });
+    };
     $scope.join = function() {
       if (!$scope.loggedin) {
         return false;
       }
       return api.joinGroup($scope.id).then(getMemberList);
     };
-    return getCreator = function(userid) {
+    getCreator = function(userid) {
       return api.findUser(userid).then(function(data) {
         return $timeout(function() {
           return $scope.created_by = data;
         });
       });
     };
+    getMemberList();
+    return getPictures();
   }]);
 
 }).call(this);
@@ -482,6 +490,10 @@
       joinGroup: function(id) {
         socket.emit("joinGroup", id);
         return this.on("joinGroup");
+      },
+      getGroupPictures: function(id) {
+        socket.emit("getGroupPictures", id);
+        return this.on("getGroupPictures");
       },
       checkMembership: function(id) {
         socket.emit("checkMembership", id);

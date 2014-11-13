@@ -42,12 +42,21 @@
         <a class="btn btn-primary" ng-click="join()">Join this group like a champion</a>
       </p>
 
+      <div ng-if="loggedin">
         <form action="/group/upload" enctype="multipart/form-data" method="post">
           <input type="hidden" name="group_id" value="{{group._id}}">
           <input type="text" name="title">
           <input type="file" name="file" accept="image/*">
           <input type="submit" value="Upload">
         </form>
+      </div>
+
+      <h2>Pictures</h2>
+      <div class="row">
+        <div class="col-xs-6 col-md-3" ng-repeat="picture in pictures | orderBy:'-created_at'">
+          <img ng-src="/uploads/{{picture.filename}}" class="img-thumbnail">
+        </div>
+      </div>
 
       <h2>Members</h2>
       <ul>

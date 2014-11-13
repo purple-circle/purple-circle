@@ -119,7 +119,15 @@ jobs.process "api.getMemberList", (job, done) ->
     , (error) ->
       done error
 
-
+jobs.process "api.getPictures", (job, done) ->
+  Pictures = mongoose.model 'group_pictures'
+  Pictures
+    .find({group_id: job.data})
+    .exec()
+    .then (result) ->
+      done(null, result)
+    , (error) ->
+      done error
 
 jobs.process "api.saveGroupPicture", (job, done) ->
   Pictures = mongoose.model 'group_pictures'

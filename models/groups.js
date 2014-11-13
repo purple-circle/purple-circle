@@ -61,6 +61,10 @@
     });
   };
 
+  groups.getPictures = function(id) {
+    return api.createQueue("api.getPictures", id);
+  };
+
   groups.update = function(id, data) {
     return groups.getGroup(id).then(function(group) {
       if (!group) {

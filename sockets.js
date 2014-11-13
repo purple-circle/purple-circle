@@ -86,6 +86,11 @@
           return socket.emit("getGroupList", result);
         });
       });
+      socket.on("getGroupPictures", function(id) {
+        return groups.getPictures(id).then(function(result) {
+          return socket.emit("getGroupPictures", result);
+        });
+      });
       socket.on("createGroup", function(data) {
         var loggedinUser, _ref, _ref1, _ref2, _ref3, _ref4, _ref5;
         loggedinUser = ((_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0) != null;

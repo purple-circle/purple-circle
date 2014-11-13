@@ -51,6 +51,9 @@ groups.savePicture = (id, data) ->
 
       api.createQueue("api.saveGroupPicture", {id, data})
 
+groups.getPictures = (id) ->
+  api.createQueue("api.getPictures", id)
+
 
 groups.update = (id, data) ->
   groups
