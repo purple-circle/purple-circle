@@ -9,11 +9,11 @@
     <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/css/style.css" rel="stylesheet" />
     <link href="/css/error404.css" rel="stylesheet" />
-
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
 
   </head>
   <body>
-
+<audio src="https://ia600407.us.archive.org/18/items/SheepSound/SheepSound.ogg"></audio>
     <div class="scene">
       <div class="clouds">
         <div class="cloud-2" data-speed="45000" data-delay="15000"></div>
@@ -56,6 +56,18 @@
 
       ga('create', 'xxxx', 'domain.com');
       ga('send', 'pageview');
+
+
+      $(document).ready(function() {
+        var audio = document.getElementsByTagName("audio")[0];
+        $(".sheep")
+          .on("mouseover", function() {
+            audio.play();
+          })
+          .on("mouseout", function() {
+            audio.pause();
+          });
+      });
 
     </script>
 
