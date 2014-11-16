@@ -49,7 +49,8 @@
       <h2>Pictures</h2>
       <div class="row">
         <div class="picture-col col-md-3" ng-repeat="picture in pictures | orderBy:'-created_at'">
-          <img ng-src="/uploads/{{picture.filename}}" class="img-thumbnail">
+          <img ng-click="openModal(picture)" ng-src="/uploads/{{picture.filename}}" class="img-thumbnail">
+          <h3>active: {{picture.active}}</h3>
         </div>
       </div>
 

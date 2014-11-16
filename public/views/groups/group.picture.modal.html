@@ -1,0 +1,9 @@
+<carousel>
+  <slide ng-repeat="picture in pictures | orderBy:'-created_at'" active="picture.active">
+    <img ng-src="/uploads/{{picture.filename}}" style="margin:auto;">
+    <div class="carousel-caption">
+      <h4>Slide {{$index}}</h4>
+      <p>{{picture.title}}</p>
+    </div>
+  </slide>
+</carousel>

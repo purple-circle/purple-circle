@@ -1,10 +1,28 @@
 app = angular.module('app')
-app.controller 'group.show', ($scope, $stateParams, $timeout, api) ->
+app.controller 'group.show', ($scope, $stateParams, $timeout, $modal, api) ->
   $scope.loggedin = api.checkLogin()
   $scope.id = $stateParams.id
 
   $scope.membership_checked = false
   $scope.not_member = true
+
+
+  $scope.openModal = (picture) ->
+    picture.active = true
+    modalInstance = $modal.open
+      templateUrl: "groups/group.picture.modal.html"
+      scope: $scope
+      size: 'lg'
+
+    modal_opened = ->
+    modal_closed = ->
+      $timeout ->
+        for picture in $scope.pictures
+          picture.active = false
+
+    modalInstance.result
+      .then modal_opened, modal_closed
+
 
   checkMembership = ->
     if !$scope.loggedin

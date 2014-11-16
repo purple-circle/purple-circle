@@ -7,6 +7,7 @@ app = angular.module('app', [
   'angularMoment'
   'angular-parallax'
   'angularFileUpload'
+  'ui.bootstrap'
 ])
 
 app.config ($stateProvider, $locationProvider) ->

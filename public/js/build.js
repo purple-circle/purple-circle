@@ -2,7 +2,7 @@
   'use strict';
   var app;
 
-  app = angular.module('app', ['ui.router', 'ui.router.compat', 'templates', 'angularMoment', 'angular-parallax', 'angularFileUpload']);
+  app = angular.module('app', ['ui.router', 'ui.router.compat', 'templates', 'angularMoment', 'angular-parallax', 'angularFileUpload', 'ui.bootstrap']);
 
   app.config(["$stateProvider", "$locationProvider", function($stateProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
@@ -166,12 +166,35 @@
 
   app = angular.module('app');
 
-  app.controller('group.show', ["$scope", "$stateParams", "$timeout", "api", function($scope, $stateParams, $timeout, api) {
+  app.controller('group.show', ["$scope", "$stateParams", "$timeout", "$modal", "api", function($scope, $stateParams, $timeout, $modal, api) {
     var checkMembership, getCreator, getMemberList;
     $scope.loggedin = api.checkLogin();
     $scope.id = $stateParams.id;
     $scope.membership_checked = false;
     $scope.not_member = true;
+    $scope.openModal = function(picture) {
+      var modalInstance, modal_closed, modal_opened;
+      picture.active = true;
+      modalInstance = $modal.open({
+        templateUrl: "groups/group.picture.modal.html",
+        scope: $scope,
+        size: 'lg'
+      });
+      modal_opened = function() {};
+      modal_closed = function() {
+        return $timeout(function() {
+          var _i, _len, _ref, _results;
+          _ref = $scope.pictures;
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            picture = _ref[_i];
+            _results.push(picture.active = false);
+          }
+          return _results;
+        });
+      };
+      return modalInstance.result.then(modal_opened, modal_closed);
+    };
     checkMembership = function() {
       if (!$scope.loggedin) {
         return false;
