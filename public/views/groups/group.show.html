@@ -43,20 +43,17 @@
       </p>
 
       <div ng-if="loggedin">
-        <form action="/group/upload" enctype="multipart/form-data" method="post">
-          <input type="hidden" name="group_id" value="{{group._id}}">
-          <input type="text" name="title">
-          <input type="file" name="file" accept="image/*">
-          <input type="submit" value="Upload">
-        </form>
+        <upload group-id="group._id" update="getPictures"></upload>
       </div>
 
       <h2>Pictures</h2>
       <div class="row">
-        <div class="col-xs-6 col-md-3" ng-repeat="picture in pictures | orderBy:'-created_at'">
+        <div class="picture-col col-md-3" ng-repeat="picture in pictures | orderBy:'-created_at'">
           <img ng-src="/uploads/{{picture.filename}}" class="img-thumbnail">
         </div>
       </div>
+
+      <div class="clearfix"></div>
 
       <h2>Members</h2>
       <ul>

@@ -2,7 +2,7 @@
   'use strict';
   var app;
 
-  app = angular.module('app', ['ui.router', 'ui.router.compat', 'templates', 'angularMoment', 'angular-parallax']);
+  app = angular.module('app', ['ui.router', 'ui.router.compat', 'templates', 'angularMoment', 'angular-parallax', 'angularFileUpload']);
 
   app.config(["$stateProvider", "$locationProvider", function($stateProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
@@ -167,7 +167,7 @@
   app = angular.module('app');
 
   app.controller('group.show', ["$scope", "$stateParams", "$timeout", "api", function($scope, $stateParams, $timeout, api) {
-    var checkMembership, getCreator, getMemberList, getPictures;
+    var checkMembership, getCreator, getMemberList;
     $scope.loggedin = api.checkLogin();
     $scope.id = $stateParams.id;
     $scope.membership_checked = false;
@@ -204,7 +204,7 @@
         });
       });
     };
-    getPictures = function() {
+    $scope.getPictures = function() {
       return api.getGroupPictures($scope.id).then(function(pictures) {
         return $timeout(function() {
           return $scope.pictures = pictures;
@@ -225,7 +225,7 @@
       });
     };
     getMemberList();
-    return getPictures();
+    return $scope.getPictures();
   }]);
 
 }).call(this);
@@ -436,6 +436,51 @@
       templateUrl: 'directives/signup.html'
     };
   });
+
+}).call(this);
+
+(function() {
+  var app;
+
+  app = angular.module('app');
+
+  app.directive('upload', ["$upload", function($upload) {
+    return {
+      restrict: 'E',
+      templateUrl: 'directives/upload.html',
+      scope: {
+        groupId: "=",
+        update: "="
+      },
+      link: function($scope, el, attrs) {
+        var upload;
+        upload = function(file) {
+          return $scope.upload = $upload.upload({
+            url: "/group/upload",
+            data: {
+              title: $scope.title,
+              group_id: $scope.groupId
+            },
+            file: file
+          }).progress(function(evt) {
+            return console.log("percent: " + parseInt(100.0 * evt.loaded / evt.total));
+          }).success(function(data, status, headers, config) {
+            console.log("data", data);
+            return $scope.update();
+          });
+        };
+        return $scope.onFileSelect = function($files) {
+          var file, _i, _len, _results;
+          _results = [];
+          for (_i = 0, _len = $files.length; _i < _len; _i++) {
+            file = $files[_i];
+            _results.push(upload(file));
+          }
+          return _results;
+        };
+      }
+    };
+  }]);
 
 }).call(this);
 

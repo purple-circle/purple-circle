@@ -28,6 +28,12 @@
       });
       return false;
     }
+    if (!req.files.file) {
+      res.json({
+        saved: false
+      });
+      return false;
+    }
     if (!req.files.file.mimetype.match("image")) {
       res.json({
         saved: false

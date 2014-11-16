@@ -40,7 +40,7 @@ app.controller 'group.show', ($scope, $stateParams, $timeout, api) ->
         $timeout ->
           $scope.memberlist = list
 
-  getPictures = ->
+  $scope.getPictures = ->
     api
       .getGroupPictures($scope.id)
       .then (pictures) ->
@@ -64,4 +64,4 @@ app.controller 'group.show', ($scope, $stateParams, $timeout, api) ->
           $scope.created_by = data
 
   getMemberList()
-  getPictures()
+  $scope.getPictures()

@@ -84,6 +84,10 @@ a {
 .group-cover {
   background-image: url('http://i.imgur.com/AHyEhHG.jpg');
 }
+.picture-col {
+  min-height: 150px;
+  max-height: 200px;
+}
 .white-space-pre {
   white-space: pre;
 }
