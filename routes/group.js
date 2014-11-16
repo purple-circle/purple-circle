@@ -43,10 +43,12 @@
     data = {
       group_id: req.body.group_id,
       user_id: req.user,
-      title: req.body.title,
       filename: req.files.file.name,
       file: req.files
     };
+    if (req.body.title !== null) {
+      data.title = req.body.title;
+    }
     groups.savePicture(req.body.group_id, data);
     return res.jsonp({
       saved: true

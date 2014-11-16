@@ -7,12 +7,15 @@ app.directive 'upload', ($upload) ->
     update: "="
   link: ($scope, el, attrs) ->
     upload = (file) ->
+      data =
+        group_id: $scope.groupId
+      if $scope.title
+        data.title = $scope.title
+
       $scope.upload = $upload
         .upload
           url: "/group/upload"
-          data:
-            title: $scope.title
-            group_id: $scope.groupId
+          data: data
           file: file
         .progress (evt) ->
           console.log "percent: " + parseInt(100.0 * evt.loaded / evt.total)

@@ -478,12 +478,16 @@
       link: function($scope, el, attrs) {
         var upload;
         upload = function(file) {
+          var data;
+          data = {
+            group_id: $scope.groupId
+          };
+          if ($scope.title) {
+            data.title = $scope.title;
+          }
           return $scope.upload = $upload.upload({
             url: "/group/upload",
-            data: {
-              title: $scope.title,
-              group_id: $scope.groupId
-            },
+            data: data,
             file: file
           }).progress(function(evt) {
             return console.log("percent: " + parseInt(100.0 * evt.loaded / evt.total));
