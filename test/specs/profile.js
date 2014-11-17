@@ -1,7 +1,11 @@
 describe('profile view', function() {
   beforeEach(function() {
-    // TODO: change this
-    browser.get('http://localhost:3000/profile/545f929b24e8d678b05a8e5c');
+    browser.get('http://localhost:3000/');
+
+    var profiles = element.all(by.repeater('user in users'));
+    var profile_link = profiles.get(0).element(by.css("a"));
+
+    profile_link.click();
 
     /* // This seems not to be working properly
     browser.wait(function() {
@@ -28,7 +32,7 @@ describe('profile view', function() {
     expect(element(by.css('.profile-cover')).isPresent()).toBe(true);
   });
   it('should have profile picture', function() {
-    expect(element(by.css('.profile-picture-thumbnail')).isPresent()).toBe(true);
+    expect(element(by.css('.cover-picture-thumbnail')).isPresent()).toBe(true);
   });
 
 });
