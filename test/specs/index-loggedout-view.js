@@ -3,6 +3,7 @@ describe('index logout view', function() {
     browser.get('http://localhost:3000/logout');
     browser.get('http://localhost:3000/');
 
+    /*
     browser.wait(function() {
       var deferred = protractor.promise.defer();
       element(by.css('.loaded')).isPresent()
@@ -11,6 +12,7 @@ describe('index logout view', function() {
         });
       return deferred.promise;
     });
+    */
 
   });
 

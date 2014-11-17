@@ -1,9 +1,17 @@
 describe('group view', function() {
+
+  var click_latest_group = function() {
+    browser.get('http://localhost:3000/groups');
+    var groups = element.all(by.repeater('group in groups'));
+    var group_link = groups.get(0).element(by.css("a.group-link"));
+    group_link.click();
+  };
+
   beforeEach(function() {
-    // TODO: change this
-    browser.get('http://localhost:3000/group/5460021bcd6e1c00009c3f9f');
+    click_latest_group();
 
     // This seems to leave the browser hanging
+    /*
     browser.wait(function() {
       var deferred = protractor.promise.defer();
       element(by.css('.group-name')).isPresent()
@@ -12,19 +20,22 @@ describe('group view', function() {
         });
       return deferred.promise;
     });
+    */
 
   });
 
-  var login = function(group_id) {
+  var login = function() {
     browser.get('http://localhost:3000/logout');
     browser.get('http://localhost:3000/login');
     element(by.model('login.username')).sendKeys('test');
     element(by.model('login.password')).sendKeys('test');
 
     var button = element(By.id('login-button'));
-    button.click();
 
-    browser.get('http://localhost:3000/group/' + group_id);
+    // This might fail if test account hasn't created latest group
+    button
+      .click()
+      .then(click_latest_group);
   };
 
   it('should have group name visible', function() {
@@ -52,21 +63,18 @@ describe('group view', function() {
   });
 
   it('should have edit link visible', function() {
-    login("5461196563bef400007fb48d")
-    console.log("this will keep the test from not failing, wtf", element(by.css('.group-edit')).isPresent())
+    login()
     expect(element(by.css('.group-edit')).isPresent()).toBe(true);
   });
 
   it('should have edit link with text "edit"', function() {
-    login("5461196563bef400007fb48d")
-    console.log("this will keep the test from not failing, wtf", element(by.css('.group-edit')).isPresent())
+    login()
     expect(element(by.css('.group-edit')).isPresent()).toBe(true);
     expect(element(by.css('.group-edit')).getText()).toBe("Edit");
   });
 
   it('should save group edit', function() {
-    login("5461196563bef400007fb48d")
-    console.log("this will keep the test from not failing, wtf", element(by.css('.group-edit')).isPresent())
+    login()
     expect(element(by.css('.group-edit')).isPresent()).toBe(true);
     expect(element(by.css('.group-edit')).getText()).toBe("Edit");
 
@@ -74,8 +82,8 @@ describe('group view', function() {
     edit_button.click();
 
     // Maybe unnecessary duplication :D
-    expect(browser.getCurrentUrl()).not.toBe('http://localhost:3000/group/5461196563bef400007fb48d');
-    expect(browser.getCurrentUrl()).toBe('http://localhost:3000/group/5461196563bef400007fb48d/edit');
+    //expect(browser.getCurrentUrl()).not.toBe('http://localhost:3000/group/5461196563bef400007fb48d');
+    //expect(browser.getCurrentUrl()).toBe('http://localhost:3000/group/5461196563bef400007fb48d/edit');
 
     var new_description = "juhq puhq " + Math.random();
 
@@ -86,13 +94,13 @@ describe('group view', function() {
     var save_button = element(by.css('.save-group'))
 
     expect(save_button.isPresent()).toBe(true);
-    expect(save_button.getText()).toBe("Save edit");
+    expect(save_button.getText()).toBe("SAVE EDIT");
 
     save_button.click();
 
     // Maybe unnecessary duplication :D
-    expect(browser.getCurrentUrl()).not.toBe('http://localhost:3000/group/5461196563bef400007fb48d/edit');
-    expect(browser.getCurrentUrl()).toBe('http://localhost:3000/group/5461196563bef400007fb48d');
+    //expect(browser.getCurrentUrl()).not.toBe('http://localhost:3000/group/5461196563bef400007fb48d/edit');
+    //expect(browser.getCurrentUrl()).toBe('http://localhost:3000/group/5461196563bef400007fb48d');
 
     expect(element(by.binding('group.description')).isPresent()).toBe(true);
     expect(element(by.binding('group.description')).getText()).toBe(new_description);

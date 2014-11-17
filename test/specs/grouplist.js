@@ -9,6 +9,17 @@ describe('grouplist view', function() {
     button.click();
 
     browser.get('http://localhost:3000/groups');
+
+    // This seems to leave the browser hanging sometimes
+    browser.wait(function() {
+      var deferred = protractor.promise.defer();
+      element(by.css('.group-link')).isPresent()
+        .then(function (isPresent) {
+          deferred.fulfill(isPresent);
+        });
+      return deferred.promise;
+    });
+
   });
 
   afterEach(function() {

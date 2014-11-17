@@ -6,7 +6,8 @@ describe('login view not logged in', function() {
 
   it('should have "Sign in" in login button', function() {
     expect(element.all(by.css('button')).count()).toEqual(1);
-    expect(element(by.css('button')).getText()).toEqual("Sign in");
+    // Material ui uppercases button texts :D
+    expect(element(by.css('button')).getText()).toEqual("SIGN IN");
   });
 
   it('should have "Sign up" link', function() {

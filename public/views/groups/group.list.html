@@ -21,8 +21,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="group in groups | filter:filter | orderBy:'-created'">
-            <td><a ui-sref="group.show({id: group._id})">{{group.name}}</a></td>
+          <tr ng-repeat="group in groups | filter:filter | orderBy:'-created_at'">
+            <td>
+              <a ui-sref="group.show({id: group._id})" class="group-link">{{group.name}}</a>
+            </td>
             <td>
               <a ui-sref="groups({category: group.category})">
                 {{group.category}}
