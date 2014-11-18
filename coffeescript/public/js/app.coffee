@@ -89,6 +89,9 @@ app.run()
 
 
 $(document).ready ->
+
+  $.material.init()
+
   bodyElement = $("body")
   barElement = $(".bar")
 
