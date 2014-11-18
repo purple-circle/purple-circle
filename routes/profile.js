@@ -14,6 +14,12 @@
     });
   });
 
+  router.get("/:id/*", function(req, res) {
+    return res.render("profile", {
+      userLoginStatus: req.user !== void 0
+    });
+  });
+
   module.exports = router;
 
 }).call(this);

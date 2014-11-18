@@ -26,6 +26,10 @@ app.config ($stateProvider, $locationProvider) ->
       url: ''
       templateUrl: 'profile/profile.show.html'
       controller: 'profile.show'
+    .state 'profile.edit',
+      url: '/edit'
+      templateUrl: 'profile/profile.edit.html'
+      controller: 'profile.edit'
 
     .state 'groups',
       url: '/groups?category'

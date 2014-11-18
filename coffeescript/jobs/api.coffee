@@ -6,12 +6,13 @@ settings = require("../settings")
 require("../mongo")(settings)
 
 console.log "api worker running"
+selectUserFields = 'name username created birthday email bio'
 
 jobs.process "api.getUserlist", (job, done) ->
   Users = mongoose.model 'users'
   Users
     .find()
-    .select('name username created birthday')
+    .select(selectUserFields)
     .exec()
     .then (result) ->
       done(null, result)
@@ -23,12 +24,26 @@ jobs.process "api.getUser", (job, done) ->
   Users = mongoose.model 'users'
   Users
     .findOne(job.data)
-    .select('name username created birthday')
+    .select(selectUserFields)
     .exec()
     .then (result) ->
       done(null, result)
     , (error) ->
       done error
+
+
+jobs.process "api.edit_user", (job, done) ->
+  User = mongoose.model 'users'
+
+  {id, data} = job.data
+
+  User
+    .findByIdAndUpdate id, {$set: data}, (err, user) ->
+      if err
+        handleError(err)
+        done(err)
+      else
+        done null, user
 
 
 jobs.process "api.createUser", (job, done) ->

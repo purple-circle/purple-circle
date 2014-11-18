@@ -1,5 +1,5 @@
 (function() {
-  var jobs, kue, mongoose, settings;
+  var jobs, kue, mongoose, selectUserFields, settings;
 
   mongoose = require('mongoose');
 
@@ -13,10 +13,12 @@
 
   console.log("api worker running");
 
+  selectUserFields = 'name username created birthday email bio';
+
   jobs.process("api.getUserlist", function(job, done) {
     var Users;
     Users = mongoose.model('users');
-    return Users.find().select('name username created birthday').exec().then(function(result) {
+    return Users.find().select(selectUserFields).exec().then(function(result) {
       return done(null, result);
     }, function(error) {
       return done(error);
@@ -26,10 +28,26 @@
   jobs.process("api.getUser", function(job, done) {
     var Users;
     Users = mongoose.model('users');
-    return Users.findOne(job.data).select('name username created birthday').exec().then(function(result) {
+    return Users.findOne(job.data).select(selectUserFields).exec().then(function(result) {
       return done(null, result);
     }, function(error) {
       return done(error);
+    });
+  });
+
+  jobs.process("api.edit_user", function(job, done) {
+    var User, data, id, _ref;
+    User = mongoose.model('users');
+    _ref = job.data, id = _ref.id, data = _ref.data;
+    return User.findByIdAndUpdate(id, {
+      $set: data
+    }, function(err, user) {
+      if (err) {
+        handleError(err);
+        return done(err);
+      } else {
+        return done(null, user);
+      }
     });
   });
 

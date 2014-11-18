@@ -12,7 +12,24 @@ module.exports = (server, sessionStore) ->
       api
         .getUser(data)
         .then (user) ->
+          loggedin_user = socket.request?.session?.passport?.user
+          user.my_profile = loggedin_user is user._id
           socket.emit "user", user
+
+
+    socket.on "edit_user", ({id, data}) ->
+      userid = socket.request?.session?.passport?.user
+      loggedin_user = userid?
+
+      if !loggedin_user
+        return
+
+      delete data._id
+
+      groups
+        .update(id, data)
+        .then (result) ->
+          socket.emit "edit_user", result
 
     socket.on "getuserlist", (data) ->
       api
@@ -21,16 +38,16 @@ module.exports = (server, sessionStore) ->
           socket.emit "userlist", data
 
     socket.on "checkLogin", (data) ->
-      loggedinUser = socket.request?.session?.passport?.user?
-      socket.emit "checkLogin", loggedinUser
+      loggedin_user = socket.request?.session?.passport?.user?
+      socket.emit "checkLogin", loggedin_user
 
     socket.on "getLoggedinUser", ->
-      loggedinUser = socket.request?.session?.passport?.user
-      if !loggedinUser
+      loggedin_user = socket.request?.session?.passport?.user
+      if !loggedin_user
         return false
 
       api
-        .getUser(loggedinUser)
+        .getUser(loggedin_user)
         .then (user) ->
           socket.emit "getLoggedinUser", user
 
@@ -41,13 +58,13 @@ module.exports = (server, sessionStore) ->
           socket.emit "getGroup", group
 
     socket.on "joinGroup", (id) ->
-      loggedinUser = socket.request?.session?.passport?.user
-      if !loggedinUser
+      loggedin_user = socket.request?.session?.passport?.user
+      if !loggedin_user
         return false
 
       data =
         group_id: id
-        user_id: loggedinUser
+        user_id: loggedin_user
 
       groups
         .joinGroup(data)
@@ -56,14 +73,14 @@ module.exports = (server, sessionStore) ->
 
 
     socket.on "checkMembership", (id) ->
-      loggedinUser = socket.request?.session?.passport?.user
-      if !loggedinUser
+      loggedin_user = socket.request?.session?.passport?.user
+      if !loggedin_user
         socket.emit "checkMembership", false
         return false
 
       data =
         group_id: id
-        user_id: loggedinUser
+        user_id: loggedin_user
 
       groups
         .checkMembership(data)
@@ -95,11 +112,11 @@ module.exports = (server, sessionStore) ->
           socket.emit "getGroupPictures", result
 
     socket.on "createGroup", (data) ->
-      loggedinUser = socket.request?.session?.passport?.user?
+      loggedin_user = socket.request?.session?.passport?.user?
       if !data.name
         return
 
-      if !loggedinUser
+      if !loggedin_user
         return
 
       data.created_by = socket.request?.session?.passport?.user
@@ -112,11 +129,11 @@ module.exports = (server, sessionStore) ->
 
     socket.on "editGroup", ({id, data}) ->
       userid = socket.request?.session?.passport?.user
-      loggedinUser = userid?
+      loggedin_user = userid?
       if !data.name
         return
 
-      if !loggedinUser
+      if !loggedin_user
         return
 
       data.edited_by = userid

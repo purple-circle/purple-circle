@@ -1,4 +1,4 @@
-describe('profile view', function() {
+ddescribe('profile view', function() {
   beforeEach(function() {
     browser.get('http://localhost:3000/');
 
@@ -19,6 +19,25 @@ describe('profile view', function() {
     */
   });
 
+  var click_loggedin_profile = function() {
+    var profile_link = element(by.css("a.loggedin-profile-link"));
+    profile_link.click();
+  };
+
+  var login = function() {
+    browser.get('http://localhost:3000/logout');
+    browser.get('http://localhost:3000/login');
+    element(by.model('login.username')).sendKeys('test');
+    element(by.model('login.password')).sendKeys('test');
+
+    var button = element(By.id('login-button'));
+
+    // This might fail if test account hasn't created latest group
+    return button
+      .click()
+      .then(click_loggedin_profile);
+  };
+
   it('should have username visible', function() {
     expect(element(by.css('.username')).isPresent()).toBe(true);
   });
@@ -31,8 +50,17 @@ describe('profile view', function() {
   it('should have cover image', function() {
     expect(element(by.css('.profile-cover')).isPresent()).toBe(true);
   });
+
   it('should have profile picture', function() {
     expect(element(by.css('.cover-picture-thumbnail')).isPresent()).toBe(true);
+  });
+
+  it('should have edit link', function() {
+    login()
+      .then(function() {
+        expect(element(by.css('.edit-profile')).isPresent()).toBe(true);
+        expect(element(by.css('.edit-profile')).getText()).toEqual("Edit profile");
+      });
   });
 
 });

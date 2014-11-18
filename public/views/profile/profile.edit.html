@@ -1,0 +1,76 @@
+<div class="spacing-top"></div>
+
+<form role="form" ng-submit="saveEdit()">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="well">
+
+          <div class="form-group">
+            <div class="row">
+              <label for="name" class="col-lg-2 control-label">Name</label>
+              <div class="col-lg-10">
+                <input type="text" class="form-control" id="name" ng-model="user.name" placeholder="Name">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="row">
+              <label for="username" class="col-lg-2 control-label">Username</label>
+              <div class="col-lg-10">
+                <input type="text" class="form-control" id="username" ng-model="user.username" placeholder="Username">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="row">
+              <label for="birthday" class="col-lg-2 control-label">Birthday</label>
+              <div class="col-lg-10">
+                <input type="date" class="form-control" id="birthday" ng-model="user.birthday" placeholder="Birthday">
+
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" ng-model="user.show_birthday">
+                    <span class="ripple"></span>
+                    <span class="check"></span>
+                    Show birthday
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <button type="submit" class="btn btn-primary">Save profile</button>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="well">
+          <div class="form-group">
+            <div class="row">
+              <label for="bio" class="col-lg-2 control-label">Bio</label>
+              <div class="col-lg-10">
+                <textarea class="form-control" rows="5" id="bio" ng-model="user.bio" placeholder="Bio"></textarea>
+                <span class="help-block">Write something beautiful about yourself</span>
+
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" ng-model="user.show_bio">
+                    <span class="ripple"></span>
+                    <span class="check"></span>
+                    Show bio
+                  </label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</form>

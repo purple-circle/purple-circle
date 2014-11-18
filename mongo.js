@@ -41,6 +41,14 @@
         type: Date,
         "default": Date.now
       },
+      show_birthday: {
+        type: Boolean,
+        "default": true
+      },
+      show_bio: {
+        type: Boolean,
+        "default": true
+      },
       hidden: {
         type: Boolean,
         "default": false

@@ -8,6 +8,7 @@ app.controller 'profile', ($scope, $stateParams, $timeout, api) ->
     if data.birthday
       currentYear = moment().year()
 
+      data.birthday = new Date(data.birthday)
       birthdayMoment = moment(data.birthday)
       birthdayMonth = birthdayMoment.month()
       birthdayDay = birthdayMoment.date()
@@ -23,6 +24,7 @@ app.controller 'profile', ($scope, $stateParams, $timeout, api) ->
 
       $scope.daysUntilBirthday = daysUntilBirthday
 
+      data.created = new Date(data.created)
       cakedayMoment = moment(data.created)
       cakedayMonth = cakedayMoment.month()
       cakedayDay = cakedayMoment.date()

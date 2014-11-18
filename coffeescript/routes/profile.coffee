@@ -7,4 +7,8 @@ router.get "/:id", (req, res) ->
   res.render "profile",
     userLoginStatus: req.user isnt undefined
 
+router.get "/:id/*", (req, res) ->
+  res.render "profile",
+    userLoginStatus: req.user isnt undefined
+
 module.exports = router

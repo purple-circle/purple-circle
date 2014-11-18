@@ -13,7 +13,7 @@
       <p ng-if="user.username" class="username">
         {{user.username}}
       </p>
-      <p ng-if="user.birthday">
+      <p ng-if="user.birthday && user.show_birthday">
         <i class="fa fa-birthday-cake birthday-cake"></i>
         {{user.birthday | amDateFormat:'MMMM Do YYYY'}}<br />
         <span am-time-ago="user.birthday"><span>
@@ -24,6 +24,9 @@
 
         <p ng-if="daysUntilBirthday">
           {{daysUntilBirthday}} days until next birthday.
+        </p>
+        <p ng-if="user.my_profile">
+          <a ui-sref="profile.edit({id: mydata._id})" class="edit-profile">Edit profile</a>
         </p>
       </p>
 

@@ -22,6 +22,8 @@ module.exports = (settings) ->
     google_id: 'String'
     instagram_id: 'String'
     created: { type: Date, default: Date.now }
+    show_birthday: { type: Boolean, default: true }
+    show_bio: { type: Boolean, default: true }
     hidden: { type: Boolean, default: false }
     random: {type: [Number], index: '2d', default: -> return [Math.random(), Math.random()]}
   }

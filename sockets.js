@@ -11,7 +11,23 @@
     return io.on("connection", function(socket) {
       socket.on("getuser", function(data) {
         return api.getUser(data).then(function(user) {
+          var loggedin_user, _ref, _ref1, _ref2;
+          loggedin_user = (_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0;
+          user.my_profile = loggedin_user === user._id;
           return socket.emit("user", user);
+        });
+      });
+      socket.on("edit_user", function(_arg) {
+        var data, id, loggedin_user, userid, _ref, _ref1, _ref2;
+        id = _arg.id, data = _arg.data;
+        userid = (_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0;
+        loggedin_user = userid != null;
+        if (!loggedin_user) {
+          return;
+        }
+        delete data._id;
+        return groups.update(id, data).then(function(result) {
+          return socket.emit("edit_user", result);
         });
       });
       socket.on("getuserlist", function(data) {
@@ -20,17 +36,17 @@
         });
       });
       socket.on("checkLogin", function(data) {
-        var loggedinUser, _ref, _ref1, _ref2;
-        loggedinUser = ((_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0) != null;
-        return socket.emit("checkLogin", loggedinUser);
+        var loggedin_user, _ref, _ref1, _ref2;
+        loggedin_user = ((_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0) != null;
+        return socket.emit("checkLogin", loggedin_user);
       });
       socket.on("getLoggedinUser", function() {
-        var loggedinUser, _ref, _ref1, _ref2;
-        loggedinUser = (_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0;
-        if (!loggedinUser) {
+        var loggedin_user, _ref, _ref1, _ref2;
+        loggedin_user = (_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0;
+        if (!loggedin_user) {
           return false;
         }
-        return api.getUser(loggedinUser).then(function(user) {
+        return api.getUser(loggedin_user).then(function(user) {
           return socket.emit("getLoggedinUser", user);
         });
       });
@@ -40,29 +56,29 @@
         });
       });
       socket.on("joinGroup", function(id) {
-        var data, loggedinUser, _ref, _ref1, _ref2;
-        loggedinUser = (_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0;
-        if (!loggedinUser) {
+        var data, loggedin_user, _ref, _ref1, _ref2;
+        loggedin_user = (_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0;
+        if (!loggedin_user) {
           return false;
         }
         data = {
           group_id: id,
-          user_id: loggedinUser
+          user_id: loggedin_user
         };
         return groups.joinGroup(data).then(function(result) {
           return socket.emit("joinGroup", result);
         });
       });
       socket.on("checkMembership", function(id) {
-        var data, loggedinUser, _ref, _ref1, _ref2;
-        loggedinUser = (_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0;
-        if (!loggedinUser) {
+        var data, loggedin_user, _ref, _ref1, _ref2;
+        loggedin_user = (_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0;
+        if (!loggedin_user) {
           socket.emit("checkMembership", false);
           return false;
         }
         data = {
           group_id: id,
-          user_id: loggedinUser
+          user_id: loggedin_user
         };
         return groups.checkMembership(data).then(function(membership) {
           return socket.emit("checkMembership", membership);
@@ -92,12 +108,12 @@
         });
       });
       socket.on("createGroup", function(data) {
-        var loggedinUser, _ref, _ref1, _ref2, _ref3, _ref4, _ref5;
-        loggedinUser = ((_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0) != null;
+        var loggedin_user, _ref, _ref1, _ref2, _ref3, _ref4, _ref5;
+        loggedin_user = ((_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0) != null;
         if (!data.name) {
           return;
         }
-        if (!loggedinUser) {
+        if (!loggedin_user) {
           return;
         }
         data.created_by = (_ref3 = socket.request) != null ? (_ref4 = _ref3.session) != null ? (_ref5 = _ref4.passport) != null ? _ref5.user : void 0 : void 0 : void 0;
@@ -107,14 +123,14 @@
         });
       });
       return socket.on("editGroup", function(_arg) {
-        var data, id, loggedinUser, userid, _ref, _ref1, _ref2;
+        var data, id, loggedin_user, userid, _ref, _ref1, _ref2;
         id = _arg.id, data = _arg.data;
         userid = (_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0;
-        loggedinUser = userid != null;
+        loggedin_user = userid != null;
         if (!data.name) {
           return;
         }
-        if (!loggedinUser) {
+        if (!loggedin_user) {
           return;
         }
         data.edited_by = userid;

@@ -19,6 +19,10 @@
       url: '',
       templateUrl: 'profile/profile.show.html',
       controller: 'profile.show'
+    }).state('profile.edit', {
+      url: '/edit',
+      templateUrl: 'profile/profile.edit.html',
+      controller: 'profile.edit'
     }).state('groups', {
       url: '/groups?category',
       templateUrl: 'groups/group.list.html',
@@ -284,6 +288,7 @@
       $scope.user = data;
       if (data.birthday) {
         currentYear = moment().year();
+        data.birthday = new Date(data.birthday);
         birthdayMoment = moment(data.birthday);
         birthdayMonth = birthdayMoment.month();
         birthdayDay = birthdayMoment.date();
@@ -295,6 +300,7 @@
         }
         daysUntilBirthday = birthdayMoment.diff(new Date(), 'days');
         $scope.daysUntilBirthday = daysUntilBirthday;
+        data.created = new Date(data.created);
         cakedayMoment = moment(data.created);
         cakedayMonth = cakedayMoment.month();
         cakedayDay = cakedayMoment.date();
@@ -317,6 +323,23 @@
         return setUser(data);
       });
     });
+  }]);
+
+}).call(this);
+
+(function() {
+  var app;
+
+  app = angular.module('app');
+
+  app.controller('profile.edit', ["$scope", "api", function($scope, api) {
+    $scope.loggedin = api.checkLogin();
+    if (!$scope.loggedin) {
+      console.log("not logged in");
+    }
+    return $scope.saveEdit = function() {
+      return console.log("save");
+    };
   }]);
 
 }).call(this);
