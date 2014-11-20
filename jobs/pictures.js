@@ -1,11 +1,13 @@
 (function() {
-  var jobs, kue, mongoose, settings;
+  var gm, jobs, kue, mongoose, settings;
 
   mongoose = require('mongoose');
 
   kue = require("kue");
 
   jobs = kue.createQueue();
+
+  gm = require('gm');
 
   settings = require("../settings");
 
@@ -14,13 +16,26 @@
   console.log("picture worker running");
 
   jobs.process("processGroupPicture", function(job, done) {
-    var Pictures;
+    var Pictures, id;
     Pictures = mongoose.model('group_pictures');
-    return Pictures.find({
-      _id: job.data._id
+    id = job.data._id;
+    return Pictures.findOne({
+      _id: id
     }).exec().then(function(result) {
-      console.log("result", result);
-      return done(null, result);
+      if (!result) {
+        return false;
+      }
+      return gm(result.file.path).options({
+        imageMagick: true
+      }).identify(function(err, metadata) {
+        if (err) {
+          return false;
+        }
+        result.metadata = metadata;
+        result.resolution = metadata.size;
+        result.save();
+        return done(null, result);
+      });
     });
   });
 

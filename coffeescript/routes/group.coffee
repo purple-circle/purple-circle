@@ -28,7 +28,7 @@ router.post "/upload", (req, res) ->
     group_id: req.body.group_id
     user_id: req.user
     filename: req.files.file.name
-    file: req.files
+    file: req.files.file
 
   if req.body.title isnt null
     data.title = req.body.title

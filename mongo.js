@@ -157,6 +157,8 @@
       title: 'String',
       filename: 'String',
       file: 'Object',
+      resolution: 'Object',
+      metadata: 'Object',
       created_at: {
         type: Date,
         "default": Date.now
