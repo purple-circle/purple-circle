@@ -477,6 +477,20 @@
 
   app = angular.module('app');
 
+  app.directive('signupButtons', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'directives/signup-buttons.html'
+    };
+  });
+
+}).call(this);
+
+(function() {
+  var app;
+
+  app = angular.module('app');
+
   app.directive('signup', function() {
     return {
       restrict: 'E',
