@@ -76,7 +76,6 @@
 
   $(document).ready(function() {
     var barElement, bodyElement, height, scroll;
-    $.material.init();
     bodyElement = $("body");
     barElement = $(".bar");
     height = bodyElement.height();
