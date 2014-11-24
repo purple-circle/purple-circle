@@ -83,8 +83,8 @@ app.config ($stateProvider, $locationProvider) ->
       controller: ->
         window.location.reload()
 
-app.run()
-
+app.run ($rootScope) ->
+  $rootScope.page_title = "(><)"
 
 
 

@@ -1,9 +1,11 @@
 app = angular.module('app')
-app.controller 'profile', ($scope, $stateParams, $timeout, api) ->
+app.controller 'profile', ($rootScope, $scope, $stateParams, $timeout, api) ->
   $scope.loggedin = api.checkLogin()
 
   setUser = (data) ->
     $scope.user = data
+
+    $rootScope.page_title = data.name || data.username
 
     if data.birthday
       currentYear = moment().year()

@@ -72,7 +72,9 @@
     });
   }]);
 
-  app.run();
+  app.run(["$rootScope", function($rootScope) {
+    return $rootScope.page_title = "(><)";
+  }]);
 
   $(document).ready(function() {
     var barElement, bodyElement, height, scroll;
@@ -132,12 +134,16 @@
 
   app = angular.module('app');
 
-  app.controller('group.list', ["$scope", "$stateParams", "$state", "$timeout", "api", function($scope, $stateParams, $state, $timeout, api) {
+  app.controller('group.list', ["$rootScope", "$scope", "$stateParams", "$state", "$timeout", "api", function($rootScope, $scope, $stateParams, $state, $timeout, api) {
     var setCategoryFilter;
     $scope.loggedin = api.checkLogin();
     $scope.list = [];
     $scope.filter = {};
     $scope.category = $stateParams.category;
+    $rootScope.page_title = "Groups";
+    if ($scope.category) {
+      $rootScope.page_title += " " + $scope.category;
+    }
     setCategoryFilter = function(category) {
       return $scope.filter.category = category;
     };
@@ -170,12 +176,22 @@
 
   app = angular.module('app');
 
-  app.controller('group.show', ["$scope", "$stateParams", "$timeout", "$modal", "api", function($scope, $stateParams, $timeout, $modal, api) {
-    var checkMembership, getCreator, getMemberList;
+  app.controller('group.show', ["$rootScope", "$scope", "$stateParams", "$timeout", "$modal", "api", function($rootScope, $scope, $stateParams, $timeout, $modal, api) {
+    var checkMembership, getCreator, getGroup, getMemberList;
     $scope.loggedin = api.checkLogin();
     $scope.id = $stateParams.id;
     $scope.membership_checked = false;
     $scope.not_member = true;
+    getGroup = function() {
+      return api.getGroup($scope.id).then(function(group) {
+        return $timeout(function() {
+          $rootScope.page_title = group.name;
+          $scope.group = group;
+          return getCreator(group.created_by);
+        });
+      });
+    };
+    getGroup();
     $scope.openModal = function(picture) {
       var modalInstance, modal_closed, modal_opened;
       picture.active = true;
@@ -217,12 +233,6 @@
         });
       });
     }
-    api.getGroup($scope.id).then(function(group) {
-      return $timeout(function() {
-        $scope.group = group;
-        return getCreator(group.created_by);
-      });
-    });
     getMemberList = function() {
       checkMembership();
       return api.getMemberList($scope.id).then(function(list) {
@@ -262,9 +272,10 @@
 
   app = angular.module('app');
 
-  app.controller('index', ["$scope", "$timeout", "api", function($scope, $timeout, api) {
+  app.controller('index', ["$rootScope", "$scope", "$timeout", "api", function($rootScope, $scope, $timeout, api) {
     $scope.loggedin = api.checkLogin();
     api.userlist();
+    $rootScope.page_title = "Home";
     return api.on("userlist").then(function(users) {
       return $timeout(function() {
         $scope.loaded = true;
@@ -280,12 +291,13 @@
 
   app = angular.module('app');
 
-  app.controller('profile', ["$scope", "$stateParams", "$timeout", "api", function($scope, $stateParams, $timeout, api) {
+  app.controller('profile', ["$rootScope", "$scope", "$stateParams", "$timeout", "api", function($rootScope, $scope, $stateParams, $timeout, api) {
     var setUser;
     $scope.loggedin = api.checkLogin();
     setUser = function(data) {
       var birthdayDay, birthdayMoment, birthdayMonth, cakedayDay, cakedayMoment, cakedayMonth, currentYear, daysUntilBirthday, daysUntilCakeday;
       $scope.user = data;
+      $rootScope.page_title = data.name || data.username;
       if (data.birthday) {
         currentYear = moment().year();
         data.birthday = new Date(data.birthday);

@@ -1,10 +1,22 @@
 app = angular.module('app')
-app.controller 'group.show', ($scope, $stateParams, $timeout, $modal, api) ->
+app.controller 'group.show', ($rootScope, $scope, $stateParams, $timeout, $modal, api) ->
   $scope.loggedin = api.checkLogin()
   $scope.id = $stateParams.id
 
   $scope.membership_checked = false
   $scope.not_member = true
+
+  getGroup = ->
+    api
+      .getGroup($scope.id)
+      .then (group) ->
+        $timeout ->
+          $rootScope.page_title = group.name
+
+          $scope.group = group
+          getCreator(group.created_by)
+
+  getGroup()
 
 
   $scope.openModal = (picture) ->
@@ -42,13 +54,6 @@ app.controller 'group.show', ($scope, $stateParams, $timeout, $modal, api) ->
       .then (user) ->
         $timeout ->
           $scope.loggedinUser = user
-
-  api
-    .getGroup($scope.id)
-    .then (group) ->
-      $timeout ->
-        $scope.group = group
-        getCreator(group.created_by)
 
   getMemberList = ->
     checkMembership()

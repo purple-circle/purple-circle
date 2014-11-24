@@ -1,10 +1,15 @@
 app = angular.module('app')
-app.controller 'group.list', ($scope, $stateParams, $state, $timeout, api) ->
+app.controller 'group.list', ($rootScope, $scope, $stateParams, $state, $timeout, api) ->
   $scope.loggedin = api.checkLogin()
   $scope.list = []
   $scope.filter = {}
 
   $scope.category = $stateParams.category
+
+  $rootScope.page_title = "Groups"
+
+  if $scope.category
+    $rootScope.page_title += " #{$scope.category}"
 
   setCategoryFilter = (category) ->
     $scope.filter.category = category

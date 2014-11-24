@@ -1,7 +1,10 @@
 app = angular.module('app')
-app.controller 'index', ($scope, $timeout, api) ->
+app.controller 'index', ($rootScope, $scope, $timeout, api) ->
   $scope.loggedin = api.checkLogin()
   api.userlist()
+
+  $rootScope.page_title = "Home"
+
   api
     .on("userlist")
     .then (users) ->
