@@ -1,7 +1,25 @@
 <div class="spacing-top"></div>
 
-<form role="form" ng-submit="saveEdit()">
+<form role="form" ng-submit="save_edit()">
   <div class="container">
+
+    <div class="row">
+      <div class="col-md-12">
+        <a ui-sref="profile.show({id: user._id})" class="btn">
+          <i class="mdi-navigation-arrow-back"></i> Back to profile
+        </a>
+      </div>
+    </div>
+
+    <div class="row" ng-if="edit_saved">
+      <div class="col-md-12">
+        <div class="alert alert-dismissable alert-success">
+          <strong>Well done!</strong> Your changes were saved as successfully as owl catches prey.
+          ʕ ͠° ʖ̫ °͠ ʔ
+        </div>
+      </div>
+    </div>
+
     <div class="row">
       <div class="col-md-6">
         <div class="well">
@@ -20,6 +38,15 @@
               <label for="username" class="col-lg-2 control-label">Username</label>
               <div class="col-lg-10">
                 <input type="text" class="form-control" id="username" ng-model="user.username" placeholder="Username">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="row">
+              <label for="email" class="col-lg-2 control-label">Email</label>
+              <div class="col-lg-10">
+                <input type="text" class="form-control" id="email" ng-model="user.email" placeholder="Email">
               </div>
             </div>
           </div>

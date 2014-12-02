@@ -339,16 +339,22 @@
 
   app = angular.module('app');
 
-  app.controller('profile.edit', ["$scope", "api", function($scope, api) {
+  app.controller('profile.edit', ["$scope", "$timeout", "api", function($scope, $timeout, api) {
     $scope.loggedin = api.checkLogin();
+    $scope.edit_saved = false;
     if (!$scope.loggedin) {
       console.log("not logged in");
     }
-    return $scope.saveEdit = function() {
+    return $scope.save_edit = function() {
       var data;
       data = angular.copy($scope.user);
       return api.saveProfileEdit(data._id, data).then(function(result) {
-        return console.log("result", result);
+        $timeout(function() {
+          return $scope.edit_saved = true;
+        });
+        return $timeout(function() {
+          return $scope.edit_saved = false;
+        }, 5000);
       });
     };
   }]);
