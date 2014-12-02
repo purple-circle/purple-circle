@@ -59,11 +59,6 @@
         window.location.hash = '';
         return window.location.href = '/';
       }
-    }).state('logout-hack', {
-      url: '/logout',
-      controller: function() {
-        return window.location.reload();
-      }
     }).state('auth-hack', {
       url: '/auth/{path:.*}',
       controller: function() {

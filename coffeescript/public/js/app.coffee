@@ -73,11 +73,6 @@ app.config ($stateProvider, $locationProvider) ->
         window.location.hash = ''
         window.location.href = '/'
 
-    .state 'logout-hack',
-      url: '/logout'
-      controller: ->
-        window.location.reload()
-
     .state 'auth-hack',
       url: '/auth/{path:.*}'
       controller: ->
