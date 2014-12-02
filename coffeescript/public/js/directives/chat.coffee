@@ -12,8 +12,12 @@ app.directive 'chat', ($timeout, api) ->
     $scope.messages = []
 
 
+    filters =
+      action: $scope.action
+      target: $scope.target
+
     api
-      .load_chat_messages($scope.action, $scope.target)
+      .load_chat_messages(filters)
       .then (messages) ->
         $timeout ->
           $scope.messages = messages
@@ -21,7 +25,6 @@ app.directive 'chat', ($timeout, api) ->
     api
       .socket
       .on "save_chat_message", (message) ->
-        console.log "message", message
         $timeout ->
           $scope.messages.push message
 

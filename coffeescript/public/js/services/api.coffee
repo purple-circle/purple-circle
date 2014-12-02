@@ -62,7 +62,6 @@ app.factory 'api', ($q) ->
     socket.emit("getGroupList", data)
     this.on("getGroupList")
 
-
   load_chat_messages: (data) ->
     socket.emit("load_chat_messages", data)
     this.on("load_chat_messages")

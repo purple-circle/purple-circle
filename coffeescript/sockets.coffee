@@ -147,7 +147,7 @@ module.exports = (server, sessionStore) ->
           socket.emit "editGroup", result
 
 
-    socket.on "load_chat_messages", (action, target) ->
+    socket.on "load_chat_messages", ({action, target}) ->
       chat
         .load_messages(action, target)
         .then (result) ->

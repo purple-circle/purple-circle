@@ -141,7 +141,9 @@
           return socket.emit("editGroup", result);
         });
       });
-      socket.on("load_chat_messages", function(action, target) {
+      socket.on("load_chat_messages", function(_arg) {
+        var action, target;
+        action = _arg.action, target = _arg.target;
         return chat.load_messages(action, target).then(function(result) {
           return socket.emit("load_chat_messages", result);
         });

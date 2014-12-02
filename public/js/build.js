@@ -386,16 +386,20 @@
         target: "="
       },
       link: function($scope, el, attrs) {
+        var filters;
         $scope.loggedin = api.checkLogin();
         $scope.message = '';
         $scope.messages = [];
-        api.load_chat_messages($scope.action, $scope.target).then(function(messages) {
+        filters = {
+          action: $scope.action,
+          target: $scope.target
+        };
+        api.load_chat_messages(filters).then(function(messages) {
           return $timeout(function() {
             return $scope.messages = messages;
           });
         });
         api.socket.on("save_chat_message", function(message) {
-          console.log("message", message);
           return $timeout(function() {
             return $scope.messages.push(message);
           });
