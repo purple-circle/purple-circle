@@ -13,6 +13,7 @@
       <p ng-if="user.username" class="username">
         {{user.username}}
       </p>
+
       <div ng-if="user.birthday && user.show_birthday">
         <i class="fa fa-birthday-cake birthday-cake"></i>
         {{user.birthday | amDateFormat:'MMMM Do YYYY'}}<br />
@@ -50,6 +51,11 @@
     </div>
 
     <div class="col-md-4">
+
+      <div ng-if="user.bio && user.show_bio" class="well">
+        {{user.bio}}
+      </div>
+
       profile data: {{user}}<br/>
     </div>
   </div>
