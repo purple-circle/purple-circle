@@ -1,10 +1,11 @@
 (function() {
   module.exports = function(server, sessionStore) {
-    var Q, api, groups, io, user;
+    var Q, api, chat, groups, io, user;
     io = require("socket.io").listen(server);
     api = require("./models/api");
     groups = require("./models/groups");
     user = require("./models/user");
+    chat = require("./models/chat");
     Q = require("q");
     io.use(function(socket, next) {
       return sessionStore(socket.request, socket.request.res, next);
@@ -123,7 +124,7 @@
           return socket.broadcast.emit("createGroup", result);
         });
       });
-      return socket.on("editGroup", function(_arg) {
+      socket.on("editGroup", function(_arg) {
         var data, id, loggedin_user, userid, _ref, _ref1, _ref2;
         id = _arg.id, data = _arg.data;
         userid = (_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0;
@@ -138,6 +139,26 @@
         delete data._id;
         return groups.update(id, data).then(function(result) {
           return socket.emit("editGroup", result);
+        });
+      });
+      socket.on("load_chat_messages", function(action, target) {
+        return chat.load_messages(action, target).then(function(result) {
+          return socket.emit("load_chat_messages", result);
+        });
+      });
+      return socket.on("save_chat_message", function(data) {
+        var loggedin_user, _ref, _ref1, _ref2, _ref3, _ref4, _ref5;
+        loggedin_user = ((_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0) != null;
+        if (!data.target || !data.action) {
+          return;
+        }
+        if (!loggedin_user) {
+          return;
+        }
+        data.user_id = (_ref3 = socket.request) != null ? (_ref4 = _ref3.session) != null ? (_ref5 = _ref4.passport) != null ? _ref5.user : void 0 : void 0 : void 0;
+        return chat.save(data).then(function(result) {
+          socket.emit("save_chat_message", result);
+          return socket.broadcast.emit("save_chat_message", result);
         });
       });
     });

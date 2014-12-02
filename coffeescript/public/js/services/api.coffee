@@ -62,6 +62,15 @@ app.factory 'api', ($q) ->
     socket.emit("getGroupList", data)
     this.on("getGroupList")
 
+
+  load_chat_messages: (data) ->
+    socket.emit("load_chat_messages", data)
+    this.on("load_chat_messages")
+
+  save_chat_message: (data) ->
+    socket.emit("save_chat_message", data)
+    this.on("save_chat_message")
+
   getGroupCategories: ->
     [
       {

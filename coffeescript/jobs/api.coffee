@@ -204,3 +204,24 @@ jobs.process "api.getGroup", (job, done) ->
     , (error) ->
       done error
 
+jobs.process "api.load_chat_messages", (job, done) ->
+  ChatMessages = mongoose.model 'chat_messages'
+  ChatMessages
+    .find(job.data)
+    .exec()
+    .then (result) ->
+      done(null, result)
+    , (error) ->
+      done error
+
+jobs.process "api.save_chat_message", (job, done) ->
+  ChatMessages = mongoose.model 'chat_messages'
+  message = new ChatMessages(job.data)
+  message.save (err) ->
+    if err
+      done(err)
+    else
+      done null, message
+
+
+

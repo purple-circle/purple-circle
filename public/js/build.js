@@ -377,6 +377,56 @@
 
   app = angular.module('app');
 
+  app.directive('chat', ["$timeout", "api", function($timeout, api) {
+    return {
+      restrict: 'E',
+      templateUrl: 'directives/chat.html',
+      scope: {
+        action: "@",
+        target: "="
+      },
+      link: function($scope, el, attrs) {
+        $scope.loggedin = api.checkLogin();
+        $scope.message = '';
+        $scope.messages = [];
+        api.load_chat_messages($scope.action, $scope.target).then(function(messages) {
+          return $timeout(function() {
+            return $scope.messages = messages;
+          });
+        });
+        api.socket.on("save_chat_message", function(message) {
+          console.log("message", message);
+          return $timeout(function() {
+            return $scope.messages.push(message);
+          });
+        });
+        return $scope.save_message = function() {
+          var data;
+          if (!$scope.action || !$scope.target) {
+            return false;
+          }
+          data = {
+            message: $scope.message,
+            action: $scope.action,
+            target: $scope.target
+          };
+          return api.save_chat_message(data).then(function(result) {
+            return $timeout(function() {
+              return $scope.message = '';
+            });
+          });
+        };
+      }
+    };
+  }]);
+
+}).call(this);
+
+(function() {
+  var app;
+
+  app = angular.module('app');
+
   app.directive('groupCreate', ["api", function(api) {
     return {
       restrict: 'E',
@@ -639,6 +689,14 @@
       getGroupList: function(data) {
         socket.emit("getGroupList", data);
         return this.on("getGroupList");
+      },
+      load_chat_messages: function(data) {
+        socket.emit("load_chat_messages", data);
+        return this.on("load_chat_messages");
+      },
+      save_chat_message: function(data) {
+        socket.emit("save_chat_message", data);
+        return this.on("save_chat_message");
       },
       getGroupCategories: function() {
         return [

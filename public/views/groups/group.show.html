@@ -46,6 +46,10 @@
         <upload group-id="group._id" update="getPictures"></upload>
       </div>
 
+
+      <h2>Chat</h2>
+      <chat action="chat" target="group._id"></chat>
+
       <h2>Pictures</h2>
       <div class="row">
         <div class="picture-col col-md-3" ng-repeat="picture in pictures | orderBy:'-created_at'">

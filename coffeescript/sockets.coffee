@@ -3,6 +3,7 @@ module.exports = (server, sessionStore) ->
   api = require("./models/api")
   groups = require("./models/groups")
   user = require("./models/user")
+  chat = require("./models/chat")
   Q = require("q")
 
   io.use (socket, next) ->
@@ -144,3 +145,27 @@ module.exports = (server, sessionStore) ->
         .update(id, data)
         .then (result) ->
           socket.emit "editGroup", result
+
+
+    socket.on "load_chat_messages", (action, target) ->
+      chat
+        .load_messages(action, target)
+        .then (result) ->
+          socket.emit "load_chat_messages", result
+
+    socket.on "save_chat_message", (data) ->
+      loggedin_user = socket.request?.session?.passport?.user?
+      if !data.target || !data.action
+        return
+
+      if !loggedin_user
+        return
+
+      data.user_id = socket.request?.session?.passport?.user
+
+      chat
+        .save(data)
+        .then (result) ->
+          socket.emit "save_chat_message", result
+          socket.broadcast.emit "save_chat_message", result
+

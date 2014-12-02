@@ -1,0 +1,23 @@
+
+<div class="chat-messages">
+  <ul>
+    <li ng-repeat="message in messages">
+      {{message.message}}
+    </li>
+  </ul>
+</div>
+
+<form ng-submit="save_message()" ng-if="loggedin">
+
+  <div class="form-group">
+    <div class="input-group">
+      <div class="form-control-wrapper">
+        <input type="text" ng-model="$parent.message" class="form-control empty" placeholder="Type chat message here yolo"><span class="material-input"></span>
+      </div>
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="submit">Button</button>
+      </span>
+    </div>
+  </div>
+
+</form>

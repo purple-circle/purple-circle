@@ -106,6 +106,13 @@ module.exports = (settings) ->
     created_at: { type: Date, default: Date.now }
   }
 
+  chatMessageSchema = mongoose.Schema {
+    target: 'ObjectId'
+    action: 'String'
+    user_id: 'ObjectId'
+    message: 'String'
+    created_at: { type: Date, default: Date.now }
+  }
 
   userSchema.plugin(passportLocalMongoose)
 
@@ -116,6 +123,7 @@ module.exports = (settings) ->
   mongoose.model 'facebook_user_data', facebookUserSchema
   mongoose.model 'instagram_user_data', instagramUserSchema
   mongoose.model 'google_user_data', googleUserSchema
+  mongoose.model 'chat_messages', chatMessageSchema
 
   db = mongoose.connection
 

@@ -232,4 +232,27 @@
     });
   });
 
+  jobs.process("api.load_chat_messages", function(job, done) {
+    var ChatMessages;
+    ChatMessages = mongoose.model('chat_messages');
+    return ChatMessages.find(job.data).exec().then(function(result) {
+      return done(null, result);
+    }, function(error) {
+      return done(error);
+    });
+  });
+
+  jobs.process("api.save_chat_message", function(job, done) {
+    var ChatMessages, message;
+    ChatMessages = mongoose.model('chat_messages');
+    message = new ChatMessages(job.data);
+    return message.save(function(err) {
+      if (err) {
+        return done(err);
+      } else {
+        return done(null, message);
+      }
+    });
+  });
+
 }).call(this);
