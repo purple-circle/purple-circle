@@ -9,6 +9,13 @@
     return api.createQueue("api.createUser", data);
   };
 
+  user.edit = function(id, data) {
+    return api.createQueue("api.edit_user", {
+      id: id,
+      data: data
+    });
+  };
+
   user.localSignup = function(data) {
     return api.createQueue("api.localSignupUser", data);
   };

@@ -6,4 +6,9 @@ app.controller 'profile.edit', ($scope, api) ->
     console.log "not logged in"
 
   $scope.saveEdit = ->
-    console.log "save"
+    data = angular.copy($scope.user)
+
+    api
+      .saveProfileEdit(data._id, data)
+      .then (result) ->
+        console.log "result", result

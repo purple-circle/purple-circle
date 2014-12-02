@@ -1,9 +1,10 @@
 (function() {
   module.exports = function(server, sessionStore) {
-    var Q, api, groups, io;
+    var Q, api, groups, io, user;
     io = require("socket.io").listen(server);
     api = require("./models/api");
     groups = require("./models/groups");
+    user = require("./models/user");
     Q = require("q");
     io.use(function(socket, next) {
       return sessionStore(socket.request, socket.request.res, next);
@@ -26,7 +27,7 @@
           return;
         }
         delete data._id;
-        return groups.update(id, data).then(function(result) {
+        return user.edit(id, data).then(function(result) {
           return socket.emit("edit_user", result);
         });
       });

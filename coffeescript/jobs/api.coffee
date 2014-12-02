@@ -6,7 +6,7 @@ settings = require("../settings")
 require("../mongo")(settings)
 
 console.log "api worker running"
-selectUserFields = 'name username created birthday email bio'
+selectUserFields = '-salt -hash'
 
 jobs.process "api.getUserlist", (job, done) ->
   Users = mongoose.model 'users'

@@ -26,6 +26,10 @@ app.factory 'api', ($q) ->
     socket.emit("getLoggedinUser")
     this.on("getLoggedinUser")
 
+  saveProfileEdit: (id, data) ->
+    socket.emit("edit_user", {id, data})
+    this.on("edit_user")
+
   createGroup: (data) ->
     socket.emit("createGroup", data)
     this.on("createGroup")

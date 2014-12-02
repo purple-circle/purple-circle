@@ -13,7 +13,7 @@
 
   console.log("api worker running");
 
-  selectUserFields = 'name username created birthday email bio';
+  selectUserFields = '-salt -hash';
 
   jobs.process("api.getUserlist", function(job, done) {
     var Users;

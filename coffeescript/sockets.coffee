@@ -2,6 +2,7 @@ module.exports = (server, sessionStore) ->
   io = require("socket.io").listen(server)
   api = require("./models/api")
   groups = require("./models/groups")
+  user = require("./models/user")
   Q = require("q")
 
   io.use (socket, next) ->
@@ -26,8 +27,8 @@ module.exports = (server, sessionStore) ->
 
       delete data._id
 
-      groups
-        .update(id, data)
+      user
+        .edit(id, data)
         .then (result) ->
           socket.emit "edit_user", result
 

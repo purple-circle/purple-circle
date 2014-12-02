@@ -345,7 +345,11 @@
       console.log("not logged in");
     }
     return $scope.saveEdit = function() {
-      return console.log("save");
+      var data;
+      data = angular.copy($scope.user);
+      return api.saveProfileEdit(data._id, data).then(function(result) {
+        return console.log("result", result);
+      });
     };
   }]);
 
@@ -587,6 +591,13 @@
       getLoggedinUser: function() {
         socket.emit("getLoggedinUser");
         return this.on("getLoggedinUser");
+      },
+      saveProfileEdit: function(id, data) {
+        socket.emit("edit_user", {
+          id: id,
+          data: data
+        });
+        return this.on("edit_user");
       },
       createGroup: function(data) {
         socket.emit("createGroup", data);
