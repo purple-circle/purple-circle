@@ -8,9 +8,7 @@ app.directive 'chat', ($timeout, api) ->
   link: ($scope, el, attrs) ->
     $scope.loggedin = api.checkLogin()
     $scope.message = ''
-
     $scope.messages = []
-
 
     filters =
       action: $scope.action
@@ -21,6 +19,10 @@ app.directive 'chat', ($timeout, api) ->
       .then (messages) ->
         $timeout ->
           $scope.messages = messages
+
+    api
+      .socket
+      .off "save_chat_message"
 
     api
       .socket

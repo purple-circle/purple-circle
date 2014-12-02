@@ -399,6 +399,7 @@
             return $scope.messages = messages;
           });
         });
+        api.socket.off("save_chat_message");
         api.socket.on("save_chat_message", function(message) {
           return $timeout(function() {
             return $scope.messages.push(message);
