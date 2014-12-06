@@ -280,7 +280,19 @@
   });
 
   jobs.process("api.save_chat_message", function(job, done) {
-    var ChatMessages, message;
+    var ChatMessages, hashtags, message, twitter, user_mentions;
+    twitter = require('twitter-text');
+    user_mentions = twitter.extractMentions(job.data.message);
+    hashtags = twitter.extractHashtags(job.data.message);
+    if (user_mentions || hashtags) {
+      job.data.metadata = {};
+    }
+    if (user_mentions) {
+      job.data.metadata.user_mentions = user_mentions;
+    }
+    if (hashtags) {
+      job.data.metadata.hashtags = hashtags;
+    }
     ChatMessages = mongoose.model('chat_messages');
     message = new ChatMessages(job.data);
     return message.save(function(err) {

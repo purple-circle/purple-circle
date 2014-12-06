@@ -121,6 +121,7 @@ module.exports = (settings) ->
     action: 'String'
     user_id: 'ObjectId'
     message: 'String'
+    metadata: 'Object'
     created_at: { type: Date, default: Date.now }
   }
 
