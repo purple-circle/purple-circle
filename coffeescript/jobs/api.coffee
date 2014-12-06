@@ -64,6 +64,33 @@ jobs.process "api.localSignupUser", (job, done) ->
     else
       done null, account
 
+jobs.process "api.getProfilePictures", (job, done) ->
+  Pictures = mongoose.model 'profile_pictures'
+  Pictures
+    .find({user_id: job.data})
+    .exec()
+    .then (result) ->
+      done(null, result)
+    , (error) ->
+      done error
+
+jobs.process "api.saveProfilePicture", (job, done) ->
+  Pictures = mongoose.model 'profile_pictures'
+
+  {data} = job.data
+
+  picture = new Pictures(data)
+  picture.save (err) ->
+    if err
+      done(err)
+    else
+      done null, picture
+
+      jobs
+        .create('processProfilePicture', picture)
+        .save()
+
+
 
 jobs.process "api.saveFacebookData", (job, done) ->
   Facebook = mongoose.model 'facebook_user_data'
@@ -134,7 +161,7 @@ jobs.process "api.getMemberList", (job, done) ->
     , (error) ->
       done error
 
-jobs.process "api.getPictures", (job, done) ->
+jobs.process "api.getGroupPictures", (job, done) ->
   Pictures = mongoose.model 'group_pictures'
   Pictures
     .find({group_id: job.data})

@@ -33,7 +33,7 @@ notify = require("gulp-notify")
 
 errorHandler = notify.onError("Error: <%= error.message %>")
 
-gulp.task "coffee", ->
+gulp.task "public-coffee", ->
 
   # Build frontend coffee
   gulp
@@ -46,6 +46,8 @@ gulp.task "coffee", ->
     .pipe(concat("build.js"))
     .pipe(gulp.dest("./public/js"))
 
+
+gulp.task "coffee", ->
 
   # Build rest
   gulp
@@ -157,9 +159,22 @@ gulp.task "build", ->
   gulp.start("plato")
 
 
+gulp.task "public-coffeelint", ->
+  gulp
+    .src("coffeescript/public/**/*.coffee")
+    .pipe(plumber({errorHandler}))
+    .pipe(coffeelint())
+    .pipe(coffeelint.reporter())
+    .pipe(coffeelint.reporter('fail'))
+    .on('error', gutil.log)
+    .on('error', gutil.beep)
+
 gulp.task "coffeelint", ->
   gulp
-    .src("coffeescript/**/*.coffee")
+    .src([
+      "coffeescript/**/*.coffee"
+      "!coffeescript/public/**/*.coffee"
+    ])
     .pipe(plumber({errorHandler}))
     .pipe(coffeelint())
     .pipe(coffeelint.reporter())
@@ -173,10 +188,15 @@ gulp.task "lintcode", ->
 
 
 gulp.task "watch", ->
-  gulp.watch "coffeescript/**/*.coffee", ["coffeelint", "coffee"]
   gulp.watch "less/**/*.less", ["less"]
   gulp.watch "public/css/*.css", ["autoprefixer"]
   gulp.watch "public/views/**/*.html", ["partials"]
+
+  gulp.watch "coffeescript/public/**/*.coffee", ["public-coffeelint", "public-coffee"]
+  gulp.watch [
+    "coffeescript/**/*.coffee"
+    "!coffeescript/public/**/*.coffee"
+    ], ["coffeelint", "coffee"]
 
   gulp.watch [
     "app.js"

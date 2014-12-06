@@ -78,6 +78,33 @@
     });
   });
 
+  jobs.process("api.getProfilePictures", function(job, done) {
+    var Pictures;
+    Pictures = mongoose.model('profile_pictures');
+    return Pictures.find({
+      user_id: job.data
+    }).exec().then(function(result) {
+      return done(null, result);
+    }, function(error) {
+      return done(error);
+    });
+  });
+
+  jobs.process("api.saveProfilePicture", function(job, done) {
+    var Pictures, data, picture;
+    Pictures = mongoose.model('profile_pictures');
+    data = job.data.data;
+    picture = new Pictures(data);
+    return picture.save(function(err) {
+      if (err) {
+        return done(err);
+      } else {
+        done(null, picture);
+        return jobs.create('processProfilePicture', picture).save();
+      }
+    });
+  });
+
   jobs.process("api.saveFacebookData", function(job, done) {
     var Facebook, facebook;
     Facebook = mongoose.model('facebook_user_data');
@@ -167,7 +194,7 @@
     });
   });
 
-  jobs.process("api.getPictures", function(job, done) {
+  jobs.process("api.getGroupPictures", function(job, done) {
     var Pictures;
     Pictures = mongoose.model('group_pictures');
     return Pictures.find({

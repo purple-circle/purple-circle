@@ -32,6 +32,11 @@
           return socket.emit("edit_user", result);
         });
       });
+      socket.on("getProfilePictures", function(id) {
+        return user.getPictures(id).then(function(result) {
+          return socket.emit("getProfilePictures", result);
+        });
+      });
       socket.on("getuserlist", function(data) {
         return api.getUserlist().then(function(data) {
           return socket.emit("userlist", data);
@@ -92,7 +97,7 @@
           list = [];
           for (_i = 0, _len = members.length; _i < _len; _i++) {
             member = members[_i];
-            list.push(api.getUser(member.user_id));
+            list.push(user.getUser(member.user_id));
           }
           return Q.all(list).then(function(users) {
             return socket.emit("getMemberList", users);

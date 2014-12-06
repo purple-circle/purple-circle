@@ -39,4 +39,28 @@
     });
   });
 
+  jobs.process("processProfilePicture", function(job, done) {
+    var Pictures, id;
+    Pictures = mongoose.model('profile_pictures');
+    id = job.data._id;
+    return Pictures.findOne({
+      _id: id
+    }).exec().then(function(result) {
+      if (!result) {
+        return false;
+      }
+      return gm(result.file.path).options({
+        imageMagick: true
+      }).identify(function(err, metadata) {
+        if (err) {
+          return false;
+        }
+        result.metadata = metadata;
+        result.resolution = metadata.size;
+        result.save();
+        return done(null, result);
+      });
+    });
+  });
+
 }).call(this);

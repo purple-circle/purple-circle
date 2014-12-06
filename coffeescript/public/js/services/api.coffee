@@ -30,6 +30,10 @@ app.factory 'api', ($q) ->
     socket.emit("edit_user", {id, data})
     this.on("edit_user")
 
+  getProfilePictures: (id) ->
+    socket.emit("getProfilePictures", id)
+    this.on("getProfilePictures")
+
   createGroup: (data) ->
     socket.emit("createGroup", data)
     this.on("createGroup")

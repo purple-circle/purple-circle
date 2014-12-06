@@ -366,8 +366,46 @@
 
   app = angular.module('app');
 
-  app.controller('profile.show', ["$scope", "api", function($scope, api) {
-    return $scope.loggedin = api.checkLogin();
+  app.controller('profile.show', ["$scope", "$timeout", "$modal", "api", function($scope, $timeout, $modal, api) {
+    var done;
+    $scope.loggedin = api.checkLogin();
+    $scope.getPictures = function() {
+      return api.getProfilePictures($scope.$parent.user._id).then(function(pictures) {
+        return $timeout(function() {
+          return $scope.pictures = pictures;
+        });
+      });
+    };
+    $scope.openModal = function(picture) {
+      var modalInstance, modal_closed, modal_opened;
+      picture.active = true;
+      modalInstance = $modal.open({
+        templateUrl: "profile/profile.picture.modal.html",
+        scope: $scope,
+        size: 'lg'
+      });
+      modal_opened = function() {};
+      modal_closed = function() {
+        return $timeout(function() {
+          var _i, _len, _ref, _results;
+          _ref = $scope.pictures;
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            picture = _ref[_i];
+            _results.push(picture.active = false);
+          }
+          return _results;
+        });
+      };
+      return modalInstance.result.then(modal_opened, modal_closed);
+    };
+    done = false;
+    return $scope.$watch(function() {
+      if ($scope.$parent.user && !done) {
+        done = true;
+        return $scope.getPictures();
+      }
+    });
   }]);
 
 }).call(this);
@@ -582,20 +620,29 @@
       templateUrl: 'directives/upload.html',
       scope: {
         groupId: "=",
+        profileId: "=",
         update: "="
       },
       link: function($scope, el, attrs) {
         var upload;
         upload = function(file) {
-          var data;
-          data = {
-            group_id: $scope.groupId
-          };
+          var data, url;
+          data = {};
+          if ($scope.groupId) {
+            data.group_id = $scope.groupId;
+          }
+          if ($scope.profileId) {
+            data.profile_id = $scope.profileId;
+          }
           if ($scope.title) {
             data.title = $scope.title;
           }
+          url = "/group/upload";
+          if ($scope.profileId) {
+            url = "/profile/upload";
+          }
           return $scope.upload = $upload.upload({
-            url: "/group/upload",
+            url: url,
             data: data,
             file: file
           }).progress(function(evt) {
@@ -659,6 +706,10 @@
           data: data
         });
         return this.on("edit_user");
+      },
+      getProfilePictures: function(id) {
+        socket.emit("getProfilePictures", id);
+        return this.on("getProfilePictures");
       },
       createGroup: function(data) {
         socket.emit("createGroup", data);

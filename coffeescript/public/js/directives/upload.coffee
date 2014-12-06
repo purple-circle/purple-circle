@@ -4,17 +4,28 @@ app.directive 'upload', ($upload) ->
   templateUrl: 'directives/upload.html'
   scope:
     groupId: "="
+    profileId: "="
     update: "="
   link: ($scope, el, attrs) ->
     upload = (file) ->
-      data =
-        group_id: $scope.groupId
+      data = {}
+
+      if $scope.groupId
+        data.group_id = $scope.groupId
+
+      if $scope.profileId
+        data.profile_id = $scope.profileId
+
       if $scope.title
         data.title = $scope.title
 
+      url = "/group/upload"
+      if $scope.profileId
+        url = "/profile/upload"
+
       $scope.upload = $upload
         .upload
-          url: "/group/upload"
+          url: url
           data: data
           file: file
         .progress (evt) ->

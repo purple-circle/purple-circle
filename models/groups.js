@@ -62,7 +62,7 @@
   };
 
   groups.getPictures = function(id) {
-    return api.createQueue("api.getPictures", id);
+    return api.createQueue("api.getGroupPictures", id);
   };
 
   groups.update = function(id, data) {

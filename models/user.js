@@ -20,6 +20,28 @@
     return api.createQueue("api.localSignupUser", data);
   };
 
+  user.getUser = function(id) {
+    return api.createQueue("api.getUser", {
+      _id: id
+    });
+  };
+
+  user.savePicture = function(id, data) {
+    return user.getUser(id).then(function(profile) {
+      if (!profile) {
+        return rejectPromise();
+      }
+      return api.createQueue("api.saveProfilePicture", {
+        id: id,
+        data: data
+      });
+    });
+  };
+
+  user.getPictures = function(id) {
+    return api.createQueue("api.getProfilePictures", id);
+  };
+
   module.exports = user;
 
 }).call(this);

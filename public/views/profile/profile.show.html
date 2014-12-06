@@ -8,7 +8,7 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
       <h2>{{user.name}}</h2>
       <p ng-if="user.username" class="username">
         {{user.username}}
@@ -50,10 +50,21 @@
 
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-9">
 
       <div ng-if="user.bio && user.show_bio" class="well">
         {{user.bio}}
+      </div>
+
+      <div ng-if="user.my_profile">
+        <upload profile-id="user._id" update="getPictures"></upload>
+      </div>
+
+      <h2>Pictures</h2>
+      <div class="row">
+        <div class="picture-col col-md-3" ng-repeat="picture in pictures | orderBy:'-created_at'">
+          <img ng-click="openModal(picture)" ng-src="/uploads/{{picture.filename}}" class="img-thumbnail">
+        </div>
       </div>
 
       profile data: {{user}}<br/>

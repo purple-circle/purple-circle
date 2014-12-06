@@ -33,6 +33,14 @@ module.exports = (server, sessionStore) ->
         .then (result) ->
           socket.emit "edit_user", result
 
+
+    socket.on "getProfilePictures", (id) ->
+      user
+        .getPictures(id)
+        .then (result) ->
+          socket.emit "getProfilePictures", result
+
+
     socket.on "getuserlist", (data) ->
       api
         .getUserlist()
@@ -95,7 +103,7 @@ module.exports = (server, sessionStore) ->
         .then (members) ->
           list = []
           for member in members
-            list.push api.getUser(member.user_id)
+            list.push user.getUser(member.user_id)
 
           Q.all(list)
             .then (users) ->
