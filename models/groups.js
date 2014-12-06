@@ -38,6 +38,18 @@
     });
   };
 
+  groups.leaveGroup = function(data) {
+    if (!data.group_id || !data.user_id) {
+      return rejectPromise();
+    }
+    return groups.getGroup(data.group_id).then(function(group) {
+      if (!group) {
+        return rejectPromise();
+      }
+      return api.createQueue("api.leaveGroup", data);
+    });
+  };
+
   groups.checkMembership = function(data) {
     if (!data.group_id || !data.user_id) {
       return rejectPromise();

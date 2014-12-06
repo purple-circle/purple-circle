@@ -50,6 +50,10 @@ app.factory 'api', ($q) ->
     socket.emit("joinGroup", id)
     this.on("joinGroup")
 
+  leaveGroup: (id) ->
+    socket.emit("leaveGroup", id)
+    this.on("leaveGroup")
+
   getGroupPictures: (id) ->
     socket.emit("getGroupPictures", id)
     this.on("getGroupPictures")

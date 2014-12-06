@@ -31,6 +31,19 @@ groups.joinGroup = (data) ->
       api.createQueue("api.joinGroup", data)
 
 
+groups.leaveGroup = (data) ->
+  if !data.group_id || !data.user_id
+    return rejectPromise()
+
+  groups
+    .getGroup(data.group_id)
+    .then (group) ->
+      if !group
+        return rejectPromise()
+
+      api.createQueue("api.leaveGroup", data)
+
+
 groups.checkMembership = (data) ->
   if !data.group_id || !data.user_id
     return rejectPromise()

@@ -139,6 +139,17 @@ jobs.process "api.joinGroup", (job, done) ->
     else
       done null, member
 
+jobs.process "api.leaveGroup", (job, done) ->
+  GroupMembers = mongoose.model 'group_members'
+
+  GroupMembers
+    .remove(job.data)
+    .exec()
+    .then (result) ->
+      done(null, result)
+    , (error) ->
+      done error
+
 
 jobs.process "api.checkMembership", (job, done) ->
   Members = mongoose.model 'group_members'

@@ -79,6 +79,16 @@ app.controller 'group.show', ($rootScope, $scope, $stateParams, $timeout, $modal
       .joinGroup($scope.id)
       .then getMemberList
 
+  $scope.leave = ->
+    if !$scope.loggedin
+      return false
+
+    api
+      .leaveGroup($scope.id)
+      .then ->
+        getMemberList()
+        checkMembership()
+
   getCreator = (userid) ->
     api
       .findUser(userid)

@@ -76,6 +76,20 @@
           return socket.emit("joinGroup", result);
         });
       });
+      socket.on("leaveGroup", function(id) {
+        var data, loggedin_user, _ref, _ref1, _ref2;
+        loggedin_user = (_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0;
+        if (!loggedin_user) {
+          return false;
+        }
+        data = {
+          group_id: id,
+          user_id: loggedin_user
+        };
+        return groups.leaveGroup(data).then(function(result) {
+          return socket.emit("leaveGroup", result);
+        });
+      });
       socket.on("checkMembership", function(id) {
         var data, loggedin_user, _ref, _ref1, _ref2;
         loggedin_user = (_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0;

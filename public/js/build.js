@@ -249,6 +249,15 @@
       }
       return api.joinGroup($scope.id).then(getMemberList);
     };
+    $scope.leave = function() {
+      if (!$scope.loggedin) {
+        return false;
+      }
+      return api.leaveGroup($scope.id).then(function() {
+        getMemberList();
+        return checkMembership();
+      });
+    };
     getCreator = function(userid) {
       return api.findUser(userid).then(function(data) {
         return $timeout(function() {
@@ -729,6 +738,10 @@
       joinGroup: function(id) {
         socket.emit("joinGroup", id);
         return this.on("joinGroup");
+      },
+      leaveGroup: function(id) {
+        socket.emit("leaveGroup", id);
+        return this.on("leaveGroup");
       },
       getGroupPictures: function(id) {
         socket.emit("getGroupPictures", id);

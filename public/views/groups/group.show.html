@@ -42,6 +42,10 @@
         <a class="btn btn-primary" ng-click="join()">Join this group like a champion</a>
       </p>
 
+      <p ng-if="loggedin && membership_checked && !not_member">
+        <a class="btn btn-primary" ng-click="leave()">Leave this group like a drunken irishman leaves a bar</a>
+      </p>
+
       <div ng-if="loggedin">
         <upload group-id="group._id" update="getPictures"></upload>
       </div>

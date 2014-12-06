@@ -170,6 +170,16 @@
     });
   });
 
+  jobs.process("api.leaveGroup", function(job, done) {
+    var GroupMembers;
+    GroupMembers = mongoose.model('group_members');
+    return GroupMembers.remove(job.data).exec().then(function(result) {
+      return done(null, result);
+    }, function(error) {
+      return done(error);
+    });
+  });
+
   jobs.process("api.checkMembership", function(job, done) {
     var Members;
     Members = mongoose.model('group_members');

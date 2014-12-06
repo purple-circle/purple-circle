@@ -82,6 +82,21 @@ module.exports = (server, sessionStore) ->
           socket.emit "joinGroup", result
 
 
+    socket.on "leaveGroup", (id) ->
+      loggedin_user = socket.request?.session?.passport?.user
+      if !loggedin_user
+        return false
+
+      data =
+        group_id: id
+        user_id: loggedin_user
+
+      groups
+        .leaveGroup(data)
+        .then (result) ->
+          socket.emit "leaveGroup", result
+
+
     socket.on "checkMembership", (id) ->
       loggedin_user = socket.request?.session?.passport?.user
       if !loggedin_user
