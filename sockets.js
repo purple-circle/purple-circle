@@ -205,8 +205,11 @@
         }
         data.user_id = (_ref3 = socket.request) != null ? (_ref4 = _ref3.session) != null ? (_ref5 = _ref4.passport) != null ? _ref5.user : void 0 : void 0 : void 0;
         return chat.save(data).then(function(result) {
-          socket.emit("save_chat_message", result);
-          return socket.broadcast.emit("save_chat_message", result);
+          return user.getUser(data.user_id).then(function(message_user) {
+            result.username = message_user.name || message_user.username;
+            socket.emit("save_chat_message", result);
+            return socket.broadcast.emit("save_chat_message", result);
+          });
         });
       });
     });

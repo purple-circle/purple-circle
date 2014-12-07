@@ -210,6 +210,11 @@ module.exports = (server, sessionStore) ->
       chat
         .save(data)
         .then (result) ->
-          socket.emit "save_chat_message", result
-          socket.broadcast.emit "save_chat_message", result
+          user
+            .getUser(data.user_id)
+            .then (message_user) ->
+              result.username = message_user.name || message_user.username
+
+              socket.emit "save_chat_message", result
+              socket.broadcast.emit "save_chat_message", result
 
