@@ -172,7 +172,7 @@
   app = angular.module('app');
 
   app.controller('group.show', ["$rootScope", "$scope", "$stateParams", "$timeout", "$modal", "api", function($rootScope, $scope, $stateParams, $timeout, $modal, api) {
-    var checkMembership, getCreator, getGroup, getMemberList, getPictureAlbums;
+    var checkMembership, done, getCreator, getGroup, getMemberList, getPictureAlbums;
     $scope.loggedin = api.checkLogin();
     $scope.id = $stateParams.id;
     $scope.membership_checked = false;
@@ -271,10 +271,16 @@
         });
       });
     };
-    getGroup();
-    getMemberList();
-    getPictureAlbums();
-    return $scope.getPictures();
+    done = false;
+    return $scope.$watch(function() {
+      if ($scope.id && !done) {
+        done = true;
+        getGroup();
+        getMemberList();
+        getPictureAlbums();
+        return $scope.getPictures();
+      }
+    });
   }]);
 
 }).call(this);
@@ -728,7 +734,8 @@
       on: function(event) {
         var deferred;
         deferred = $q.defer();
-        socket.on(event, deferred.resolve);
+        socket.off(event);
+        socket.once(event, deferred.resolve);
         return deferred.promise;
       },
       saveComment: function(data) {
@@ -775,8 +782,8 @@
         return this.on("editGroup");
       },
       getGroup: function(id) {
-        socket.emit("getGroup", id);
-        return this.on("getGroup");
+        socket.emit("get_group", id);
+        return this.on("get_group");
       },
       joinGroup: function(id) {
         socket.emit("joinGroup", id);

@@ -61,11 +61,11 @@ module.exports = (server, sessionStore) ->
         .then (user) ->
           socket.emit "getLoggedinUser", user
 
-    socket.on "getGroup", (id) ->
+    socket.on "get_group", (id) ->
       groups
         .getGroup(id)
         .then (group) ->
-          socket.emit "getGroup", group
+          socket.emit "get_group", group
 
     socket.on "joinGroup", (id) ->
       loggedin_user = socket.request?.session?.passport?.user

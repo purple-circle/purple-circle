@@ -99,7 +99,12 @@ app.controller 'group.show', ($rootScope, $scope, $stateParams, $timeout, $modal
         $timeout ->
           $scope.created_by = data
 
-  getGroup()
-  getMemberList()
-  getPictureAlbums()
-  $scope.getPictures()
+  # FUG U ANGULAR
+  done = false
+  $scope.$watch ->
+    if $scope.id and !done
+      done = true
+      getGroup()
+      getMemberList()
+      getPictureAlbums()
+      $scope.getPictures()

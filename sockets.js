@@ -57,9 +57,9 @@
           return socket.emit("getLoggedinUser", user);
         });
       });
-      socket.on("getGroup", function(id) {
+      socket.on("get_group", function(id) {
         return groups.getGroup(id).then(function(group) {
-          return socket.emit("getGroup", group);
+          return socket.emit("get_group", group);
         });
       });
       socket.on("joinGroup", function(id) {

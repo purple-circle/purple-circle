@@ -6,7 +6,8 @@ app.factory 'api', ($q) ->
 
   on: (event) ->
     deferred = $q.defer()
-    socket.on event, deferred.resolve
+    socket.off event
+    socket.once event, deferred.resolve
     deferred.promise
 
   saveComment: (data) ->
@@ -47,8 +48,8 @@ app.factory 'api', ($q) ->
     this.on("editGroup")
 
   getGroup: (id) ->
-    socket.emit("getGroup", id)
-    this.on("getGroup")
+    socket.emit("get_group", id)
+    this.on("get_group")
 
   joinGroup: (id) ->
     socket.emit("joinGroup", id)
