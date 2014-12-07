@@ -58,6 +58,10 @@ app.factory 'api', ($q) ->
     socket.emit("getGroupPictures", id)
     this.on("getGroupPictures")
 
+  getGroupPictureAlbums: (id) ->
+    socket.emit("getGroupPictureAlbums", id)
+    this.on("getGroupPictureAlbums")
+
   checkMembership: (id) ->
     socket.emit("checkMembership", id)
     this.on("checkMembership")

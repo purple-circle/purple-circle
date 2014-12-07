@@ -17,6 +17,7 @@ groups.create = (data) ->
 
       albumData = joinData
       albumData.title = "Default album"
+      albumData.default = true
 
       groups.createPictureAlbum(albumData)
       groups.joinGroup(joinData)
@@ -83,6 +84,8 @@ groups.savePicture = (id, data) ->
 groups.getPictures = (id) ->
   api.createQueue("api.getGroupPictures", id)
 
+groups.getPictureAlbums = (id) ->
+  api.createQueue("api.getGroupPictureAlbums", id)
 
 groups.update = (id, data) ->
   groups

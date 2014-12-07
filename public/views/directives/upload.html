@@ -1,3 +1,15 @@
-<!-- <input type="text" ng-model="title" placeholder="title"> -->
+<div class="well">
+  <label>Title</label>
+  <div class="form-control-wrapper">
+    <input type="text" ng-model="data.title" class="form-control empty" placeholder="Title"><span class="material-input"></span>
+  </div>
 
-<div class="btn btn-primary" ng-file-select="onFileSelect($files)" data-multiple="true" accept="image/*">Select pictures</div>
+  <div class="form-group">
+    <label>Album</label>
+    <select class="form-control" ng-model="data.album" ng-options="album.title for album in albums"></select>
+  </div>
+
+  <div class="btn btn-primary" ng-file-select="onFileSelect($files)" data-multiple="true" accept="image/*">
+    Select pictures
+  </div>
+</div>

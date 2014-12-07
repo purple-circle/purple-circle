@@ -128,6 +128,11 @@
           return socket.emit("getGroupPictures", result);
         });
       });
+      socket.on("getGroupPictureAlbums", function(id) {
+        return groups.getPictureAlbums(id).then(function(result) {
+          return socket.emit("getGroupPictureAlbums", result);
+        });
+      });
       socket.on("createGroup", function(data) {
         var loggedin_user, _ref, _ref1, _ref2, _ref3, _ref4, _ref5;
         loggedin_user = ((_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0) != null;

@@ -172,7 +172,7 @@
   app = angular.module('app');
 
   app.controller('group.show', ["$rootScope", "$scope", "$stateParams", "$timeout", "$modal", "api", function($rootScope, $scope, $stateParams, $timeout, $modal, api) {
-    var checkMembership, getCreator, getGroup, getMemberList;
+    var checkMembership, getCreator, getGroup, getMemberList, getPictureAlbums;
     $scope.loggedin = api.checkLogin();
     $scope.id = $stateParams.id;
     $scope.membership_checked = false;
@@ -186,7 +186,6 @@
         });
       });
     };
-    getGroup();
     $scope.openModal = function(picture) {
       var modalInstance, modal_closed, modal_opened;
       picture.active = true;
@@ -243,6 +242,13 @@
         });
       });
     };
+    getPictureAlbums = function() {
+      return api.getGroupPictureAlbums($scope.id).then(function(picture_albums) {
+        return $timeout(function() {
+          return $scope.picture_albums = picture_albums;
+        });
+      });
+    };
     $scope.join = function() {
       if (!$scope.loggedin) {
         return false;
@@ -265,7 +271,9 @@
         });
       });
     };
+    getGroup();
     getMemberList();
+    getPictureAlbums();
     return $scope.getPictures();
   }]);
 
@@ -630,10 +638,15 @@
       scope: {
         groupId: "=",
         profileId: "=",
-        update: "="
+        update: "=",
+        albums: "="
       },
       link: function($scope, el, attrs) {
         var upload;
+        $scope.data = {};
+        if ($scope.albums) {
+          $scope.data.album = $scope.albums[0];
+        }
         upload = function(file) {
           var data, url;
           data = {};
@@ -643,8 +656,11 @@
           if ($scope.profileId) {
             data.profile_id = $scope.profileId;
           }
-          if ($scope.title) {
-            data.title = $scope.title;
+          if ($scope.data.title) {
+            data.title = $scope.data.title;
+          }
+          if ($scope.data.album) {
+            data.album_id = $scope.data.album._id;
           }
           url = "/group/upload";
           if ($scope.profileId) {
@@ -657,7 +673,7 @@
           }).progress(function(evt) {
             return console.log("percent: " + parseInt(100.0 * evt.loaded / evt.total));
           }).success(function(data, status, headers, config) {
-            console.log("data", data);
+            console.log("upload data", data);
             return $scope.update();
           });
         };
@@ -746,6 +762,10 @@
       getGroupPictures: function(id) {
         socket.emit("getGroupPictures", id);
         return this.on("getGroupPictures");
+      },
+      getGroupPictureAlbums: function(id) {
+        socket.emit("getGroupPictureAlbums", id);
+        return this.on("getGroupPictureAlbums");
       },
       checkMembership: function(id) {
         socket.emit("checkMembership", id);

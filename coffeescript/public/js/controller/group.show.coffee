@@ -16,9 +16,6 @@ app.controller 'group.show', ($rootScope, $scope, $stateParams, $timeout, $modal
           $scope.group = group
           getCreator(group.created_by)
 
-  getGroup()
-
-
   $scope.openModal = (picture) ->
     picture.active = true
     modalInstance = $modal.open
@@ -70,6 +67,12 @@ app.controller 'group.show', ($rootScope, $scope, $stateParams, $timeout, $modal
         $timeout ->
           $scope.pictures = pictures
 
+  getPictureAlbums = ->
+    api
+      .getGroupPictureAlbums($scope.id)
+      .then (picture_albums) ->
+        $timeout ->
+          $scope.picture_albums = picture_albums
 
   $scope.join = ->
     if !$scope.loggedin
@@ -96,5 +99,7 @@ app.controller 'group.show', ($rootScope, $scope, $stateParams, $timeout, $modal
         $timeout ->
           $scope.created_by = data
 
+  getGroup()
   getMemberList()
+  getPictureAlbums()
   $scope.getPictures()

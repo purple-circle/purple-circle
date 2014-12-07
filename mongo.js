@@ -153,6 +153,7 @@
     });
     groupPictureSchema = mongoose.Schema({
       group_id: 'ObjectId',
+      album_id: 'ObjectId',
       user_id: 'ObjectId',
       title: 'String',
       filename: 'String',
@@ -168,6 +169,10 @@
       group_id: 'ObjectId',
       user_id: 'ObjectId',
       title: 'String',
+      "default": {
+        type: Boolean,
+        "default": false
+      },
       created_at: {
         type: Date,
         "default": Date.now

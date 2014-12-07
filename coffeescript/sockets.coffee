@@ -136,6 +136,12 @@ module.exports = (server, sessionStore) ->
         .then (result) ->
           socket.emit "getGroupPictures", result
 
+    socket.on "getGroupPictureAlbums", (id) ->
+      groups
+        .getPictureAlbums(id)
+        .then (result) ->
+          socket.emit "getGroupPictureAlbums", result
+
     socket.on "createGroup", (data) ->
       loggedin_user = socket.request?.session?.passport?.user?
       if !data.name

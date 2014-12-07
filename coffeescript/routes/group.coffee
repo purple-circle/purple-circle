@@ -33,6 +33,9 @@ router.post "/upload", (req, res) ->
   if req.body.title isnt null
     data.title = req.body.title
 
+  if req.body.album_id isnt null
+    data.album_id = req.body.album_id
+
   groups.savePicture(req.body.group_id, data)
   res.jsonp {saved: true}
 

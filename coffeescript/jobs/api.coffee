@@ -182,6 +182,16 @@ jobs.process "api.getMemberList", (job, done) ->
     , (error) ->
       done error
 
+jobs.process "api.getGroupPictureAlbums", (job, done) ->
+  Albums = mongoose.model 'group_picture_albums'
+  Albums
+    .find({group_id: job.data})
+    .exec()
+    .then (result) ->
+      done(null, result)
+    , (error) ->
+      done error
+
 jobs.process "api.getGroupPictures", (job, done) ->
   Pictures = mongoose.model 'group_pictures'
   Pictures

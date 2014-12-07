@@ -49,6 +49,9 @@
     if (req.body.title !== null) {
       data.title = req.body.title;
     }
+    if (req.body.album_id !== null) {
+      data.album_id = req.body.album_id;
+    }
     groups.savePicture(req.body.group_id, data);
     return res.jsonp({
       saved: true

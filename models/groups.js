@@ -23,6 +23,7 @@
       };
       albumData = joinData;
       albumData.title = "Default album";
+      albumData["default"] = true;
       groups.createPictureAlbum(albumData);
       groups.joinGroup(joinData);
       return group;
@@ -90,6 +91,10 @@
 
   groups.getPictures = function(id) {
     return api.createQueue("api.getGroupPictures", id);
+  };
+
+  groups.getPictureAlbums = function(id) {
+    return api.createQueue("api.getGroupPictureAlbums", id);
   };
 
   groups.update = function(id, data) {
