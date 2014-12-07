@@ -21,7 +21,7 @@
         gender: (_ref = Math.random() > 0.5) != null ? _ref : {
           "male": "female"
         },
-        bio: "yolo"
+        bio: faker.lorem.paragraphs()
       };
       return user.edit(account._id, user_data).then(function(account) {
         return console.log("account data added", account);
