@@ -349,7 +349,6 @@
       }
     };
     get_user = function() {
-      console.log("mfmdndbndjudkdndjsj");
       return api.findUser($stateParams.id).then(function(data) {
         return $timeout(function() {
           return setUser(data);

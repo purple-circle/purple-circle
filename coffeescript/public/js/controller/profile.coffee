@@ -56,7 +56,6 @@ app.controller 'profile', ($rootScope, $scope, $stateParams, $timeout, api) ->
       $scope.profile_picture = data.picture_url
 
   get_user = ->
-    console.log "mfmdndbndjudkdndjsj"
     api
       .findUser($stateParams.id)
       .then (data) ->
