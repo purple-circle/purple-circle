@@ -48,7 +48,7 @@
       <p ng-if="group.description" ng-bind="group.description" class="well white-space-pre"></p>
 
 
-      <div ng-if="loggedin">
+      <div ng-if="loggedin && membership_checked && !not_member">
         <upload group-id="group._id" update="getPictures" albums="picture_albums" ng-if="picture_albums"></upload>
       </div>
 
