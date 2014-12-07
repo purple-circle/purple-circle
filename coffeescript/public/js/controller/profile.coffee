@@ -47,6 +47,9 @@ app.controller 'profile', ($rootScope, $scope, $stateParams, $timeout, api) ->
     if data.facebook_id
       $scope.profile_picture = "https://graph.facebook.com/#{data.facebook_id}/picture?type=large"
 
+    if data.picture_url
+      $scope.profile_picture = data.picture_url
+
   api
     .findUser($stateParams.id)
     .then (data) ->

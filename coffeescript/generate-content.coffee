@@ -2,7 +2,7 @@ faker = require("faker")
 user = require("./models/user")
 
 
-for i in [0..10]
+for i in [0..1]
   signup_data =
     username: faker.internet.userName()
     password: "test"
@@ -16,6 +16,7 @@ for i in [0..10]
       show_birthday: Math.random() > 0.5
       gender: Math.random() > 0.5 ? "male" : "female"
       bio: faker.lorem.paragraphs()
+      picture_url: faker.image.imageUrl()
 
     user
       .edit(account._id, user_data)

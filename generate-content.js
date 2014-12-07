@@ -5,7 +5,7 @@
 
   user = require("./models/user");
 
-  for (i = _i = 0; _i <= 10; i = ++_i) {
+  for (i = _i = 0; _i <= 1; i = ++_i) {
     signup_data = {
       username: faker.internet.userName(),
       password: "test"
@@ -21,7 +21,8 @@
         gender: (_ref = Math.random() > 0.5) != null ? _ref : {
           "male": "female"
         },
-        bio: faker.lorem.paragraphs()
+        bio: faker.lorem.paragraphs(),
+        picture_url: faker.image.imageUrl()
       };
       return user.edit(account._id, user_data).then(function(account) {
         return console.log("account data added", account);

@@ -37,6 +37,7 @@
       facebook_id: 'String',
       google_id: 'String',
       instagram_id: 'String',
+      picture_url: 'String',
       created: {
         type: Date,
         "default": Date.now
