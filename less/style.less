@@ -130,8 +130,18 @@ a {
 }
 
 .chat-messages {
+  max-height: 500px;
+  overflow: scroll;
   ul {
     list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+
+    li {
+      &:hover {
+        background: lighten(@silver, 10%);
+      }
+    }
   }
 }
 

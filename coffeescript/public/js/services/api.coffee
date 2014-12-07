@@ -6,7 +6,6 @@ app.factory 'api', ($q) ->
 
   on: (event) ->
     deferred = $q.defer()
-    socket.off event
     socket.once event, deferred.resolve
     deferred.promise
 

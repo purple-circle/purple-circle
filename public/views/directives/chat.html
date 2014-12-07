@@ -1,9 +1,13 @@
 <div class="well">
-  <div class="chat-messages">
+  <div class="chat-messages" scroll-glue>
     <ul>
       <li ng-repeat="message in messages">
-        {{message.username}}:
-        <span ng-bind-html="message.message | linky"></span>
+        <div class="pull-left">
+          {{message.username}}:
+          <span ng-bind-html="message.message | linky"></span>
+        </div>
+        <small class="pull-right text-muted">{{message.created_at}}</small>
+        <div class="clearfix"></div>
       </li>
     </ul>
   </div>

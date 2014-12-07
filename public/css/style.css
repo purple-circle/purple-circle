@@ -94,8 +94,17 @@ a {
 .white-space-pre {
   white-space: pre;
 }
+.chat-messages {
+  max-height: 500px;
+  overflow: scroll;
+}
 .chat-messages ul {
   list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+.chat-messages ul li:hover {
+  background: #f7f7f7;
 }
 .purple {
   color: #b10dc9;

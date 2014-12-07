@@ -9,6 +9,7 @@ app = angular.module('app', [
   'angularFileUpload'
   'ui.bootstrap'
   'ngSanitize'
+  'luegg.directives'
 ])
 
 app.config ($stateProvider, $locationProvider) ->
