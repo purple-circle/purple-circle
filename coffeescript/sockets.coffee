@@ -191,8 +191,8 @@ module.exports = (server, sessionStore) ->
           Q.all(list)
             .then (users) ->
               for message in messages
-                for user in users when user._id is message.user_id
-                  message.username = user.name || user.username
+                for message_user in users when message_user._id is message.user_id
+                  message.username = message_user.name || message_user.username
 
               socket.emit "load_chat_messages", messages
 

@@ -280,10 +280,10 @@ jobs.process "api.save_chat_message", (job, done) ->
   if user_mentions || hashtags
     job.data.metadata = {}
 
-  if user_mentions
+  if user_mentions.length
     job.data.metadata.user_mentions = user_mentions
 
-  if hashtags
+  if hashtags.length
     job.data.metadata.hashtags = hashtags
 
   ChatMessages = mongoose.model 'chat_messages'

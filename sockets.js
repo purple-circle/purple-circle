@@ -184,9 +184,9 @@
             for (_j = 0, _len1 = messages.length; _j < _len1; _j++) {
               message = messages[_j];
               for (_k = 0, _len2 = users.length; _k < _len2; _k++) {
-                user = users[_k];
-                if (user._id === message.user_id) {
-                  message.username = user.name || user.username;
+                message_user = users[_k];
+                if (message_user._id === message.user_id) {
+                  message.username = message_user.name || message_user.username;
                 }
               }
             }
