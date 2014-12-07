@@ -7,6 +7,7 @@ app.controller 'profile.edit', ($scope, $timeout, api) ->
     # TODO: goto frontpage
     console.log "not logged in"
 
+  $scope.genders = api.getGenders()
 
   $scope.save_edit = ->
     data = angular.copy($scope.user)

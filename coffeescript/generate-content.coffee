@@ -14,6 +14,7 @@ for i in [0..1]
       birthday: faker.date.past(50)
       show_bio: Math.random() > 0.5
       show_birthday: Math.random() > 0.5
+      show_gender: Math.random() > 0.5
       gender: Math.random() > 0.5 ? "male" : "female"
       bio: faker.lorem.paragraphs()
       picture_url: faker.image.imageUrl()

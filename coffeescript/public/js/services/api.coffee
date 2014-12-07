@@ -97,3 +97,22 @@ app.factory 'api', ($q) ->
         name: "Cartoons"
       }
     ]
+
+  getGenders: ->
+    [
+      {
+        name: "male"
+      }
+      {
+        name: "female"
+      }
+      {
+        name: "doge"
+      }
+      {
+        name: "furry"
+      }
+      {
+        name: "yolo"
+      }
+    ]

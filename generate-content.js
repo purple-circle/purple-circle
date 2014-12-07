@@ -18,6 +18,7 @@
         birthday: faker.date.past(50),
         show_bio: Math.random() > 0.5,
         show_birthday: Math.random() > 0.5,
+        show_gender: Math.random() > 0.5,
         gender: (_ref = Math.random() > 0.5) != null ? _ref : {
           "male": "female"
         },

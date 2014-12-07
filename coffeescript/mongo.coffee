@@ -15,7 +15,7 @@ module.exports = (settings) ->
     username: { type: String, lowercase: true, trim: true, default: getRandomUserName }
     email: { type: String, lowercase: true, trim: true }
     password: 'String'
-    gender: 'String'
+    gender: { type: String, lowercase: true, trim: true, default: "doge" }
     bio: 'String'
     birthday: 'Date'
     facebook_id: 'String'
@@ -25,6 +25,7 @@ module.exports = (settings) ->
     created: { type: Date, default: Date.now }
     show_birthday: { type: Boolean, default: true }
     show_bio: { type: Boolean, default: true }
+    show_gender: { type: Boolean, default: true }
     hidden: { type: Boolean, default: false }
     random: {type: [Number], index: '2d', default: -> return [Math.random(), Math.random()]}
   }

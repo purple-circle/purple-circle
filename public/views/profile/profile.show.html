@@ -14,6 +14,10 @@
         {{user.username}}
       </p>
 
+      <div ng-if="user.gender && user.show_gender">
+        {{user.gender}}
+      </div>
+
       <div ng-if="user.birthday && user.show_birthday">
         <i class="fa fa-birthday-cake birthday-cake"></i>
         {{user.birthday | amDateFormat:'MMMM Do YYYY'}}<br />

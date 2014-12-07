@@ -365,6 +365,7 @@
     if (!$scope.loggedin) {
       console.log("not logged in");
     }
+    $scope.genders = api.getGenders();
     return $scope.save_edit = function() {
       var data;
       data = angular.copy($scope.user);
@@ -813,6 +814,21 @@
             name: "Development"
           }, {
             name: "Cartoons"
+          }
+        ];
+      },
+      getGenders: function() {
+        return [
+          {
+            name: "male"
+          }, {
+            name: "female"
+          }, {
+            name: "doge"
+          }, {
+            name: "furry"
+          }, {
+            name: "yolo"
           }
         ];
       }

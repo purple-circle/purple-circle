@@ -70,6 +70,21 @@
           </div>
 
 
+          <div class="form-group">
+            <label>Gender</label>
+            <select class="form-control" ng-model="user.gender" ng-options="gender.name as gender.name for gender in genders"></select>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" ng-model="user.show_gender">
+                <span class="ripple"></span>
+                <span class="check"></span>
+                Show gender
+              </label>
+            </div>
+          </div>
+
+
+
           <button type="submit" class="btn btn-primary">Save profile</button>
         </div>
       </div>

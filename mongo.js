@@ -31,7 +31,12 @@
         trim: true
       },
       password: 'String',
-      gender: 'String',
+      gender: {
+        type: String,
+        lowercase: true,
+        trim: true,
+        "default": "doge"
+      },
       bio: 'String',
       birthday: 'Date',
       facebook_id: 'String',
@@ -47,6 +52,10 @@
         "default": true
       },
       show_bio: {
+        type: Boolean,
+        "default": true
+      },
+      show_gender: {
         type: Boolean,
         "default": true
       },
