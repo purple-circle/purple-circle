@@ -94,6 +94,9 @@ a {
 .white-space-pre {
   white-space: pre;
 }
+.chat-messages ul {
+  list-style: none;
+}
 .purple {
   color: #b10dc9;
 }

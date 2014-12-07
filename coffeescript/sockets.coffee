@@ -179,8 +179,23 @@ module.exports = (server, sessionStore) ->
     socket.on "load_chat_messages", ({action, target}) ->
       chat
         .load_messages(action, target)
-        .then (result) ->
-          socket.emit "load_chat_messages", result
+        .then (messages) ->
+          message_users = {}
+          for message in messages
+            message_users[message.user_id] = message.user_id
+
+          list = []
+          for message_user of message_users
+            list.push user.getUser(message_user)
+
+          Q.all(list)
+            .then (users) ->
+              for message in messages
+                for user in users when user._id is message.user_id
+                  message.username = user.name || user.username
+
+              socket.emit "load_chat_messages", messages
+
 
     socket.on "save_chat_message", (data) ->
       loggedin_user = socket.request?.session?.passport?.user?

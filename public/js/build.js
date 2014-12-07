@@ -2,7 +2,7 @@
   'use strict';
   var app;
 
-  app = angular.module('app', ['ui.router', 'ui.router.compat', 'templates', 'angularMoment', 'angular-parallax', 'angularFileUpload', 'ui.bootstrap']);
+  app = angular.module('app', ['ui.router', 'ui.router.compat', 'templates', 'angularMoment', 'angular-parallax', 'angularFileUpload', 'ui.bootstrap', 'ngSanitize']);
 
   app.config(["$stateProvider", "$locationProvider", function($stateProvider, $locationProvider) {
     $locationProvider.html5Mode(true);

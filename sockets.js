@@ -168,8 +168,30 @@
       socket.on("load_chat_messages", function(_arg) {
         var action, target;
         action = _arg.action, target = _arg.target;
-        return chat.load_messages(action, target).then(function(result) {
-          return socket.emit("load_chat_messages", result);
+        return chat.load_messages(action, target).then(function(messages) {
+          var list, message, message_user, message_users, _i, _len;
+          message_users = {};
+          for (_i = 0, _len = messages.length; _i < _len; _i++) {
+            message = messages[_i];
+            message_users[message.user_id] = message.user_id;
+          }
+          list = [];
+          for (message_user in message_users) {
+            list.push(user.getUser(message_user));
+          }
+          return Q.all(list).then(function(users) {
+            var _j, _k, _len1, _len2;
+            for (_j = 0, _len1 = messages.length; _j < _len1; _j++) {
+              message = messages[_j];
+              for (_k = 0, _len2 = users.length; _k < _len2; _k++) {
+                user = users[_k];
+                if (user._id === message.user_id) {
+                  message.username = user.name || user.username;
+                }
+              }
+            }
+            return socket.emit("load_chat_messages", messages);
+          });
         });
       });
       return socket.on("save_chat_message", function(data) {

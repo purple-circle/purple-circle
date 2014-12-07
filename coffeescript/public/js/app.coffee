@@ -8,6 +8,7 @@ app = angular.module('app', [
   'angular-parallax'
   'angularFileUpload'
   'ui.bootstrap'
+  'ngSanitize'
 ])
 
 app.config ($stateProvider, $locationProvider) ->
