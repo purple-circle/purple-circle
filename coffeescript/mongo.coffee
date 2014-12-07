@@ -22,6 +22,7 @@ module.exports = (settings) ->
     google_id: 'String'
     instagram_id: 'String'
     picture_url: 'String'
+    fanpage_id: 'ObjectId'
     created: { type: Date, default: Date.now }
     show_birthday: { type: Boolean, default: true }
     show_bio: { type: Boolean, default: true }

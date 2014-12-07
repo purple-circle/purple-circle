@@ -2,6 +2,11 @@ app = angular.module('app')
 app.controller 'profile', ($rootScope, $scope, $stateParams, $timeout, api) ->
   $scope.loggedin = api.checkLogin()
 
+  $scope.create_fanpage = ->
+    api
+      .create_fanpage_group($scope.user._id)
+      .then get_user
+
   setUser = (data) ->
     $scope.user = data
 
@@ -50,8 +55,12 @@ app.controller 'profile', ($rootScope, $scope, $stateParams, $timeout, api) ->
     if data.picture_url
       $scope.profile_picture = data.picture_url
 
-  api
-    .findUser($stateParams.id)
-    .then (data) ->
-      $timeout ->
-        setUser(data)
+  get_user = ->
+    console.log "mfmdndbndjudkdndjsj"
+    api
+      .findUser($stateParams.id)
+      .then (data) ->
+        $timeout ->
+          setUser(data)
+
+  get_user()

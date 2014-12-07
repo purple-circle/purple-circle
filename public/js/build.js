@@ -304,8 +304,11 @@
   app = angular.module('app');
 
   app.controller('profile', ["$rootScope", "$scope", "$stateParams", "$timeout", "api", function($rootScope, $scope, $stateParams, $timeout, api) {
-    var setUser;
+    var get_user, setUser;
     $scope.loggedin = api.checkLogin();
+    $scope.create_fanpage = function() {
+      return api.create_fanpage_group($scope.user._id).then(get_user);
+    };
     setUser = function(data) {
       var birthdayDay, birthdayMoment, birthdayMonth, cakedayDay, cakedayMoment, cakedayMonth, currentYear, daysUntilBirthday, daysUntilCakeday;
       $scope.user = data;
@@ -345,11 +348,15 @@
         return $scope.profile_picture = data.picture_url;
       }
     };
-    return api.findUser($stateParams.id).then(function(data) {
-      return $timeout(function() {
-        return setUser(data);
+    get_user = function() {
+      console.log("mfmdndbndjudkdndjsj");
+      return api.findUser($stateParams.id).then(function(data) {
+        return $timeout(function() {
+          return setUser(data);
+        });
       });
-    });
+    };
+    return get_user();
   }]);
 
 }).call(this);
@@ -753,6 +760,10 @@
         socket.emit("getProfilePictures", id);
         return this.on("getProfilePictures");
       },
+      create_fanpage_group: function(user_id) {
+        socket.emit("create_fanpage_group", user_id);
+        return this.on("create_fanpage_group");
+      },
       createGroup: function(data) {
         socket.emit("createGroup", data);
         return this.on("createGroup");
@@ -813,7 +824,9 @@
           }, {
             name: "Development"
           }, {
-            name: "Cartoons"
+            name: "Cartoon"
+          }, {
+            name: "Fanpage"
           }
         ];
       },

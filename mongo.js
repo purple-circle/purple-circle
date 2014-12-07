@@ -43,6 +43,7 @@
       google_id: 'String',
       instagram_id: 'String',
       picture_url: 'String',
+      fanpage_id: 'ObjectId',
       created: {
         type: Date,
         "default": Date.now

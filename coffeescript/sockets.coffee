@@ -158,6 +158,35 @@ module.exports = (server, sessionStore) ->
           socket.emit "createGroup", result
           socket.broadcast.emit "createGroup", result
 
+    socket.on "create_fanpage_group", (data) ->
+      loggedin_user = socket.request?.session?.passport?.user?
+
+      if !loggedin_user
+        return
+
+      user
+        .getUser(data)
+        .then (fanpage_user) ->
+          user_name = fanpage_user.name || fanpage_user.username
+
+          group_data =
+            name: "#{user_name}'s fan page"
+            category: "fanpage"
+            created_by: socket.request?.session?.passport?.user
+
+          groups
+            .create(group_data)
+            .then (result) ->
+
+              user
+                .edit(fanpage_user._id, {fanpage_id: result._id})
+                .then ->
+                  socket.emit "createGroup", result
+                  socket.broadcast.emit "createGroup", result
+                  socket.emit "create_fanpage_group", result
+                  socket.broadcast.emit "create_fanpage_group", result
+
+
     socket.on "editGroup", ({id, data}) ->
       userid = socket.request?.session?.passport?.user
       loggedin_user = userid?

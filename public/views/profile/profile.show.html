@@ -33,12 +33,12 @@
       </div>
 
       <p ng-if="user.my_profile">
-        <a ui-sref="profile.edit({id: mydata._id})" class="edit-profile">Edit profile</a>
+        <a ui-sref="profile.edit({id: mydata._id})" class="edit-profile btn btn-flat btn-primary">Edit profile</a>
       </p>
 
       <hr>
 
-      <p ng-if="user.created" class="created-date">
+      <div ng-if="user.created" class="created-date">
         Joined {{user.created | amDateFormat:'MMMM Do YYYY'}}<br />
         <span am-time-ago="user.created"><span>
 
@@ -50,6 +50,10 @@
         <p ng-if="daysUntilBirthday">
           {{daysUntilCakeday}} days until next cakeday.
         </p>
+      </div>
+
+      <p ng-if="!user.fanpage_id && user">
+        <a ng-click="create_fanpage()" class="btn btn-flat btn-warning">Create fanpage</a>
       </p>
 
     </div>

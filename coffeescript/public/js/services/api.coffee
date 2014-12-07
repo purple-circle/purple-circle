@@ -34,6 +34,10 @@ app.factory 'api', ($q) ->
     socket.emit("getProfilePictures", id)
     this.on("getProfilePictures")
 
+  create_fanpage_group: (user_id) ->
+    socket.emit("create_fanpage_group", user_id)
+    this.on("create_fanpage_group")
+
   createGroup: (data) ->
     socket.emit("createGroup", data)
     this.on("createGroup")
@@ -94,7 +98,10 @@ app.factory 'api', ($q) ->
         name: "Development"
       }
       {
-        name: "Cartoons"
+        name: "Cartoon"
+      }
+      {
+        name: "Fanpage"
       }
     ]
 

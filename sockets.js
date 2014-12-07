@@ -148,6 +148,32 @@
           return socket.broadcast.emit("createGroup", result);
         });
       });
+      socket.on("create_fanpage_group", function(data) {
+        var loggedin_user, _ref, _ref1, _ref2;
+        loggedin_user = ((_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0) != null;
+        if (!loggedin_user) {
+          return;
+        }
+        return user.getUser(data).then(function(fanpage_user) {
+          var group_data, user_name, _ref3, _ref4, _ref5;
+          user_name = fanpage_user.name || fanpage_user.username;
+          group_data = {
+            name: "" + user_name + "'s fan page",
+            category: "fanpage",
+            created_by: (_ref3 = socket.request) != null ? (_ref4 = _ref3.session) != null ? (_ref5 = _ref4.passport) != null ? _ref5.user : void 0 : void 0 : void 0
+          };
+          return groups.create(group_data).then(function(result) {
+            return user.edit(fanpage_user._id, {
+              fanpage_id: result._id
+            }).then(function() {
+              socket.emit("createGroup", result);
+              socket.broadcast.emit("createGroup", result);
+              socket.emit("create_fanpage_group", result);
+              return socket.broadcast.emit("create_fanpage_group", result);
+            });
+          });
+        });
+      });
       socket.on("editGroup", function(_arg) {
         var data, id, loggedin_user, userid, _ref, _ref1, _ref2;
         id = _arg.id, data = _arg.data;
