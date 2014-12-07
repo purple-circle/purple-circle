@@ -93,4 +93,7 @@ app.factory 'api', ($q) ->
       {
         name: "Development"
       }
+      {
+        name: "Cartoons"
+      }
     ]

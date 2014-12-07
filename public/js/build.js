@@ -795,6 +795,8 @@
             name: "Music"
           }, {
             name: "Development"
+          }, {
+            name: "Cartoons"
           }
         ];
       }
