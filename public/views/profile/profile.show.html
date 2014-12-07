@@ -52,9 +52,7 @@
 
     <div class="col-md-9">
 
-      <div ng-if="user.bio && user.show_bio" class="well">
-        {{user.bio}}
-      </div>
+      <div ng-if="user.bio && user.show_bio" class="well" ng-bind-html="user.bio | newlines"></div>
 
       <div ng-if="user.my_profile">
         <upload profile-id="user._id" update="getPictures"></upload>
