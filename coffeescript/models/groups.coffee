@@ -15,6 +15,10 @@ groups.create = (data) ->
         group_id: group._id
         user_id: group.created_by
 
+      albumData = joinData
+      albumData.title = "Default album"
+
+      groups.createPictureAlbum(albumData)
       groups.joinGroup(joinData)
       group
 
@@ -29,6 +33,18 @@ groups.joinGroup = (data) ->
         return rejectPromise()
 
       api.createQueue("api.joinGroup", data)
+
+groups.createPictureAlbum = (data) ->
+  if !data.group_id || !data.user_id
+    return rejectPromise()
+
+  groups
+    .getGroup(data.group_id)
+    .then (group) ->
+      if !group
+        return rejectPromise()
+
+      api.createQueue("api.createGroupPictureAlbum", data)
 
 
 groups.leaveGroup = (data) ->

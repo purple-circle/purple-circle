@@ -106,6 +106,13 @@ module.exports = (settings) ->
     created_at: { type: Date, default: Date.now }
   }
 
+  groupPictureAlbumSchema = mongoose.Schema {
+    group_id: 'ObjectId'
+    user_id: 'ObjectId'
+    title: 'String'
+    created_at: { type: Date, default: Date.now }
+  }
+
   profilePictureSchema = mongoose.Schema {
     user_id: 'ObjectId'
     title: 'String'
@@ -131,6 +138,7 @@ module.exports = (settings) ->
   mongoose.model 'groups', groupSchema
   mongoose.model 'group_members', groupMemberSchema
   mongoose.model 'group_pictures', groupPictureSchema
+  mongoose.model 'group_picture_albums', groupPictureAlbumSchema
   mongoose.model 'profile_pictures', profilePictureSchema
   mongoose.model 'facebook_user_data', facebookUserSchema
   mongoose.model 'instagram_user_data', instagramUserSchema

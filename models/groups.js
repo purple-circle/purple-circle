@@ -16,11 +16,14 @@
 
   groups.create = function(data) {
     return api.createQueue("api.createGroup", data).then(function(group) {
-      var joinData;
+      var albumData, joinData;
       joinData = {
         group_id: group._id,
         user_id: group.created_by
       };
+      albumData = joinData;
+      albumData.title = "Default album";
+      groups.createPictureAlbum(albumData);
       groups.joinGroup(joinData);
       return group;
     });
@@ -35,6 +38,18 @@
         return rejectPromise();
       }
       return api.createQueue("api.joinGroup", data);
+    });
+  };
+
+  groups.createPictureAlbum = function(data) {
+    if (!data.group_id || !data.user_id) {
+      return rejectPromise();
+    }
+    return groups.getGroup(data.group_id).then(function(group) {
+      if (!group) {
+        return rejectPromise();
+      }
+      return api.createQueue("api.createGroupPictureAlbum", data);
     });
   };
 

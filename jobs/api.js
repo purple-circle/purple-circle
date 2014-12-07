@@ -170,6 +170,19 @@
     });
   });
 
+  jobs.process("api.createGroupPictureAlbum", function(job, done) {
+    var GroupPictureAlbum, album;
+    GroupPictureAlbum = mongoose.model('group_picture_albums');
+    album = new GroupPictureAlbum(job.data);
+    return album.save(function(err) {
+      if (err) {
+        return done(err);
+      } else {
+        return done(null, album);
+      }
+    });
+  });
+
   jobs.process("api.leaveGroup", function(job, done) {
     var GroupMembers;
     GroupMembers = mongoose.model('group_members');

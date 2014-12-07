@@ -139,6 +139,16 @@ jobs.process "api.joinGroup", (job, done) ->
     else
       done null, member
 
+jobs.process "api.createGroupPictureAlbum", (job, done) ->
+  GroupPictureAlbum = mongoose.model 'group_picture_albums'
+  album = new GroupPictureAlbum(job.data)
+  album.save (err) ->
+    if err
+      done(err)
+    else
+      done null, album
+
+
 jobs.process "api.leaveGroup", (job, done) ->
   GroupMembers = mongoose.model 'group_members'
 
