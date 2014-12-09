@@ -206,6 +206,7 @@
       action: 'String',
       user_id: 'ObjectId',
       message: 'String',
+      original_message: 'String',
       metadata: 'Object',
       created_at: {
         type: Date,

@@ -305,10 +305,16 @@
   });
 
   jobs.process("api.save_chat_message", function(job, done) {
-    var ChatMessages, hashtags, message, twitter, user_mentions;
+    var ChatMessages, hashtags, message, options, twitter, user_mentions;
     twitter = require('twitter-text');
     user_mentions = twitter.extractMentions(job.data.message);
     hashtags = twitter.extractHashtags(job.data.message);
+    job.data.original_message = job.data.message;
+    options = {
+      usernameUrlBase: "/profile/",
+      hashtagUrlBase: "/tag/"
+    };
+    job.data.message = twitter.autoLink(twitter.htmlEscape(job.data.message), options);
     if (user_mentions || hashtags) {
       job.data.metadata = {};
     }

@@ -277,6 +277,17 @@ jobs.process "api.save_chat_message", (job, done) ->
   user_mentions = twitter.extractMentions(job.data.message)
   hashtags = twitter.extractHashtags(job.data.message)
 
+  job.data.original_message = job.data.message
+
+
+  options =
+    usernameUrlBase: "/profile/"
+    hashtagUrlBase: "/tag/"
+
+
+  job.data.message = twitter.autoLink(twitter.htmlEscape(job.data.message), options)
+
+
   if user_mentions || hashtags
     job.data.metadata = {}
 
