@@ -15,7 +15,7 @@ for i in [0..1]
       show_bio: Math.random() > 0.5
       show_birthday: Math.random() > 0.5
       show_gender: Math.random() > 0.5
-      gender: Math.random() > 0.5 ? "male" : "female"
+      gender: if Math.random() > 0.5 then "male" else "female"
       bio: faker.lorem.paragraphs()
       picture_url: faker.image.imageUrl()
 

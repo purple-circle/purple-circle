@@ -11,7 +11,7 @@
       password: "test"
     };
     success = function(account) {
-      var user_data, _ref;
+      var user_data;
       user_data = {
         name: faker.name.findName(),
         email: faker.internet.email(),
@@ -19,9 +19,7 @@
         show_bio: Math.random() > 0.5,
         show_birthday: Math.random() > 0.5,
         show_gender: Math.random() > 0.5,
-        gender: (_ref = Math.random() > 0.5) != null ? _ref : {
-          "male": "female"
-        },
+        gender: Math.random() > 0.5 ? "male" : "female",
         bio: faker.lorem.paragraphs(),
         picture_url: faker.image.imageUrl()
       };
