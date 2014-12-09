@@ -95,7 +95,7 @@ a {
   white-space: pre;
 }
 .chat-messages {
-  max-height: 500px;
+  max-height: 300px;
   overflow: scroll;
 }
 .chat-messages ul {

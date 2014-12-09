@@ -3,7 +3,9 @@
 <div class="container">
   <div class="row">
     <div class="col-md-4">
-      <group-create ng-if="loggedin"></group-create>
+      <div class="well">
+        <group-create ng-if="loggedin"></group-create>
+      </div>
     </div>
     <div class="col-md-8">
 
@@ -12,16 +14,26 @@
         <a ng-click="show_all()">Show all</a>
       </div>
 
+      <div class="well">
+        <input type="search" placeholder="Search.." class="form-control" ng-model="filter.name" />
+      </div>
 
       <table class="table table-hover">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Category</th>
+            <th>
+              <a ng-click="order = 'name'; reverse=!reverse">Name</a>
+            </th>
+            <th>
+              <a ng-click="order = 'category'; reverse=!reverse">Category</a>
+            </th>
+            <th>
+              <a ng-click="order = 'created_at'; reverse=!reverse">Created</a>
+            </th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="group in groups | filter:filter | orderBy:'-created_at'">
+          <tr ng-repeat="group in groups | filter:filter | orderBy:order:reverse">
             <td>
               <a ui-sref="group.show({id: group._id})" class="group-link">{{group.name}}</a>
             </td>
@@ -29,6 +41,9 @@
               <a ui-sref="groups({category: group.category})">
                 {{group.category}}
               </a>
+            </td>
+            <td>
+              {{group.created_at}}
             </td>
           </tr>
         </tbody>
