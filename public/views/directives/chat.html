@@ -3,7 +3,7 @@
     <ul>
       <li ng-repeat="message in messages">
         <div class="pull-left">
-          {{message.username}}:
+          <a ui-sref="profile.show({id: message.user_id})">{{message.username}}</a>:
           <span ng-bind-html="message.message"></span>
         </div>
         <small class="pull-right text-muted">{{message.created_at}}</small>

@@ -211,9 +211,11 @@
               message = messages[_j];
               for (_k = 0, _len2 = users.length; _k < _len2; _k++) {
                 message_user = users[_k];
-                if (message_user._id === message.user_id) {
-                  message.username = message_user.name || message_user.username;
+                if (!(message_user._id === message.user_id)) {
+                  continue;
                 }
+                message.username = message_user.name || message_user.username;
+                message.username_link = message_user.username;
               }
             }
             return socket.emit("load_chat_messages", messages);
@@ -233,6 +235,7 @@
         return chat.save(data).then(function(result) {
           return user.getUser(data.user_id).then(function(message_user) {
             result.username = message_user.name || message_user.username;
+            result.username_link = message_user.username;
             socket.emit("save_chat_message", result);
             return socket.broadcast.emit("save_chat_message", result);
           });

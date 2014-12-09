@@ -222,6 +222,7 @@ module.exports = (server, sessionStore) ->
               for message in messages
                 for message_user in users when message_user._id is message.user_id
                   message.username = message_user.name || message_user.username
+                  message.username_link = message_user.username
 
               socket.emit "load_chat_messages", messages
 
@@ -243,6 +244,7 @@ module.exports = (server, sessionStore) ->
             .getUser(data.user_id)
             .then (message_user) ->
               result.username = message_user.name || message_user.username
+              result.username_link = message_user.username
 
               socket.emit "save_chat_message", result
               socket.broadcast.emit "save_chat_message", result
