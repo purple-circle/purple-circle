@@ -22,6 +22,10 @@
         <a ui-sref="groups({category: group.category})">{{group.category}}</a>
       </span>
 
+      <p>
+        Total members: {{memberlist.length}}
+      </p>
+
       <p ng-if="loggedin && membership_checked && not_member">
         <a class="btn btn-primary" ng-click="join()">Join group like a champion</a>
       </p>
