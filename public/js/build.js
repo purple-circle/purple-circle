@@ -539,7 +539,7 @@
 
   app = angular.module('app');
 
-  app.directive('groupEdit', ["$timeout", "$state", "api", function($timeout, $state, api) {
+  app.directive('groupEdit', ["$rootScope", "$timeout", "$state", "api", function($rootScope, $timeout, $state, api) {
     return {
       restrict: 'E',
       templateUrl: 'directives/group-edit.html',
@@ -554,6 +554,7 @@
               name: data.category
             });
             data.description = data.original_description;
+            $rootScope.page_title = "Edit " + data.name;
             return $scope.data = data;
           });
         });

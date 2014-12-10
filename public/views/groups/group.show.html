@@ -27,7 +27,7 @@
       </p>
 
       <p ng-if="loggedin && membership_checked && not_member">
-        <a class="btn btn-primary" ng-click="join()">Join group like a champion</a>
+        <a class="btn btn-flat btn-primary" ng-click="join()">Join group like a champion</a>
       </p>
 
       <p ng-if="loggedin && membership_checked && !not_member">
@@ -40,7 +40,7 @@
       </p>
 
       <p ng-if="loggedin && loggedinUser._id == group.created_by">
-        <a ui-sref="group.edit({id: group._id})" class="group-edit">Edit</a>
+        <a ui-sref="group.edit({id: group._id})" class="group-edit btn btn-flat btn-primary">Edit</a>
       </p>
 
       <a ui-sref="profile.show({id: created_by._id})" ng-if="created_by.name">

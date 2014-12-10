@@ -3,7 +3,17 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <group-edit group-id="id"></group-edit>
+      <a ui-sref="group.show({id: id})" class="btn">
+        <i class="mdi-navigation-arrow-back"></i> Back to group
+      </a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="well">
+        <group-edit group-id="id"></group-edit>
+      </div>
     </div>
   </div>
 </div>
