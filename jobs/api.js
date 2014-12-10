@@ -154,18 +154,20 @@
   jobs.process("api.createGroup", function(job, done) {
     var Groups, group, hashtags, user_mentions;
     Groups = mongoose.model('groups');
-    user_mentions = twitter.extractMentions(job.data.description);
-    hashtags = twitter.extractHashtags(job.data.description);
-    job.data.original_description = job.data.description;
-    job.data.description = twitter.autoLink(twitter.htmlEscape(job.data.description), twitter_text_options);
-    if (user_mentions || hashtags) {
-      job.data.metadata = {};
-    }
-    if (user_mentions.length) {
-      job.data.metadata.user_mentions = user_mentions;
-    }
-    if (hashtags.length) {
-      job.data.metadata.hashtags = hashtags;
+    if (job.data.description) {
+      user_mentions = twitter.extractMentions(job.data.description);
+      hashtags = twitter.extractHashtags(job.data.description);
+      job.data.original_description = job.data.description;
+      job.data.description = twitter.autoLink(twitter.htmlEscape(job.data.description), twitter_text_options);
+      if (user_mentions || hashtags) {
+        job.data.metadata = {};
+      }
+      if (user_mentions.length) {
+        job.data.metadata.user_mentions = user_mentions;
+      }
+      if (hashtags.length) {
+        job.data.metadata.hashtags = hashtags;
+      }
     }
     group = new Groups(job.data);
     return group.save(function(err) {

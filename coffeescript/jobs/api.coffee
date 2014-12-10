@@ -130,22 +130,22 @@ jobs.process "api.saveInstagramData", (job, done) ->
 jobs.process "api.createGroup", (job, done) ->
   Groups = mongoose.model 'groups'
 
-  user_mentions = twitter.extractMentions(job.data.description)
-  hashtags = twitter.extractHashtags(job.data.description)
+  if job.data.description
+    user_mentions = twitter.extractMentions(job.data.description)
+    hashtags = twitter.extractHashtags(job.data.description)
 
-  job.data.original_description = job.data.description
+    job.data.original_description = job.data.description
 
-  job.data.description = twitter.autoLink(twitter.htmlEscape(job.data.description), twitter_text_options)
+    job.data.description = twitter.autoLink(twitter.htmlEscape(job.data.description), twitter_text_options)
 
+    if user_mentions || hashtags
+      job.data.metadata = {}
 
-  if user_mentions || hashtags
-    job.data.metadata = {}
+    if user_mentions.length
+      job.data.metadata.user_mentions = user_mentions
 
-  if user_mentions.length
-    job.data.metadata.user_mentions = user_mentions
-
-  if hashtags.length
-    job.data.metadata.hashtags = hashtags
+    if hashtags.length
+      job.data.metadata.hashtags = hashtags
 
   group = new Groups(job.data)
   group.save (err) ->
