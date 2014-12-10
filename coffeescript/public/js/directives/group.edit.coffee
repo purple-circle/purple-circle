@@ -13,6 +13,7 @@ app.directive 'groupEdit', ($timeout, $state, api) ->
       .then (data) ->
         $timeout ->
           data.category = _.find $scope.categories, name: data.category
+          data.description = data.original_description
           $scope.data = data
 
     $scope.save = ->

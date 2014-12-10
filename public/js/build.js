@@ -553,6 +553,7 @@
             data.category = _.find($scope.categories, {
               name: data.category
             });
+            data.description = data.original_description;
             return $scope.data = data;
           });
         });

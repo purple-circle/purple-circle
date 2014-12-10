@@ -1,5 +1,5 @@
 (function() {
-  var jobs, kue, mongoose, selectUserFields, settings;
+  var jobs, kue, mongoose, selectUserFields, settings, twitter, twitter_text_options;
 
   mongoose = require('mongoose');
 
@@ -10,6 +10,13 @@
   settings = require("../settings");
 
   require("../mongo")(settings);
+
+  twitter = require('twitter-text');
+
+  twitter_text_options = {
+    usernameUrlBase: "/profile/",
+    hashtagUrlBase: "/tag/"
+  };
 
   console.log("api worker running");
 
@@ -145,8 +152,21 @@
   });
 
   jobs.process("api.createGroup", function(job, done) {
-    var Groups, group;
+    var Groups, group, hashtags, user_mentions;
     Groups = mongoose.model('groups');
+    user_mentions = twitter.extractMentions(job.data.description);
+    hashtags = twitter.extractHashtags(job.data.description);
+    job.data.original_description = job.data.description;
+    job.data.description = twitter.autoLink(twitter.htmlEscape(job.data.description), twitter_text_options);
+    if (user_mentions || hashtags) {
+      job.data.metadata = {};
+    }
+    if (user_mentions.length) {
+      job.data.metadata.user_mentions = user_mentions;
+    }
+    if (hashtags.length) {
+      job.data.metadata.hashtags = hashtags;
+    }
     group = new Groups(job.data);
     return group.save(function(err) {
       if (err) {
@@ -257,9 +277,22 @@
   });
 
   jobs.process("api.editGroup", function(job, done) {
-    var Groups, data, id, _ref;
+    var Groups, data, hashtags, id, user_mentions, _ref;
     Groups = mongoose.model('groups');
     _ref = job.data, id = _ref.id, data = _ref.data;
+    user_mentions = twitter.extractMentions(data.description);
+    hashtags = twitter.extractHashtags(data.description);
+    data.original_description = data.description;
+    data.description = twitter.autoLink(twitter.htmlEscape(data.description), twitter_text_options);
+    if (user_mentions || hashtags) {
+      data.metadata = {};
+    }
+    if (user_mentions.length) {
+      data.metadata.user_mentions = user_mentions;
+    }
+    if (hashtags.length) {
+      data.metadata.hashtags = hashtags;
+    }
     return Groups.findByIdAndUpdate(id, data, function(err, group) {
       if (err) {
         handleError(err);
@@ -305,16 +338,11 @@
   });
 
   jobs.process("api.save_chat_message", function(job, done) {
-    var ChatMessages, hashtags, message, options, twitter, user_mentions;
-    twitter = require('twitter-text');
+    var ChatMessages, hashtags, message, user_mentions;
     user_mentions = twitter.extractMentions(job.data.message);
     hashtags = twitter.extractHashtags(job.data.message);
     job.data.original_message = job.data.message;
-    options = {
-      usernameUrlBase: "/profile/",
-      hashtagUrlBase: "/tag/"
-    };
-    job.data.message = twitter.autoLink(twitter.htmlEscape(job.data.message), options);
+    job.data.message = twitter.autoLink(twitter.htmlEscape(job.data.message), twitter_text_options);
     if (user_mentions || hashtags) {
       job.data.metadata = {};
     }

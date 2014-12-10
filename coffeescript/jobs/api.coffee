@@ -5,6 +5,12 @@ jobs = kue.createQueue()
 settings = require("../settings")
 require("../mongo")(settings)
 
+twitter = require('twitter-text')
+
+twitter_text_options =
+  usernameUrlBase: "/profile/"
+  hashtagUrlBase: "/tag/"
+
 console.log "api worker running"
 selectUserFields = '-salt -hash'
 
@@ -123,6 +129,24 @@ jobs.process "api.saveInstagramData", (job, done) ->
 
 jobs.process "api.createGroup", (job, done) ->
   Groups = mongoose.model 'groups'
+
+  user_mentions = twitter.extractMentions(job.data.description)
+  hashtags = twitter.extractHashtags(job.data.description)
+
+  job.data.original_description = job.data.description
+
+  job.data.description = twitter.autoLink(twitter.htmlEscape(job.data.description), twitter_text_options)
+
+
+  if user_mentions || hashtags
+    job.data.metadata = {}
+
+  if user_mentions.length
+    job.data.metadata.user_mentions = user_mentions
+
+  if hashtags.length
+    job.data.metadata.hashtags = hashtags
+
   group = new Groups(job.data)
   group.save (err) ->
     if err
@@ -225,6 +249,23 @@ jobs.process "api.editGroup", (job, done) ->
 
   {id, data} = job.data
 
+  user_mentions = twitter.extractMentions(data.description)
+  hashtags = twitter.extractHashtags(data.description)
+
+  data.original_description = data.description
+
+  data.description = twitter.autoLink(twitter.htmlEscape(data.description), twitter_text_options)
+
+
+  if user_mentions || hashtags
+    data.metadata = {}
+
+  if user_mentions.length
+    data.metadata.user_mentions = user_mentions
+
+  if hashtags.length
+    data.metadata.hashtags = hashtags
+
   Groups
     .findByIdAndUpdate id, data, (err, group) ->
       if err
@@ -273,19 +314,13 @@ jobs.process "api.load_chat_messages", (job, done) ->
       done error
 
 jobs.process "api.save_chat_message", (job, done) ->
-  twitter = require('twitter-text')
   user_mentions = twitter.extractMentions(job.data.message)
   hashtags = twitter.extractHashtags(job.data.message)
 
   job.data.original_message = job.data.message
 
 
-  options =
-    usernameUrlBase: "/profile/"
-    hashtagUrlBase: "/tag/"
-
-
-  job.data.message = twitter.autoLink(twitter.htmlEscape(job.data.message), options)
+  job.data.message = twitter.autoLink(twitter.htmlEscape(job.data.message), twitter_text_options)
 
 
   if user_mentions || hashtags

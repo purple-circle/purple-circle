@@ -49,7 +49,7 @@
     </div>
     <div class="col-md-9">
 
-      <p ng-if="group.description" ng-bind="group.description" class="well white-space-pre"></p>
+      <p ng-if="group.description" ng-bind-html="group.description | newlines" class="well white-space-pre"></p>
 
 
       <div ng-if="loggedin && membership_checked && !not_member">

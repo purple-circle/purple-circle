@@ -138,9 +138,11 @@
     groupSchema = mongoose.Schema({
       name: 'String',
       description: 'String',
+      original_description: 'String',
       category: 'String',
       created_by: 'String',
       edited_by: 'String',
+      metadata: 'Object',
       "private": {
         type: Boolean,
         "default": false
