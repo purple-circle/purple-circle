@@ -5,7 +5,7 @@
 
   path = require("path");
 
-  favicon = require("static-favicon");
+  favicon = require("serve-favicon");
 
   logger = require("morgan");
 
