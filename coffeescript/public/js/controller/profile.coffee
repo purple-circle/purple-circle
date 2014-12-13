@@ -10,6 +10,9 @@ app.controller 'profile', ($rootScope, $scope, $stateParams, $timeout, api) ->
   setUser = (data) ->
     $scope.user = data
 
+    if $scope.$bio
+      $scope.user.bio = $scope.$bio
+
     $rootScope.page_title = data.name || data.username
 
     if data.birthday

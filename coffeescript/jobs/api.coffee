@@ -43,6 +43,23 @@ jobs.process "api.edit_user", (job, done) ->
 
   {id, data} = job.data
 
+  if data.bio
+    user_mentions = twitter.extractMentions(data.bio)
+    hashtags = twitter.extractHashtags(data.bio)
+
+    data.original_bio = data.bio
+
+    data.bio = twitter.autoLink(twitter.htmlEscape(data.bio), twitter_text_options)
+
+    if user_mentions || hashtags
+      data.metadata = {}
+
+    if user_mentions.length
+      data.metadata.user_mentions = user_mentions
+
+    if hashtags.length
+      data.metadata.hashtags = hashtags
+
   User
     .findByIdAndUpdate id, {$set: data}, (err, user) ->
       if err

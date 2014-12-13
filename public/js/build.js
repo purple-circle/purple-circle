@@ -318,6 +318,9 @@
     setUser = function(data) {
       var birthdayDay, birthdayMoment, birthdayMonth, cakedayDay, cakedayMoment, cakedayMonth, currentYear, daysUntilBirthday, daysUntilCakeday;
       $scope.user = data;
+      if ($scope.$bio) {
+        $scope.user.bio = $scope.$bio;
+      }
       $rootScope.page_title = data.name || data.username;
       if (data.birthday) {
         currentYear = moment().year();
@@ -372,15 +375,27 @@
   app = angular.module('app');
 
   app.controller('profile.edit', ["$scope", "$timeout", "api", function($scope, $timeout, api) {
+    var done;
     $scope.loggedin = api.checkLogin();
     $scope.edit_saved = false;
     if (!$scope.loggedin) {
       console.log("not logged in");
     }
     $scope.genders = api.getGenders();
+    done = false;
+    $scope.$watch(function() {
+      if ($scope.user.bio && !done) {
+        done = true;
+        $scope.$bio = $scope.user.bio;
+        return $scope.user.bio = $scope.user.original_bio;
+      }
+    });
     return $scope.save_edit = function() {
       var data;
       data = angular.copy($scope.user);
+      if (data.bio) {
+        $scope.user.original_bio = data.bio;
+      }
       return api.saveProfileEdit(data._id, data).then(function(result) {
         $timeout(function() {
           return $scope.edit_saved = true;

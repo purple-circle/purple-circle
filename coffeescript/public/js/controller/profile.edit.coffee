@@ -9,8 +9,19 @@ app.controller 'profile.edit', ($scope, $timeout, api) ->
 
   $scope.genders = api.getGenders()
 
+  # TODO: redo the architecture, watch should not be needed!
+  # TODO: profile edit could be a directive, should fix these problems
+  done = false
+  $scope.$watch ->
+    if $scope.user.bio and !done
+      done = true
+      $scope.$bio = $scope.user.bio
+      $scope.user.bio = $scope.user.original_bio
+
   $scope.save_edit = ->
     data = angular.copy($scope.user)
+    if data.bio
+      $scope.user.original_bio = data.bio
 
     api
       .saveProfileEdit(data._id, data)

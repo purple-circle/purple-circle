@@ -17,12 +17,14 @@ module.exports = (settings) ->
     password: 'String'
     gender: { type: String, lowercase: true, trim: true, default: "doge" }
     bio: 'String'
+    original_bio: 'String'
     birthday: 'Date'
     facebook_id: 'String'
     google_id: 'String'
     instagram_id: 'String'
     picture_url: 'String'
     fanpage_id: 'ObjectId'
+    metadata: 'Object'
     created: { type: Date, default: Date.now }
     show_birthday: { type: Boolean, default: true }
     show_bio: { type: Boolean, default: true }

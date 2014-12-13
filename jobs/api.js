@@ -43,9 +43,24 @@
   });
 
   jobs.process("api.edit_user", function(job, done) {
-    var User, data, id, _ref;
+    var User, data, hashtags, id, user_mentions, _ref;
     User = mongoose.model('users');
     _ref = job.data, id = _ref.id, data = _ref.data;
+    if (data.bio) {
+      user_mentions = twitter.extractMentions(data.bio);
+      hashtags = twitter.extractHashtags(data.bio);
+      data.original_bio = data.bio;
+      data.bio = twitter.autoLink(twitter.htmlEscape(data.bio), twitter_text_options);
+      if (user_mentions || hashtags) {
+        data.metadata = {};
+      }
+      if (user_mentions.length) {
+        data.metadata.user_mentions = user_mentions;
+      }
+      if (hashtags.length) {
+        data.metadata.hashtags = hashtags;
+      }
+    }
     return User.findByIdAndUpdate(id, {
       $set: data
     }, function(err, user) {
