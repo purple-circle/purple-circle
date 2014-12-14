@@ -118,10 +118,20 @@
     data = job.data.data;
     picture = new Pictures(data);
     return picture.save(function(err) {
+      var user_data;
       if (err) {
         return done(err);
       } else {
         done(null, picture);
+        if (data.default_picture) {
+          user_data = {
+            picture_url: "/uploads/" + picture.filename
+          };
+          jobs.create('api.edit_user', {
+            id: data.user_id,
+            data: user_data
+          }).save();
+        }
         return jobs.create('processProfilePicture', picture).save();
       }
     });

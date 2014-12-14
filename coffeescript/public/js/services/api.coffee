@@ -1,8 +1,39 @@
 app = angular.module('app')
-app.factory 'api', ($q) ->
+app.factory 'api', ($q, $upload) ->
   socket = io()
 
   socket: socket
+
+  upload_picture: (file, options) ->
+    data = {}
+
+    if options.group_id
+      data.group_id = options.group_id
+
+    if options.profile_id
+      data.profile_id = options.profile_id
+
+    if options.title
+      data.title = options.title
+
+    if options.album
+      data.album_id = options.album_id
+
+    url = options.url
+
+    $upload
+      .upload
+        url: url
+        data: data
+        file: file
+      .progress (evt) ->
+        console.log "percent: " + parseInt(100.0 * evt.loaded / evt.total)
+      .success (data, status, headers, config) ->
+        console.log "upload data", data
+        # TODO remove this, controller should get push from backend when there is a upload
+        if options.update
+          options.update()
+
 
   on: (event) ->
     deferred = $q.defer()

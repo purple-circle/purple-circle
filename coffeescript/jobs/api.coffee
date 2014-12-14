@@ -109,6 +109,14 @@ jobs.process "api.saveProfilePicture", (job, done) ->
     else
       done null, picture
 
+      if data.default_picture
+        user_data =
+          picture_url: "/uploads/#{picture.filename}"
+
+        jobs
+          .create('api.edit_user', {id: data.user_id, data: user_data})
+          .save()
+
       jobs
         .create('processProfilePicture', picture)
         .save()

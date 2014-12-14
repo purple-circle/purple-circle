@@ -2,6 +2,19 @@ app = angular.module('app')
 app.controller 'profile.show', ($scope, $timeout, $modal, api) ->
   $scope.loggedin = api.checkLogin()
 
+  $scope.uploadProfilePicture = ($files) ->
+    console.log "yolo", $files
+
+    options =
+      profile_id: $scope.user._id
+      url: "/profile/upload/default"
+
+    # TODO: Set profile picture album id
+    #options.album_id = 123
+
+    api.upload_picture($files[0], options)
+
+
   $scope.getPictures = ->
     api
       .getProfilePictures($scope.$parent.user._id)

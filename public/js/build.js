@@ -417,6 +417,15 @@
   app.controller('profile.show', ["$scope", "$timeout", "$modal", "api", function($scope, $timeout, $modal, api) {
     var done;
     $scope.loggedin = api.checkLogin();
+    $scope.uploadProfilePicture = function($files) {
+      var options;
+      console.log("yolo", $files);
+      options = {
+        profile_id: $scope.user._id,
+        url: "/profile/upload/default"
+      };
+      return api.upload_picture($files[0], options);
+    };
     $scope.getPictures = function() {
       return api.getProfilePictures($scope.$parent.user._id).then(function(pictures) {
         return $timeout(function() {
@@ -664,7 +673,7 @@
 
   app = angular.module('app');
 
-  app.directive('upload', ["$upload", function($upload) {
+  app.directive('upload', ["api", function(api) {
     return {
       restrict: 'E',
       templateUrl: 'directives/upload.html',
@@ -681,34 +690,28 @@
           $scope.data.album = $scope.albums[0];
         }
         upload = function(file) {
-          var data, url;
-          data = {};
+          var options;
+          options = {};
           if ($scope.groupId) {
-            data.group_id = $scope.groupId;
+            options.group_id = $scope.groupId;
           }
           if ($scope.profileId) {
-            data.profile_id = $scope.profileId;
+            options.profile_id = $scope.profileId;
           }
           if ($scope.data.title) {
-            data.title = $scope.data.title;
+            options.title = $scope.data.title;
           }
           if ($scope.data.album) {
-            data.album_id = $scope.data.album._id;
+            options.album_id = $scope.data.album._id;
           }
-          url = "/group/upload";
+          options.url = "/group/upload";
           if ($scope.profileId) {
-            url = "/profile/upload";
+            options.url = "/profile/upload";
           }
-          return $scope.upload = $upload.upload({
-            url: url,
-            data: data,
-            file: file
-          }).progress(function(evt) {
-            return console.log("percent: " + parseInt(100.0 * evt.loaded / evt.total));
-          }).success(function(data, status, headers, config) {
-            console.log("upload data", data);
-            return $scope.update();
-          });
+          if ($scope.update) {
+            options.update = $scope.update;
+          }
+          return api.upload_picture(file, options);
         };
         return $scope.onFileSelect = function($files) {
           var file, _i, _len, _results;
@@ -743,11 +746,40 @@
 
   app = angular.module('app');
 
-  app.factory('api', ["$q", function($q) {
+  app.factory('api', ["$q", "$upload", function($q, $upload) {
     var socket;
     socket = io();
     return {
       socket: socket,
+      upload_picture: function(file, options) {
+        var data, url;
+        data = {};
+        if (options.group_id) {
+          data.group_id = options.group_id;
+        }
+        if (options.profile_id) {
+          data.profile_id = options.profile_id;
+        }
+        if (options.title) {
+          data.title = options.title;
+        }
+        if (options.album) {
+          data.album_id = options.album_id;
+        }
+        url = options.url;
+        return $upload.upload({
+          url: url,
+          data: data,
+          file: file
+        }).progress(function(evt) {
+          return console.log("percent: " + parseInt(100.0 * evt.loaded / evt.total));
+        }).success(function(data, status, headers, config) {
+          console.log("upload data", data);
+          if (options.update) {
+            return options.update();
+          }
+        });
+      },
       on: function(event) {
         var deferred;
         deferred = $q.defer();

@@ -1,5 +1,5 @@
 app = angular.module('app')
-app.directive 'upload', ($upload) ->
+app.directive 'upload', (api) ->
   restrict: 'E'
   templateUrl: 'directives/upload.html'
   scope:
@@ -14,35 +14,28 @@ app.directive 'upload', ($upload) ->
       $scope.data.album = $scope.albums[0]
 
     upload = (file) ->
-      data = {}
+      options = {}
 
       if $scope.groupId
-        data.group_id = $scope.groupId
+        options.group_id = $scope.groupId
 
       if $scope.profileId
-        data.profile_id = $scope.profileId
+        options.profile_id = $scope.profileId
 
       if $scope.data.title
-        data.title = $scope.data.title
+        options.title = $scope.data.title
 
       if $scope.data.album
-        data.album_id = $scope.data.album._id
+        options.album_id = $scope.data.album._id
 
-      url = "/group/upload"
+      options.url = "/group/upload"
       if $scope.profileId
-        url = "/profile/upload"
+        options.url = "/profile/upload"
 
-      $scope.upload = $upload
-        .upload
-          url: url
-          data: data
-          file: file
-        .progress (evt) ->
-          console.log "percent: " + parseInt(100.0 * evt.loaded / evt.total)
-        .success (data, status, headers, config) ->
-          console.log "upload data", data
-          # TODO remove this, controller should get push from backend when there is a upload
-          $scope.update()
+      if $scope.update
+        options.update = $scope.update
+
+      api.upload_picture(file, options)
 
 
     $scope.onFileSelect = ($files) ->

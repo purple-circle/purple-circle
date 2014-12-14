@@ -98,12 +98,28 @@ a {
   position: relative;
   margin-bottom: 50px;
 
-  .cover-picture-thumbnail {
-    border-radius: 3px;
-    max-width: 250px;
-    max-height: 250px;
+  .cover-picture-thumbnail-container {
     position: absolute;
     bottom: -35px;
+
+    .upload-profile-picture {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.2);
+      margin: 0;
+      color: @white;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.7);
+      }
+    }
+
+    .cover-picture-thumbnail {
+      border-radius: 3px;
+      max-width: 250px;
+      max-height: 250px;
+    }
   }
 
   .cover-title {

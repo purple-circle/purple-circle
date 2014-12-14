@@ -66,13 +66,29 @@ a {
   position: relative;
   margin-bottom: 50px;
 }
-.profile-cover .cover-picture-thumbnail,
-.group-cover .cover-picture-thumbnail {
+.profile-cover .cover-picture-thumbnail-container,
+.group-cover .cover-picture-thumbnail-container {
+  position: absolute;
+  bottom: -35px;
+}
+.profile-cover .cover-picture-thumbnail-container .upload-profile-picture,
+.group-cover .cover-picture-thumbnail-container .upload-profile-picture {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  margin: 0;
+  color: #ffffff;
+}
+.profile-cover .cover-picture-thumbnail-container .upload-profile-picture:hover,
+.group-cover .cover-picture-thumbnail-container .upload-profile-picture:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+.profile-cover .cover-picture-thumbnail-container .cover-picture-thumbnail,
+.group-cover .cover-picture-thumbnail-container .cover-picture-thumbnail {
   border-radius: 3px;
   max-width: 250px;
   max-height: 250px;
-  position: absolute;
-  bottom: -35px;
 }
 .profile-cover .cover-title,
 .group-cover .cover-title {
