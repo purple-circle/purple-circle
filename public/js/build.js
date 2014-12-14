@@ -374,7 +374,7 @@
 
   app = angular.module('app');
 
-  app.controller('profile.edit', ["$scope", "$timeout", "api", function($scope, $timeout, api) {
+  app.controller('profile.edit', ["$rootScope", "$scope", "$timeout", "api", function($rootScope, $scope, $timeout, api) {
     var done;
     $scope.loggedin = api.checkLogin();
     $scope.edit_saved = false;
@@ -384,8 +384,11 @@
     $scope.genders = api.getGenders();
     done = false;
     $scope.$watch(function() {
-      if ($scope.user.bio && !done) {
+      var username;
+      if ($scope.user && $scope.user.bio && !done) {
         done = true;
+        username = $scope.user.name || $scope.user.username;
+        $rootScope.page_title = "Edit " + username;
         $scope.$bio = $scope.user.bio;
         return $scope.user.bio = $scope.user.original_bio;
       }
@@ -414,12 +417,11 @@
 
   app = angular.module('app');
 
-  app.controller('profile.show', ["$scope", "$timeout", "$modal", "api", function($scope, $timeout, $modal, api) {
+  app.controller('profile.show', ["$rootScope", "$scope", "$timeout", "$modal", "api", function($rootScope, $scope, $timeout, $modal, api) {
     var done;
     $scope.loggedin = api.checkLogin();
     $scope.uploadProfilePicture = function($files) {
       var options;
-      console.log("yolo", $files);
       options = {
         profile_id: $scope.user._id,
         url: "/profile/upload/default"
@@ -464,6 +466,7 @@
     done = false;
     return $scope.$watch(function() {
       if ($scope.$parent.user && !done) {
+        $rootScope.page_title = $scope.$parent.user.name || $scope.$parent.user.username;
         done = true;
         return $scope.getPictures();
       }

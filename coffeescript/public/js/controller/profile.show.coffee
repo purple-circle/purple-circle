@@ -1,10 +1,8 @@
 app = angular.module('app')
-app.controller 'profile.show', ($scope, $timeout, $modal, api) ->
+app.controller 'profile.show', ($rootScope, $scope, $timeout, $modal, api) ->
   $scope.loggedin = api.checkLogin()
 
   $scope.uploadProfilePicture = ($files) ->
-    console.log "yolo", $files
-
     options =
       profile_id: $scope.user._id
       url: "/profile/upload/default"
@@ -47,6 +45,7 @@ app.controller 'profile.show', ($scope, $timeout, $modal, api) ->
   done = false
   $scope.$watch ->
     if $scope.$parent.user && !done
+      $rootScope.page_title = $scope.$parent.user.name || $scope.$parent.user.username
       done = true
 
       $scope.getPictures()

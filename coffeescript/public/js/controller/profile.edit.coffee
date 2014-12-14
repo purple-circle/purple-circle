@@ -1,5 +1,5 @@
 app = angular.module('app')
-app.controller 'profile.edit', ($scope, $timeout, api) ->
+app.controller 'profile.edit', ($rootScope, $scope, $timeout, api) ->
   $scope.loggedin = api.checkLogin()
   $scope.edit_saved = false
 
@@ -13,8 +13,11 @@ app.controller 'profile.edit', ($scope, $timeout, api) ->
   # TODO: profile edit could be a directive, should fix these problems
   done = false
   $scope.$watch ->
-    if $scope.user.bio and !done
+    if $scope.user and $scope.user.bio and !done
       done = true
+      username = $scope.user.name || $scope.user.username
+      $rootScope.page_title = "Edit #{username}"
+
       $scope.$bio = $scope.user.bio
       $scope.user.bio = $scope.user.original_bio
 
