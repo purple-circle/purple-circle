@@ -122,6 +122,18 @@ jobs.process "api.saveProfilePicture", (job, done) ->
         .save()
 
 
+jobs.process "api.get_profile_picture", (job, done) ->
+  Pictures = mongoose.model 'profile_pictures'
+  id = job.data.picture_id
+  user_id = job.data.user_id
+  Pictures
+    .findOne({_id: id, user_id})
+    .exec()
+    .then (result) ->
+      done(null, result)
+    , (error) ->
+      done error
+
 
 jobs.process "api.saveFacebookData", (job, done) ->
   Facebook = mongoose.model 'facebook_user_data'

@@ -41,6 +41,13 @@ module.exports = (server, sessionStore) ->
           socket.emit "getProfilePictures", result
 
 
+    socket.on "set_profile_picture", ({user_id, picture_id}) ->
+      user
+        .set_profile_picture(user_id, picture_id)
+        .then (result) ->
+          socket.emit "set_profile_picture", result
+
+
     socket.on "getuserlist", (data) ->
       api
         .getUserlist()

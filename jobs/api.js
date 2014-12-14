@@ -137,6 +137,21 @@
     });
   });
 
+  jobs.process("api.get_profile_picture", function(job, done) {
+    var Pictures, id, user_id;
+    Pictures = mongoose.model('profile_pictures');
+    id = job.data.picture_id;
+    user_id = job.data.user_id;
+    return Pictures.findOne({
+      _id: id,
+      user_id: user_id
+    }).exec().then(function(result) {
+      return done(null, result);
+    }, function(error) {
+      return done(error);
+    });
+  });
+
   jobs.process("api.saveFacebookData", function(job, done) {
     var Facebook, facebook;
     Facebook = mongoose.model('facebook_user_data');

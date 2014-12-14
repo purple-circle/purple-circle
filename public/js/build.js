@@ -426,6 +426,11 @@
       };
       return api.upload_picture($files[0], options);
     };
+    $scope.set_profile_picture = function(picture) {
+      return api.set_profile_picture($scope.user._id, picture._id).then(function(result) {
+        return console.log("result", result);
+      });
+    };
     $scope.getPictures = function() {
       return api.getProfilePictures($scope.$parent.user._id).then(function(pictures) {
         return $timeout(function() {
@@ -813,6 +818,13 @@
       getProfilePictures: function(id) {
         socket.emit("getProfilePictures", id);
         return this.on("getProfilePictures");
+      },
+      set_profile_picture: function(user_id, picture_id) {
+        socket.emit("set_profile_picture", {
+          user_id: user_id,
+          picture_id: picture_id
+        });
+        return this.on("set_profile_picture");
       },
       create_fanpage_group: function(user_id) {
         socket.emit("create_fanpage_group", user_id);

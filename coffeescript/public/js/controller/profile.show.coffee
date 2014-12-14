@@ -14,6 +14,11 @@ app.controller 'profile.show', ($scope, $timeout, $modal, api) ->
 
     api.upload_picture($files[0], options)
 
+  $scope.set_profile_picture = (picture) ->
+    api
+      .set_profile_picture($scope.user._id, picture._id)
+      .then (result) ->
+        console.log "result", result
 
   $scope.getPictures = ->
     api
