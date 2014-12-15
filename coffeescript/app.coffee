@@ -44,6 +44,7 @@ sessionStore = session
 
 
 app.use multer(dest: path.join(__dirname, "public/uploads"))
+app.use favicon(__dirname + '/public/images/favicons/favicon.ico')
 
 # view engine setup
 app.use express.static(path.join(__dirname, "public"))

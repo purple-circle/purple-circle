@@ -64,6 +64,8 @@
     dest: path.join(__dirname, "public/uploads")
   }));
 
+  app.use(favicon(__dirname + '/public/images/favicons/favicon.ico'));
+
   app.use(express["static"](path.join(__dirname, "public")));
 
   app.set("views", path.join(__dirname, "views"));
