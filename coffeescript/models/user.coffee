@@ -51,5 +51,22 @@ user.set_profile_picture = (user_id, picture_id) ->
 
   deferred.promise
 
+user.set_cover_picture = (user_id, picture_id) ->
+  deferred = Q.defer()
+
+  user
+    .get_profile_picture(user_id, picture_id)
+    .then (picture) ->
+      data =
+        cover_url: "/uploads/#{picture.filename}"
+
+      user
+        .edit(user_id, data)
+        .then deferred.resolve, deferred.reject
+
+    , deferred.reject
+
+  deferred.promise
+
 
 module.exports = user

@@ -71,6 +71,19 @@
     return deferred.promise;
   };
 
+  user.set_cover_picture = function(user_id, picture_id) {
+    var deferred;
+    deferred = Q.defer();
+    user.get_profile_picture(user_id, picture_id).then(function(picture) {
+      var data;
+      data = {
+        cover_url: "/uploads/" + picture.filename
+      };
+      return user.edit(user_id, data).then(deferred.resolve, deferred.reject);
+    }, deferred.reject);
+    return deferred.promise;
+  };
+
   module.exports = user;
 
 }).call(this);

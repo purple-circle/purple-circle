@@ -44,6 +44,7 @@
       google_id: 'String',
       instagram_id: 'String',
       picture_url: 'String',
+      cover_url: 'String',
       fanpage_id: 'ObjectId',
       metadata: 'Object',
       created: {
@@ -141,6 +142,7 @@
       name: 'String',
       description: 'String',
       original_description: 'String',
+      cover_url: 'String',
       category: 'String',
       created_by: 'String',
       edited_by: 'String',

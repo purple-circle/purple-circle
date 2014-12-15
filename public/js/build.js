@@ -318,7 +318,7 @@
   app = angular.module('app');
 
   app.controller('profile', ["$rootScope", "$scope", "$stateParams", "$timeout", "api", function($rootScope, $scope, $stateParams, $timeout, api) {
-    var get_user, setUser;
+    var setUser;
     $scope.loggedin = api.checkLogin();
     $scope.create_fanpage = function() {
       return api.create_fanpage_group($scope.user._id).then(get_user);
@@ -372,14 +372,14 @@
         'background-image': "url(" + cover_url + ")"
       };
     };
-    get_user = function() {
+    $scope.get_user = function() {
       return api.findUser($stateParams.id).then(function(data) {
         return $timeout(function() {
           return setUser(data);
         });
       });
     };
-    return get_user();
+    return $scope.get_user();
   }]);
 
 }).call(this);
@@ -441,12 +441,13 @@
         profile_id: $scope.user._id,
         url: "/profile/upload/default"
       };
-      return api.upload_picture($files[0], options);
+      return api.upload_picture($files[0], options).then($scope.get_user);
     };
     $scope.set_profile_picture = function(picture) {
-      return api.set_profile_picture($scope.user._id, picture._id).then(function(result) {
-        return console.log("result", result);
-      });
+      return api.set_profile_picture($scope.user._id, picture._id).then($scope.get_user);
+    };
+    $scope.set_cover_picture = function(picture) {
+      return api.set_cover_picture($scope.user._id, picture._id).then($scope.get_user);
     };
     $scope.getPictures = function() {
       return api.getProfilePictures($scope.$parent.user._id).then(function(pictures) {
@@ -843,6 +844,13 @@
           picture_id: picture_id
         });
         return this.on("set_profile_picture");
+      },
+      set_cover_picture: function(user_id, picture_id) {
+        socket.emit("set_cover_picture", {
+          user_id: user_id,
+          picture_id: picture_id
+        });
+        return this.on("set_cover_picture");
       },
       create_fanpage_group: function(user_id) {
         socket.emit("create_fanpage_group", user_id);

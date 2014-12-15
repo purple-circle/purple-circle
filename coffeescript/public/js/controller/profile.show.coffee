@@ -10,13 +10,19 @@ app.controller 'profile.show', ($rootScope, $scope, $timeout, $modal, api) ->
     # TODO: Set profile picture album id
     #options.album_id = 123
 
-    api.upload_picture($files[0], options)
+    api
+      .upload_picture($files[0], options)
+      .then $scope.get_user
 
   $scope.set_profile_picture = (picture) ->
     api
       .set_profile_picture($scope.user._id, picture._id)
-      .then (result) ->
-        console.log "result", result
+      .then $scope.get_user
+
+  $scope.set_cover_picture = (picture) ->
+    api
+      .set_cover_picture($scope.user._id, picture._id)
+      .then $scope.get_user
 
   $scope.getPictures = ->
     api

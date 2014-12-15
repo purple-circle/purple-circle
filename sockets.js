@@ -44,6 +44,13 @@
           return socket.emit("set_profile_picture", result);
         });
       });
+      socket.on("set_cover_picture", function(_arg) {
+        var picture_id, user_id;
+        user_id = _arg.user_id, picture_id = _arg.picture_id;
+        return user.set_cover_picture(user_id, picture_id).then(function(result) {
+          return socket.emit("set_cover_picture", result);
+        });
+      });
       socket.on("getuserlist", function(data) {
         return api.getUserlist().then(function(data) {
           return socket.emit("userlist", data);

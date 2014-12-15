@@ -65,11 +65,11 @@ app.controller 'profile', ($rootScope, $scope, $stateParams, $timeout, api) ->
 
     $scope.cover_style = {'background-image': "url(#{cover_url})"}
 
-  get_user = ->
+  $scope.get_user = ->
     api
       .findUser($stateParams.id)
       .then (data) ->
         $timeout ->
           setUser(data)
 
-  get_user()
+  $scope.get_user()
