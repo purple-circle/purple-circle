@@ -58,6 +58,13 @@ app.controller 'profile', ($rootScope, $scope, $stateParams, $timeout, api) ->
     if data.picture_url
       $scope.profile_picture = data.picture_url
 
+    cover_url = 'http://i.imgur.com/IDJF9Ff.jpg'
+
+    if data.cover_url
+      cover_url = data.cover_url
+
+    $scope.cover_style = {'background-image': "url(#{cover_url})"}
+
   get_user = ->
     api
       .findUser($stateParams.id)

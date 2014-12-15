@@ -16,6 +16,13 @@ app.controller 'group.show', ($rootScope, $scope, $stateParams, $timeout, $modal
           $scope.group = group
           getCreator(group.created_by)
 
+          cover_url = 'http://i.imgur.com/AHyEhHG.jpg'
+
+          if group.cover_url
+            cover_url = group.cover_url
+
+          $scope.cover_style = {'background-image': "url(#{cover_url})"}
+
   $scope.openModal = (picture) ->
     picture.active = true
     modalInstance = $modal.open

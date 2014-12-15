@@ -180,9 +180,17 @@
     getGroup = function() {
       return api.getGroup($scope.id).then(function(group) {
         return $timeout(function() {
+          var cover_url;
           $rootScope.page_title = group.name;
           $scope.group = group;
-          return getCreator(group.created_by);
+          getCreator(group.created_by);
+          cover_url = 'http://i.imgur.com/AHyEhHG.jpg';
+          if (group.cover_url) {
+            cover_url = group.cover_url;
+          }
+          return $scope.cover_style = {
+            'background-image': "url(" + cover_url + ")"
+          };
         });
       });
     };
@@ -316,7 +324,7 @@
       return api.create_fanpage_group($scope.user._id).then(get_user);
     };
     setUser = function(data) {
-      var birthdayDay, birthdayMoment, birthdayMonth, cakedayDay, cakedayMoment, cakedayMonth, currentYear, daysUntilBirthday, daysUntilCakeday;
+      var birthdayDay, birthdayMoment, birthdayMonth, cakedayDay, cakedayMoment, cakedayMonth, cover_url, currentYear, daysUntilBirthday, daysUntilCakeday;
       $scope.user = data;
       if ($scope.$bio) {
         $scope.user.bio = $scope.$bio;
@@ -354,8 +362,15 @@
         $scope.profile_picture = "https://graph.facebook.com/" + data.facebook_id + "/picture?type=large";
       }
       if (data.picture_url) {
-        return $scope.profile_picture = data.picture_url;
+        $scope.profile_picture = data.picture_url;
       }
+      cover_url = 'http://i.imgur.com/IDJF9Ff.jpg';
+      if (data.cover_url) {
+        cover_url = data.cover_url;
+      }
+      return $scope.cover_style = {
+        'background-image': "url(" + cover_url + ")"
+      };
     };
     get_user = function() {
       return api.findUser($stateParams.id).then(function(data) {

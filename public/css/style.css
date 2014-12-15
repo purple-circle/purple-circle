@@ -61,7 +61,6 @@ a {
   background-position: 50% 0;
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: url('http://i.imgur.com/Q0CaJ.jpg');
   height: 400px;
   position: relative;
   margin-bottom: 50px;
@@ -99,9 +98,6 @@ a {
   left: 0;
   margin-top: 75px;
   color: rgba(255, 255, 255, 0.4);
-}
-.group-cover {
-  background-image: url('http://i.imgur.com/AHyEhHG.jpg');
 }
 .picture-col {
   min-height: 150px;
