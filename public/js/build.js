@@ -172,16 +172,28 @@
   app = angular.module('app');
 
   app.controller('group.show', ["$rootScope", "$scope", "$stateParams", "$timeout", "$modal", "api", function($rootScope, $scope, $stateParams, $timeout, $modal, api) {
-    var checkMembership, done, getCreator, getGroup, getMemberList, getPictureAlbums;
+    var checkMembership, done, getCreator, getMemberList, getPictureAlbums, get_group;
     $scope.loggedin = api.checkLogin();
     $scope.id = $stateParams.id;
     $scope.membership_checked = false;
     $scope.not_member = true;
-    getGroup = function() {
+    $scope.set_group_logo = function(picture) {
+      return api.set_group_logo($scope.group._id, picture._id).then(get_group);
+    };
+    $scope.set_cover_picture = function(picture) {
+      return api.set_group_cover_picture($scope.group._id, picture._id).then(get_group);
+    };
+    get_group = function() {
       return api.getGroup($scope.id).then(function(group) {
         return $timeout(function() {
           var cover_url;
           $rootScope.page_title = group.name;
+          if (!group.logo_url) {
+            group.logo_url = 'http://i.imgur.com/zIZ5MuM.jpg';
+          }
+          if ($scope.loggedinUser) {
+            $scope.is_founder = $scope.loggedinUser._id === group.created_by;
+          }
           $scope.group = group;
           getCreator(group.created_by);
           cover_url = 'http://i.imgur.com/AHyEhHG.jpg';
@@ -283,7 +295,7 @@
     return $scope.$watch(function() {
       if ($scope.id && !done) {
         done = true;
-        getGroup();
+        get_group();
         getMemberList();
         getPictureAlbums();
         return $scope.getPictures();
@@ -851,6 +863,20 @@
           picture_id: picture_id
         });
         return this.on("set_cover_picture");
+      },
+      set_group_logo: function(group_id, picture_id) {
+        socket.emit("set_group_logo", {
+          group_id: group_id,
+          picture_id: picture_id
+        });
+        return this.on("set_group_logo");
+      },
+      set_group_cover_picture: function(group_id, picture_id) {
+        socket.emit("set_group_cover_picture", {
+          group_id: group_id,
+          picture_id: picture_id
+        });
+        return this.on("set_group_cover_picture");
       },
       create_fanpage_group: function(user_id) {
         socket.emit("create_fanpage_group", user_id);

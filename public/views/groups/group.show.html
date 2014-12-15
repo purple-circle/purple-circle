@@ -10,7 +10,7 @@
       </h1>
 
     <div class="cover-picture-thumbnail-container">
-      <img src="http://i.imgur.com/zIZ5MuM.jpg" class="cover-picture-thumbnail img-thumbnail" />
+      <img ng-src="{{group.logo_url}}" class="cover-picture-thumbnail img-thumbnail" />
     </div>
   </div>
 </div>
@@ -77,6 +77,8 @@
               <img ng-src="/uploads/{{picture.filename}}" class="img-thumbnail" alt="{{picture.title}}">
             </a>
             <p ng-if="picture.title">{{picture.title}}</p>
+            <a ng-click="set_group_logo(picture)" ng-if="is_founder">Set as group logo</a><br />
+            <a ng-click="set_cover_picture(picture)" ng-if="is_founder">Set as cover picture</a>
           </div>
         </div>
       </div>

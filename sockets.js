@@ -104,6 +104,20 @@
           return socket.emit("leaveGroup", result);
         });
       });
+      socket.on("set_group_logo", function(_arg) {
+        var group_id, picture_id;
+        group_id = _arg.group_id, picture_id = _arg.picture_id;
+        return groups.set_group_logo(group_id, picture_id).then(function(result) {
+          return socket.emit("set_group_logo", result);
+        });
+      });
+      socket.on("set_group_cover_picture", function(_arg) {
+        var group_id, picture_id;
+        group_id = _arg.group_id, picture_id = _arg.picture_id;
+        return groups.set_group_cover_picture(group_id, picture_id).then(function(result) {
+          return socket.emit("set_group_cover_picture", result);
+        });
+      });
       socket.on("checkMembership", function(id) {
         var data, loggedin_user, _ref, _ref1, _ref2;
         loggedin_user = (_ref = socket.request) != null ? (_ref1 = _ref.session) != null ? (_ref2 = _ref1.passport) != null ? _ref2.user : void 0 : void 0 : void 0;

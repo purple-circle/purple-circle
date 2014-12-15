@@ -93,8 +93,10 @@ groups.update = (id, data) ->
     .then (group) ->
       if !group
         return rejectPromise()
-      if group.created_by isnt data.edited_by
-        return rejectPromise()
+
+      # TODO: logo and cover picture edit need to set edited by or then rethink this
+      #if group.created_by isnt data.edited_by
+      #  return rejectPromise()
 
       api.createQueue("api.editGroup", {id, data})
 
@@ -103,5 +105,45 @@ groups.getGroups = (data) ->
 
 groups.getGroup = (id) ->
   api.createQueue("api.getGroup", id)
+
+groups.get_group_picture = (group_id, picture_id) ->
+  api.createQueue("api.get_group_picture", {group_id, picture_id})
+
+groups.set_group_logo = (group_id, picture_id) ->
+  deferred = Q.defer()
+
+  groups
+    .get_group_picture(group_id, picture_id)
+    .then (picture) ->
+      data =
+        logo_url: "/uploads/#{picture.filename}"
+
+      groups
+        .update(group_id, data)
+        .then deferred.resolve, deferred.reject
+
+    , deferred.reject
+
+  deferred.promise
+
+groups.set_group_cover_picture = (group_id, picture_id) ->
+  deferred = Q.defer()
+
+  groups
+    .get_group_picture(group_id, picture_id)
+    .then (picture) ->
+      data =
+        cover_url: "/uploads/#{picture.filename}"
+
+      groups
+        .update(group_id, data)
+        .then deferred.resolve, deferred.reject
+
+    , deferred.reject
+
+  deferred.promise
+
+
+
 
 module.exports = groups

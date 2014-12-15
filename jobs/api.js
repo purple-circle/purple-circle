@@ -255,6 +255,21 @@
     });
   });
 
+  jobs.process("api.get_group_picture", function(job, done) {
+    var Pictures, group_id, id;
+    Pictures = mongoose.model('group_pictures');
+    id = job.data.picture_id;
+    group_id = job.data.group_id;
+    return Pictures.findOne({
+      _id: id,
+      group_id: group_id
+    }).exec().then(function(result) {
+      return done(null, result);
+    }, function(error) {
+      return done(error);
+    });
+  });
+
   jobs.process("api.checkMembership", function(job, done) {
     var Members;
     Members = mongoose.model('group_members');
@@ -322,18 +337,20 @@
     var Groups, data, hashtags, id, user_mentions, _ref;
     Groups = mongoose.model('groups');
     _ref = job.data, id = _ref.id, data = _ref.data;
-    user_mentions = twitter.extractMentions(data.description);
-    hashtags = twitter.extractHashtags(data.description);
-    data.original_description = data.description;
-    data.description = twitter.autoLink(twitter.htmlEscape(data.description), twitter_text_options);
-    if (user_mentions || hashtags) {
-      data.metadata = {};
-    }
-    if (user_mentions.length) {
-      data.metadata.user_mentions = user_mentions;
-    }
-    if (hashtags.length) {
-      data.metadata.hashtags = hashtags;
+    if (data.description) {
+      user_mentions = twitter.extractMentions(data.description);
+      hashtags = twitter.extractHashtags(data.description);
+      data.original_description = data.description;
+      data.description = twitter.autoLink(twitter.htmlEscape(data.description), twitter_text_options);
+      if (user_mentions || hashtags) {
+        data.metadata = {};
+      }
+      if (user_mentions.length) {
+        data.metadata.user_mentions = user_mentions;
+      }
+      if (hashtags.length) {
+        data.metadata.hashtags = hashtags;
+      }
     }
     return Groups.findByIdAndUpdate(id, data, function(err, group) {
       if (err) {

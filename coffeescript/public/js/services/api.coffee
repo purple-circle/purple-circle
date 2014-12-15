@@ -73,6 +73,14 @@ app.factory 'api', ($q, $upload) ->
     socket.emit("set_cover_picture", {user_id, picture_id})
     this.on("set_cover_picture")
 
+  set_group_logo: (group_id, picture_id) ->
+    socket.emit("set_group_logo", {group_id, picture_id})
+    this.on("set_group_logo")
+
+  set_group_cover_picture: (group_id, picture_id) ->
+    socket.emit("set_group_cover_picture", {group_id, picture_id})
+    this.on("set_group_cover_picture")
+
   create_fanpage_group: (user_id) ->
     socket.emit("create_fanpage_group", user_id)
     this.on("create_fanpage_group")

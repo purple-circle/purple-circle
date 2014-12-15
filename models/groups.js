@@ -102,9 +102,6 @@
       if (!group) {
         return rejectPromise();
       }
-      if (group.created_by !== data.edited_by) {
-        return rejectPromise();
-      }
       return api.createQueue("api.editGroup", {
         id: id,
         data: data
@@ -118,6 +115,39 @@
 
   groups.getGroup = function(id) {
     return api.createQueue("api.getGroup", id);
+  };
+
+  groups.get_group_picture = function(group_id, picture_id) {
+    return api.createQueue("api.get_group_picture", {
+      group_id: group_id,
+      picture_id: picture_id
+    });
+  };
+
+  groups.set_group_logo = function(group_id, picture_id) {
+    var deferred;
+    deferred = Q.defer();
+    groups.get_group_picture(group_id, picture_id).then(function(picture) {
+      var data;
+      data = {
+        logo_url: "/uploads/" + picture.filename
+      };
+      return groups.update(group_id, data).then(deferred.resolve, deferred.reject);
+    }, deferred.reject);
+    return deferred.promise;
+  };
+
+  groups.set_group_cover_picture = function(group_id, picture_id) {
+    var deferred;
+    deferred = Q.defer();
+    groups.get_group_picture(group_id, picture_id).then(function(picture) {
+      var data;
+      data = {
+        cover_url: "/uploads/" + picture.filename
+      };
+      return groups.update(group_id, data).then(deferred.resolve, deferred.reject);
+    }, deferred.reject);
+    return deferred.promise;
   };
 
   module.exports = groups;

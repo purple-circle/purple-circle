@@ -111,6 +111,21 @@ module.exports = (server, sessionStore) ->
           socket.emit "leaveGroup", result
 
 
+    socket.on "set_group_logo", ({group_id, picture_id}) ->
+      groups
+        .set_group_logo(group_id, picture_id)
+        .then (result) ->
+          socket.emit "set_group_logo", result
+
+
+    socket.on "set_group_cover_picture", ({group_id, picture_id}) ->
+      groups
+        .set_group_cover_picture(group_id, picture_id)
+        .then (result) ->
+          socket.emit "set_group_cover_picture", result
+
+
+
     socket.on "checkMembership", (id) ->
       loggedin_user = socket.request?.session?.passport?.user
       if !loggedin_user

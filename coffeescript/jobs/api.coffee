@@ -222,6 +222,19 @@ jobs.process "api.leaveGroup", (job, done) ->
       done error
 
 
+jobs.process "api.get_group_picture", (job, done) ->
+  Pictures = mongoose.model 'group_pictures'
+  id = job.data.picture_id
+  group_id = job.data.group_id
+  Pictures
+    .findOne({_id: id, group_id})
+    .exec()
+    .then (result) ->
+      done(null, result)
+    , (error) ->
+      done error
+
+
 jobs.process "api.checkMembership", (job, done) ->
   Members = mongoose.model 'group_members'
   Members
@@ -286,22 +299,23 @@ jobs.process "api.editGroup", (job, done) ->
 
   {id, data} = job.data
 
-  user_mentions = twitter.extractMentions(data.description)
-  hashtags = twitter.extractHashtags(data.description)
+  if data.description
+    user_mentions = twitter.extractMentions(data.description)
+    hashtags = twitter.extractHashtags(data.description)
 
-  data.original_description = data.description
+    data.original_description = data.description
 
-  data.description = twitter.autoLink(twitter.htmlEscape(data.description), twitter_text_options)
+    data.description = twitter.autoLink(twitter.htmlEscape(data.description), twitter_text_options)
 
 
-  if user_mentions || hashtags
-    data.metadata = {}
+    if user_mentions || hashtags
+      data.metadata = {}
 
-  if user_mentions.length
-    data.metadata.user_mentions = user_mentions
+    if user_mentions.length
+      data.metadata.user_mentions = user_mentions
 
-  if hashtags.length
-    data.metadata.hashtags = hashtags
+    if hashtags.length
+      data.metadata.hashtags = hashtags
 
   Groups
     .findByIdAndUpdate id, data, (err, group) ->

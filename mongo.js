@@ -142,6 +142,7 @@
       name: 'String',
       description: 'String',
       original_description: 'String',
+      logo_url: 'String',
       cover_url: 'String',
       category: 'String',
       created_by: 'String',

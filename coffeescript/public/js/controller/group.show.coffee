@@ -6,12 +6,29 @@ app.controller 'group.show', ($rootScope, $scope, $stateParams, $timeout, $modal
   $scope.membership_checked = false
   $scope.not_member = true
 
-  getGroup = ->
+  $scope.set_group_logo = (picture) ->
+    api
+      .set_group_logo($scope.group._id, picture._id)
+      .then get_group
+
+  $scope.set_cover_picture = (picture) ->
+    api
+      .set_group_cover_picture($scope.group._id, picture._id)
+      .then get_group
+
+  get_group = ->
     api
       .getGroup($scope.id)
       .then (group) ->
         $timeout ->
           $rootScope.page_title = group.name
+
+          if !group.logo_url
+            group.logo_url = 'http://i.imgur.com/zIZ5MuM.jpg'
+
+          # This might have race condition
+          if $scope.loggedinUser
+            $scope.is_founder = $scope.loggedinUser._id == group.created_by
 
           $scope.group = group
           getCreator(group.created_by)
@@ -111,7 +128,7 @@ app.controller 'group.show', ($rootScope, $scope, $stateParams, $timeout, $modal
   $scope.$watch ->
     if $scope.id and !done
       done = true
-      getGroup()
+      get_group()
       getMemberList()
       getPictureAlbums()
       $scope.getPictures()
