@@ -5,7 +5,7 @@ app.controller 'profile', ($rootScope, $scope, $stateParams, $timeout, api) ->
   $scope.create_fanpage = ->
     api
       .create_fanpage_group($scope.user._id)
-      .then get_user
+      .then $scope.get_user
 
   setUser = (data) ->
     $scope.user = data

@@ -333,7 +333,7 @@
     var setUser;
     $scope.loggedin = api.checkLogin();
     $scope.create_fanpage = function() {
-      return api.create_fanpage_group($scope.user._id).then(get_user);
+      return api.create_fanpage_group($scope.user._id).then($scope.get_user);
     };
     setUser = function(data) {
       var birthdayDay, birthdayMoment, birthdayMonth, cakedayDay, cakedayMoment, cakedayMonth, cover_url, currentYear, daysUntilBirthday, daysUntilCakeday;
