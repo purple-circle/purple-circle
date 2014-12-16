@@ -27,7 +27,7 @@ a {
 }
 #logo {
   border-radius: 100%;
-  border: 5px solid #b10dc9;
+  border: 10px solid #ec008c;
   background: transparent;
   width: 100px;
   height: 100px;
@@ -38,7 +38,7 @@ a {
           transform: translate(0, 0, 0);
 }
 #logo:hover {
-  border: 10px solid #b10dc9;
+  border: 10px solid #ec008c;
   width: 200px;
   height: 200px;
 }
@@ -125,7 +125,7 @@ a {
   background: #f7f7f7;
 }
 .purple {
-  color: #b10dc9;
+  color: #ec008c;
 }
 .purple.animate {
   -webkit-animation: purpleToRed 10s infinite ease;
@@ -133,23 +133,23 @@ a {
 }
 @-webkit-keyframes purpleToRed {
   0% {
-    color: #b10dc9;
+    color: #ec008c;
   }
   50% {
     color: #ff4136;
   }
   100% {
-    color: #b10dc9;
+    color: #ec008c;
   }
 }
 @keyframes purpleToRed {
   0% {
-    color: #b10dc9;
+    color: #ec008c;
   }
   50% {
     color: #ff4136;
   }
   100% {
-    color: #b10dc9;
+    color: #ec008c;
   }
 }
