@@ -1,21 +1,25 @@
 <div class="spacing-top"></div>
-<div id="logo"></div>
 
 <div ng-if="loaded" class="loaded"></div>
 
 <div class="container">
   <div class="row">
-    <div class="col-md-4">
-      i'm logged in: {{loggedin}}
+    <div class="col-md-3">
+      <div id="logo"></div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-4">
       <ul>
         <li ng-repeat="user in users">
           <a ui-sref="profile.show({id: user._id})">{{user.username}}</a>
         </li>
       </ul>
     </div>
+
+    <div class="col-md-4">
+      i'm logged in: {{loggedin}}
+    </div>
+
   </div>
 </div>
 
