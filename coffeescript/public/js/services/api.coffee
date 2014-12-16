@@ -65,6 +65,10 @@ app.factory 'api', ($q, $upload) ->
     socket.emit("getProfilePictures", id)
     this.on("getProfilePictures")
 
+  get_profile_picture_albums: (id) ->
+    socket.emit("get_profile_picture_albums", id)
+    this.on("get_profile_picture_albums")
+
   set_profile_picture: (user_id, picture_id) ->
     socket.emit("set_profile_picture", {user_id, picture_id})
     this.on("set_profile_picture")

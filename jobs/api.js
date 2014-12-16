@@ -152,6 +152,31 @@
     });
   });
 
+  jobs.process("api.create_profile_picture_album", function(job, done) {
+    var ProfilePictureAlbum, album;
+    ProfilePictureAlbum = mongoose.model('profile_picture_albums');
+    album = new ProfilePictureAlbum(job.data);
+    return album.save(function(err) {
+      if (err) {
+        return done(err);
+      } else {
+        return done(null, album);
+      }
+    });
+  });
+
+  jobs.process("api.get_profile_picture_albums", function(job, done) {
+    var Albums;
+    Albums = mongoose.model('profile_picture_albums');
+    return Albums.find({
+      user_id: job.data
+    }).exec().then(function(result) {
+      return done(null, result);
+    }, function(error) {
+      return done(error);
+    });
+  });
+
   jobs.process("api.saveFacebookData", function(job, done) {
     var Facebook, facebook;
     Facebook = mongoose.model('facebook_user_data');

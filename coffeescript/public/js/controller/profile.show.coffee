@@ -2,6 +2,13 @@ app = angular.module('app')
 app.controller 'profile.show', ($rootScope, $scope, $timeout, $modal, api) ->
   $scope.loggedin = api.checkLogin()
 
+  get_picture_albums = ->
+    api
+      .get_profile_picture_albums($scope.user._id)
+      .then (picture_albums) ->
+        $timeout ->
+          $scope.picture_albums = picture_albums
+
   $scope.uploadProfilePicture = ($files) ->
     options =
       profile_id: $scope.user._id
@@ -55,3 +62,4 @@ app.controller 'profile.show', ($rootScope, $scope, $timeout, $modal, api) ->
       done = true
 
       $scope.getPictures()
+      get_picture_albums()

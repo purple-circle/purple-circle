@@ -134,6 +134,25 @@ jobs.process "api.get_profile_picture", (job, done) ->
     , (error) ->
       done error
 
+jobs.process "api.create_profile_picture_album", (job, done) ->
+  ProfilePictureAlbum = mongoose.model 'profile_picture_albums'
+  album = new ProfilePictureAlbum(job.data)
+  album.save (err) ->
+    if err
+      done(err)
+    else
+      done null, album
+
+jobs.process "api.get_profile_picture_albums", (job, done) ->
+  Albums = mongoose.model 'profile_picture_albums'
+  Albums
+    .find({user_id: job.data})
+    .exec()
+    .then (result) ->
+      done(null, result)
+    , (error) ->
+      done error
+
 
 jobs.process "api.saveFacebookData", (job, done) ->
   Facebook = mongoose.model 'facebook_user_data'

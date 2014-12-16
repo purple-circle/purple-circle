@@ -7,14 +7,45 @@ rejectPromise = ->
   deferred.reject()
   deferred.promise
 
+
+user.create_default_picture_album = (userid) ->
+  album_data =
+    user_id: result._id
+    title: "Default album"
+    default: true
+
+  user.create_picture_album(album_data)
+
 user.create = (data) ->
-  api.createQueue("api.createUser", data)
+  deferred = Q.defer()
+  api
+    .createQueue("api.createUser", data)
+    .then (result) ->
+      user
+        .create_default_picture_album(result._id)
+        .then ->
+          deferred.resolve(result)
+
+    , deferred.reject
+
+  deferred.promise
 
 user.edit = (id, data) ->
   api.createQueue("api.edit_user", {id, data})
 
 user.localSignup = (data) ->
-  api.createQueue("api.localSignupUser", data)
+  deferred = Q.defer()
+  api
+    .createQueue("api.localSignupUser", data)
+    .then (result) ->
+      user
+        .create_default_picture_album(result._id)
+        .then ->
+          deferred.resolve(result)
+
+    , deferred.reject
+
+  deferred.promise
 
 user.getUser = (id) ->
   api.createQueue("api.getUser", {_id: id})
@@ -30,6 +61,16 @@ user.savePicture = (id, data) ->
 
 user.getPictures = (id) ->
   api.createQueue("api.getProfilePictures", id)
+
+user.create_picture_album = (data) ->
+  if !data.user_id
+    return rejectPromise()
+
+  api.createQueue("api.create_profile_picture_album", data)
+
+user.get_profile_picture_albums = (id) ->
+  api.createQueue("api.get_profile_picture_albums", id)
+
 
 user.get_profile_picture = (user_id, picture_id) ->
   api.createQueue("api.get_profile_picture", {user_id, picture_id})

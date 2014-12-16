@@ -78,7 +78,7 @@
       <div ng-if="user.bio && user.show_bio" class="well" ng-bind-html="user.bio | newlines"></div>
 
       <div ng-if="user.my_profile">
-        <upload profile-id="user._id" update="getPictures"></upload>
+        <upload profile-id="user._id" update="getPictures" albums="picture_albums" ng-if="picture_albums"></upload>
       </div>
 
       <div class="well" ng-if="pictures.length">

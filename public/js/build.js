@@ -445,8 +445,15 @@
   app = angular.module('app');
 
   app.controller('profile.show', ["$rootScope", "$scope", "$timeout", "$modal", "api", function($rootScope, $scope, $timeout, $modal, api) {
-    var done;
+    var done, get_picture_albums;
     $scope.loggedin = api.checkLogin();
+    get_picture_albums = function() {
+      return api.get_profile_picture_albums($scope.user._id).then(function(picture_albums) {
+        return $timeout(function() {
+          return $scope.picture_albums = picture_albums;
+        });
+      });
+    };
     $scope.uploadProfilePicture = function($files) {
       var options;
       options = {
@@ -496,7 +503,8 @@
       if ($scope.$parent.user && !done) {
         $rootScope.page_title = $scope.$parent.user.name || $scope.$parent.user.username;
         done = true;
-        return $scope.getPictures();
+        $scope.getPictures();
+        return get_picture_albums();
       }
     });
   }]);
@@ -849,6 +857,10 @@
       getProfilePictures: function(id) {
         socket.emit("getProfilePictures", id);
         return this.on("getProfilePictures");
+      },
+      get_profile_picture_albums: function(id) {
+        socket.emit("get_profile_picture_albums", id);
+        return this.on("get_profile_picture_albums");
       },
       set_profile_picture: function(user_id, picture_id) {
         socket.emit("set_profile_picture", {

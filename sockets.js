@@ -37,6 +37,11 @@
           return socket.emit("getProfilePictures", result);
         });
       });
+      socket.on("get_profile_picture_albums", function(id) {
+        return user.get_profile_picture_albums(id).then(function(result) {
+          return socket.emit("get_profile_picture_albums", result);
+        });
+      });
       socket.on("set_profile_picture", function(_arg) {
         var picture_id, user_id;
         user_id = _arg.user_id, picture_id = _arg.picture_id;
