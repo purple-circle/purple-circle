@@ -38,6 +38,16 @@
     });
   });
 
+  jobs.process("api.api_stats", function(job, done) {
+    var Log;
+    Log = mongoose.model('api_logs');
+    return Log.find().exec().then(function(result) {
+      return done(null, result);
+    }, function(error) {
+      return done(error);
+    });
+  });
+
   jobs.process("api.getUserlist", function(job, done) {
     var Users;
     Users = mongoose.model('users');

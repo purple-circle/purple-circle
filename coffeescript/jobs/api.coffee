@@ -28,6 +28,16 @@ jobs.process "stats.save_api_log", (job, done) ->
     else
       done null, log
 
+jobs.process "api.api_stats", (job, done) ->
+  Log = mongoose.model 'api_logs'
+  Log
+    .find()
+    .exec()
+    .then (result) ->
+      done(null, result)
+    , (error) ->
+      done error
+
 
 jobs.process "api.getUserlist", (job, done) ->
   Users = mongoose.model 'users'

@@ -17,6 +17,10 @@
     return deferred.promise;
   };
 
+  api.api_stats = function() {
+    return api.createQueue("api.api_stats");
+  };
+
   api.getUserlist = function() {
     return api.createQueue("api.getUserlist");
   };

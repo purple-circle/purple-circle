@@ -43,6 +43,10 @@ app.factory 'api', ($q, $upload) ->
   saveComment: (data) ->
     socket.emit("savecomment", data)
 
+  api_stats: ->
+    socket.emit("api_stats")
+    this.on("api_stats")
+
   findUser: (id) ->
     socket.emit("getuser", id)
     this.on("user")

@@ -18,6 +18,9 @@ api.createQueue = (name, data) ->
 
   deferred.promise
 
+api.api_stats = ->
+  api.createQueue("api.api_stats")
+
 # TODO: these are in wrong place
 api.getUserlist = ->
   api.createQueue("api.getUserlist")

@@ -11,6 +11,11 @@
       return sessionStore(socket.request, socket.request.res, next);
     });
     return io.on("connection", function(socket) {
+      socket.on("api_stats", function() {
+        return api.api_stats().then(function(result) {
+          return socket.emit("api_stats", result);
+        });
+      });
       socket.on("getuser", function(data) {
         return api.getUser(data).then(function(user) {
           var loggedin_user, _ref, _ref1, _ref2;

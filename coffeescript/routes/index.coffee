@@ -28,6 +28,9 @@ router.get "/login/fail", (req, res) ->
     userLoginStatus: req.user isnt undefined
     loginFailed: true
 
+router.get "/api_stats", (req, res) ->
+  res.render "index",
+    userLoginStatus: req.user isnt undefined
 
 Users = mongoose.model 'users'
 passport.use new LocalStrategy(Users.authenticate())

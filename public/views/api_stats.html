@@ -1,0 +1,11 @@
+<div class="spacing-top"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div ng-repeat="stat in group_stats | orderBy:'-count'">
+        {{stat.name}}: {{stat.count}}
+      </div>
+    </div>
+  </div>
+</div>

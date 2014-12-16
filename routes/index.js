@@ -43,6 +43,12 @@
     });
   });
 
+  router.get("/api_stats", function(req, res) {
+    return res.render("index", {
+      userLoginStatus: req.user !== void 0
+    });
+  });
+
   Users = mongoose.model('users');
 
   passport.use(new LocalStrategy(Users.authenticate()));

@@ -10,6 +10,10 @@
       url: '/',
       templateUrl: 'index.html',
       controller: 'index'
+    }).state('api_stats', {
+      url: '/api_stats',
+      templateUrl: 'api_stats.html',
+      controller: 'api_stats'
     }).state('profile', {
       abstract: true,
       url: '/profile/:id',
@@ -98,7 +102,37 @@
 
   app = angular.module('app');
 
-  app.controller('group', ["$scope", function($scope) {
+  app.controller('api_stats', ["$scope", "$timeout", "api", function($scope, $timeout, api) {
+    return api.api_stats().then(function(stats) {
+      return $timeout(function() {
+        $scope.stats = stats;
+        return $scope.group_stats = _.reduce(stats, function(memo, stats) {
+          var data;
+          data = _.find(memo, {
+            name: stats.name
+          });
+          if (!data) {
+            data = {
+              name: stats.name,
+              count: 0
+            };
+            memo.push(data);
+          }
+          data.count++;
+          return memo;
+        }, []);
+      });
+    });
+  }]);
+
+}).call(this);
+
+(function() {
+  var app;
+
+  app = angular.module('app');
+
+  app.controller('group', ["$scope", "api", function($scope, api) {
     return $scope.loggedin = api.checkLogin();
   }]);
 
@@ -832,6 +866,10 @@
       },
       saveComment: function(data) {
         return socket.emit("savecomment", data);
+      },
+      api_stats: function() {
+        socket.emit("api_stats");
+        return this.on("api_stats");
       },
       findUser: function(id) {
         socket.emit("getuser", id);

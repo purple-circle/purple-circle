@@ -10,6 +10,12 @@ module.exports = (server, sessionStore) ->
     sessionStore socket.request, socket.request.res, next
 
   io.on "connection", (socket) ->
+    socket.on "api_stats", ->
+      api
+        .api_stats()
+        .then (result) ->
+          socket.emit "api_stats", result
+
     socket.on "getuser", (data) ->
       api
         .getUser(data)

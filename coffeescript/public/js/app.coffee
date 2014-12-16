@@ -19,6 +19,10 @@ app.config ($stateProvider, $locationProvider) ->
       url: '/'
       templateUrl: 'index.html'
       controller: 'index'
+    .state 'api_stats',
+      url: '/api_stats'
+      templateUrl: 'api_stats.html'
+      controller: 'api_stats'
     .state 'profile',
       abstract: true
       url: '/profile/:id'
