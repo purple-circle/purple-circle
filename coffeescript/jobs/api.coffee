@@ -35,8 +35,7 @@ jobs.process "api.api_stats", (job, done) ->
     .exec()
     .then (result) ->
       done(null, result)
-    , (error) ->
-      done error
+    , done
 
 
 jobs.process "api.getUserlist", (job, done) ->
@@ -47,8 +46,7 @@ jobs.process "api.getUserlist", (job, done) ->
     .exec()
     .then (result) ->
       done(null, result)
-    , (error) ->
-      done error
+    , done
 
 
 jobs.process "api.getUser", (job, done) ->
@@ -59,8 +57,7 @@ jobs.process "api.getUser", (job, done) ->
     .exec()
     .then (result) ->
       done(null, result)
-    , (error) ->
-      done error
+    , done
 
 
 jobs.process "api.edit_user", (job, done) ->
@@ -119,8 +116,7 @@ jobs.process "api.getProfilePictures", (job, done) ->
     .exec()
     .then (result) ->
       done(null, result)
-    , (error) ->
-      done error
+    , done
 
 jobs.process "api.saveProfilePicture", (job, done) ->
   Pictures = mongoose.model 'profile_pictures'
@@ -156,8 +152,7 @@ jobs.process "api.get_profile_picture", (job, done) ->
     .exec()
     .then (result) ->
       done(null, result)
-    , (error) ->
-      done error
+    , done
 
 jobs.process "api.create_profile_picture_album", (job, done) ->
   ProfilePictureAlbum = mongoose.model 'profile_picture_albums'
@@ -175,8 +170,7 @@ jobs.process "api.get_profile_picture_albums", (job, done) ->
     .exec()
     .then (result) ->
       done(null, result)
-    , (error) ->
-      done error
+    , done
 
 
 jobs.process "api.saveFacebookData", (job, done) ->
@@ -262,8 +256,7 @@ jobs.process "api.leaveGroup", (job, done) ->
     .exec()
     .then (result) ->
       done(null, result)
-    , (error) ->
-      done error
+    , done
 
 
 jobs.process "api.get_group_picture", (job, done) ->
@@ -275,8 +268,7 @@ jobs.process "api.get_group_picture", (job, done) ->
     .exec()
     .then (result) ->
       done(null, result)
-    , (error) ->
-      done error
+    , done
 
 
 jobs.process "api.checkMembership", (job, done) ->
@@ -287,8 +279,7 @@ jobs.process "api.checkMembership", (job, done) ->
     .then (result) ->
       membership = result isnt null
       done(null, membership)
-    , (error) ->
-      done error
+    , done
 
 jobs.process "api.getMemberList", (job, done) ->
   Members = mongoose.model 'group_members'
@@ -297,8 +288,7 @@ jobs.process "api.getMemberList", (job, done) ->
     .exec()
     .then (result) ->
       done(null, result)
-    , (error) ->
-      done error
+    , done
 
 jobs.process "api.getGroupPictureAlbums", (job, done) ->
   Albums = mongoose.model 'group_picture_albums'
@@ -307,8 +297,7 @@ jobs.process "api.getGroupPictureAlbums", (job, done) ->
     .exec()
     .then (result) ->
       done(null, result)
-    , (error) ->
-      done error
+    , done
 
 jobs.process "api.getGroupPictures", (job, done) ->
   Pictures = mongoose.model 'group_pictures'
@@ -317,8 +306,7 @@ jobs.process "api.getGroupPictures", (job, done) ->
     .exec()
     .then (result) ->
       done(null, result)
-    , (error) ->
-      done error
+    , done
 
 jobs.process "api.saveGroupPicture", (job, done) ->
   Pictures = mongoose.model 'group_pictures'
@@ -382,8 +370,7 @@ jobs.process "api.getGroups", (job, done) ->
     .exec()
     .then (result) ->
       done(null, result)
-    , (error) ->
-      done error
+    , done
 
 
 jobs.process "api.getGroup", (job, done) ->
@@ -395,8 +382,7 @@ jobs.process "api.getGroup", (job, done) ->
     .exec()
     .then (result) ->
       done(null, result)
-    , (error) ->
-      done error
+    , done
 
 jobs.process "api.load_chat_messages", (job, done) ->
   ChatMessages = mongoose.model 'chat_messages'
@@ -405,8 +391,7 @@ jobs.process "api.load_chat_messages", (job, done) ->
     .exec()
     .then (result) ->
       done(null, result)
-    , (error) ->
-      done error
+    , done
 
 jobs.process "api.save_chat_message", (job, done) ->
   user_mentions = twitter.extractMentions(job.data.message)

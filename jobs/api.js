@@ -43,9 +43,7 @@
     Log = mongoose.model('api_logs');
     return Log.find().exec().then(function(result) {
       return done(null, result);
-    }, function(error) {
-      return done(error);
-    });
+    }, done);
   });
 
   jobs.process("api.getUserlist", function(job, done) {
@@ -53,9 +51,7 @@
     Users = mongoose.model('users');
     return Users.find().select(selectUserFields).exec().then(function(result) {
       return done(null, result);
-    }, function(error) {
-      return done(error);
-    });
+    }, done);
   });
 
   jobs.process("api.getUser", function(job, done) {
@@ -63,9 +59,7 @@
     Users = mongoose.model('users');
     return Users.findOne(job.data).select(selectUserFields).exec().then(function(result) {
       return done(null, result);
-    }, function(error) {
-      return done(error);
-    });
+    }, done);
   });
 
   jobs.process("api.edit_user", function(job, done) {
@@ -133,9 +127,7 @@
       user_id: job.data
     }).exec().then(function(result) {
       return done(null, result);
-    }, function(error) {
-      return done(error);
-    });
+    }, done);
   });
 
   jobs.process("api.saveProfilePicture", function(job, done) {
@@ -173,9 +165,7 @@
       user_id: user_id
     }).exec().then(function(result) {
       return done(null, result);
-    }, function(error) {
-      return done(error);
-    });
+    }, done);
   });
 
   jobs.process("api.create_profile_picture_album", function(job, done) {
@@ -198,9 +188,7 @@
       user_id: job.data
     }).exec().then(function(result) {
       return done(null, result);
-    }, function(error) {
-      return done(error);
-    });
+    }, done);
   });
 
   jobs.process("api.saveFacebookData", function(job, done) {
@@ -301,9 +289,7 @@
     GroupMembers = mongoose.model('group_members');
     return GroupMembers.remove(job.data).exec().then(function(result) {
       return done(null, result);
-    }, function(error) {
-      return done(error);
-    });
+    }, done);
   });
 
   jobs.process("api.get_group_picture", function(job, done) {
@@ -316,9 +302,7 @@
       group_id: group_id
     }).exec().then(function(result) {
       return done(null, result);
-    }, function(error) {
-      return done(error);
-    });
+    }, done);
   });
 
   jobs.process("api.checkMembership", function(job, done) {
@@ -328,9 +312,7 @@
       var membership;
       membership = result !== null;
       return done(null, membership);
-    }, function(error) {
-      return done(error);
-    });
+    }, done);
   });
 
   jobs.process("api.getMemberList", function(job, done) {
@@ -340,9 +322,7 @@
       group_id: job.data
     }).exec().then(function(result) {
       return done(null, result);
-    }, function(error) {
-      return done(error);
-    });
+    }, done);
   });
 
   jobs.process("api.getGroupPictureAlbums", function(job, done) {
@@ -352,9 +332,7 @@
       group_id: job.data
     }).exec().then(function(result) {
       return done(null, result);
-    }, function(error) {
-      return done(error);
-    });
+    }, done);
   });
 
   jobs.process("api.getGroupPictures", function(job, done) {
@@ -364,9 +342,7 @@
       group_id: job.data
     }).exec().then(function(result) {
       return done(null, result);
-    }, function(error) {
-      return done(error);
-    });
+    }, done);
   });
 
   jobs.process("api.saveGroupPicture", function(job, done) {
@@ -422,9 +398,7 @@
     Groups = mongoose.model('groups');
     return Groups.find(filters).exec().then(function(result) {
       return done(null, result);
-    }, function(error) {
-      return done(error);
-    });
+    }, done);
   });
 
   jobs.process("api.getGroup", function(job, done) {
@@ -432,9 +406,7 @@
     Groups = mongoose.model('groups');
     return Groups.findOne().where('_id').equals(job.data).exec().then(function(result) {
       return done(null, result);
-    }, function(error) {
-      return done(error);
-    });
+    }, done);
   });
 
   jobs.process("api.load_chat_messages", function(job, done) {
@@ -442,9 +414,7 @@
     ChatMessages = mongoose.model('chat_messages');
     return ChatMessages.find(job.data).exec().then(function(result) {
       return done(null, result);
-    }, function(error) {
-      return done(error);
-    });
+    }, done);
   });
 
   jobs.process("api.save_chat_message", function(job, done) {
