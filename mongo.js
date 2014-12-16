@@ -1,6 +1,6 @@
 (function() {
   module.exports = function(settings) {
-    var chatMessageSchema, db, facebookUserSchema, getRandomName, getRandomUserName, googleUserSchema, groupMemberSchema, groupPictureAlbumSchema, groupPictureSchema, groupSchema, instagramUserSchema, mongoose, passportLocalMongoose, profilePictureAlbumSchema, profilePictureSchema, userSchema;
+    var apiLogSchema, chatMessageSchema, db, facebookUserSchema, getRandomName, getRandomUserName, googleUserSchema, groupMemberSchema, groupPictureAlbumSchema, groupPictureSchema, groupSchema, instagramUserSchema, mongoose, passportLocalMongoose, profilePictureAlbumSchema, profilePictureSchema, userSchema;
     mongoose = require('mongoose');
     passportLocalMongoose = require('passport-local-mongoose');
     getRandomName = function() {
@@ -233,6 +233,13 @@
         "default": Date.now
       }
     });
+    apiLogSchema = mongoose.Schema({
+      name: 'String',
+      created_at: {
+        type: Date,
+        "default": Date.now
+      }
+    });
     userSchema.plugin(passportLocalMongoose);
     mongoose.model('users', userSchema);
     mongoose.model('groups', groupSchema);
@@ -245,6 +252,7 @@
     mongoose.model('instagram_user_data', instagramUserSchema);
     mongoose.model('google_user_data', googleUserSchema);
     mongoose.model('chat_messages', chatMessageSchema);
+    mongoose.model('api_logs', apiLogSchema);
     db = mongoose.connection;
     db.on('error', function(error) {
       return console.log('Mongodb returned error: %s', error);

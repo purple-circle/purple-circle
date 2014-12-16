@@ -153,6 +153,11 @@ module.exports = (settings) ->
     created_at: { type: Date, default: Date.now }
   }
 
+  apiLogSchema = mongoose.Schema {
+    name: 'String'
+    created_at: { type: Date, default: Date.now }
+  }
+
   userSchema.plugin(passportLocalMongoose)
 
   mongoose.model 'users', userSchema
@@ -166,6 +171,8 @@ module.exports = (settings) ->
   mongoose.model 'instagram_user_data', instagramUserSchema
   mongoose.model 'google_user_data', googleUserSchema
   mongoose.model 'chat_messages', chatMessageSchema
+  mongoose.model 'api_logs', apiLogSchema
+
 
   db = mongoose.connection
 

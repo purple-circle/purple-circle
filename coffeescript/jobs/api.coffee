@@ -14,6 +14,21 @@ twitter_text_options =
 console.log "api worker running"
 selectUserFields = '-salt -hash'
 
+
+jobs.process "stats.save_api_log", (job, done) ->
+  Log = mongoose.model 'api_logs'
+
+  data =
+    name: job.data
+
+  log = new Log(data)
+  log.save (err) ->
+    if err
+      done(err)
+    else
+      done null, log
+
+
 jobs.process "api.getUserlist", (job, done) ->
   Users = mongoose.model 'users'
   Users

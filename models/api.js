@@ -13,6 +13,7 @@
     jobs = kue.createQueue();
     job = jobs.create(name, data).save();
     job.on("complete", deferred.resolve).on("failed", deferred.reject);
+    jobs.create('stats.save_api_log', name).save();
     return deferred.promise;
   };
 

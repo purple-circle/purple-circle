@@ -22,6 +22,22 @@
 
   selectUserFields = '-salt -hash';
 
+  jobs.process("stats.save_api_log", function(job, done) {
+    var Log, data, log;
+    Log = mongoose.model('api_logs');
+    data = {
+      name: job.data
+    };
+    log = new Log(data);
+    return log.save(function(err) {
+      if (err) {
+        return done(err);
+      } else {
+        return done(null, log);
+      }
+    });
+  });
+
   jobs.process("api.getUserlist", function(job, done) {
     var Users;
     Users = mongoose.model('users');

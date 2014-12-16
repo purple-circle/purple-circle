@@ -12,6 +12,10 @@ api.createQueue = (name, data) ->
     .on("complete", deferred.resolve)
     .on("failed", deferred.reject)
 
+  jobs
+    .create('stats.save_api_log', name)
+    .save()
+
   deferred.promise
 
 # TODO: these are in wrong place
