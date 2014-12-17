@@ -23,6 +23,9 @@ groups.create = (data) ->
       groups.joinGroup(joinData)
       group
 
+user.check_group_name = (name) ->
+  api.createQueue("api.check_group_name", name)
+
 groups.joinGroup = (data) ->
   if !data.group_id || !data.user_id
     return rejectPromise()

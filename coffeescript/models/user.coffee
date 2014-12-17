@@ -16,6 +16,9 @@ user.create_default_picture_album = (userid) ->
 
   user.create_picture_album(album_data)
 
+user.check_username = (username) ->
+  api.createQueue("api.check_username", username)
+
 user.create = (data) ->
   deferred = Q.defer()
   api

@@ -62,6 +62,26 @@
     }, done);
   });
 
+  jobs.process("api.check_username", function(job, done) {
+    var Users;
+    Users = mongoose.model('users');
+    return Users.findOne({
+      username: job.data
+    }).select('username').exec().then(function(result) {
+      return done(null, result);
+    }, done);
+  });
+
+  jobs.process("api.check_group_name", function(job, done) {
+    var Groups;
+    Groups = mongoose.model('groups');
+    return Groups.findOne({
+      name: job.data
+    }).select('name').exec().then(function(result) {
+      return done(null, result);
+    }, done);
+  });
+
   jobs.process("api.edit_user", function(job, done) {
     var User, data, hashtags, id, user_mentions, _ref;
     User = mongoose.model('users');

@@ -30,6 +30,10 @@
     });
   };
 
+  user.check_group_name = function(name) {
+    return api.createQueue("api.check_group_name", name);
+  };
+
   groups.joinGroup = function(data) {
     if (!data.group_id || !data.user_id) {
       return rejectPromise();

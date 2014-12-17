@@ -60,6 +60,28 @@ jobs.process "api.getUser", (job, done) ->
     , done
 
 
+jobs.process "api.check_username", (job, done) ->
+  Users = mongoose.model 'users'
+  Users
+    .findOne({username: job.data})
+    .select('username')
+    .exec()
+    .then (result) ->
+      done(null, result)
+    , done
+
+
+jobs.process "api.check_group_name", (job, done) ->
+  Groups = mongoose.model 'groups'
+  Groups
+    .findOne({name: job.data})
+    .select('name')
+    .exec()
+    .then (result) ->
+      done(null, result)
+    , done
+
+
 jobs.process "api.edit_user", (job, done) ->
   User = mongoose.model 'users'
 

@@ -24,6 +24,10 @@
     return user.create_picture_album(album_data);
   };
 
+  user.check_username = function(username) {
+    return api.createQueue("api.check_username", username);
+  };
+
   user.create = function(data) {
     var deferred;
     deferred = Q.defer();
