@@ -1,6 +1,5 @@
 <div class="spacing-top"></div>
 
-<form role="form" ng-submit="save_edit()">
   <div class="container">
 
     <div class="row">
@@ -20,99 +19,209 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-6">
-        <div class="well">
-
-          <div class="form-group">
-            <div class="row">
-              <label for="name" class="col-lg-2 control-label">Name</label>
-              <div class="col-lg-10">
-                <input type="text" class="form-control" id="name" ng-model="user.name" placeholder="Name">
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="row">
-              <label for="username" class="col-lg-2 control-label">Username</label>
-              <div class="col-lg-10">
-                <input type="text" class="form-control" id="username" ng-model="user.username" placeholder="Username">
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="row">
-              <label for="email" class="col-lg-2 control-label">Email</label>
-              <div class="col-lg-10">
-                <input type="text" class="form-control" id="email" ng-model="user.email" placeholder="Email">
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="row">
-              <label for="birthday" class="col-lg-2 control-label">Birthday</label>
-              <div class="col-lg-10">
-                <input type="date" class="form-control" id="birthday" ng-model="user.birthday" placeholder="Birthday">
-
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox" ng-model="user.show_birthday">
-                    <span class="ripple"></span>
-                    <span class="check"></span>
-                    Show birthday
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
 
 
-          <div class="form-group">
-            <label>Gender</label>
-            <select class="form-control" ng-model="user.gender" ng-options="gender.name as gender.name for gender in genders"></select>
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" ng-model="user.show_gender">
-                <span class="ripple"></span>
-                <span class="check"></span>
-                Show gender
-              </label>
-            </div>
-          </div>
-
-
-
-          <button type="submit" class="btn btn-primary">Save profile</button>
-        </div>
+    <div class="row spacing">
+      <div class="col-md-12">
+        <ul class="nav nav-tabs">
+          <li ng-class="{active: page == 'details'}">
+            <a ng-click="set_page('details')">Details</a>
+          </li>
+          <li ng-class="{active: page == 'username'}">
+            <a ng-click="set_page('username')">Username</a>
+          </li>
+          <li ng-class="{active: page == 'password'}">
+            <a ng-click="set_page('password')">Password</a>
+          </li>
+          <li ng-class="{active: page == 'employment'}">
+            <a ng-click="set_page('employment')">Employment</a>
+          </li>
+          <li ng-class="{active: page == 'education'}">
+            <a ng-click="set_page('education')">Education</a>
+          </li>
+          <li ng-class="{active: page == 'interests'}">
+            <a ng-click="set_page('interests')">Interests</a>
+          </li>
+        </ul>
       </div>
-
-      <div class="col-md-6">
-        <div class="well">
-          <div class="form-group">
-            <div class="row">
-              <label for="bio" class="col-lg-2 control-label">Bio</label>
-              <div class="col-lg-10">
-                <textarea class="form-control" rows="5" id="bio" ng-model="user.bio" placeholder="Bio"></textarea>
-                <span class="help-block">Write something beautiful about yourself</span>
-
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox" ng-model="user.show_bio">
-                    <span class="ripple"></span>
-                    <span class="check"></span>
-                    Show bio
-                  </label>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
     </div>
+
+
+    <div class="row" ng-if="page == 'details'">
+      <form role="form" ng-submit="save_details()">
+        <div class="col-md-6">
+          <div class="well">
+
+            <div class="form-group">
+              <div class="row">
+                <label for="name" class="col-lg-2 control-label">Name</label>
+                <div class="col-lg-10">
+                  <input type="text" class="form-control" id="name" ng-model="user.name" placeholder="Name">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="row">
+                <label for="email" class="col-lg-2 control-label">Email</label>
+                <div class="col-lg-10">
+                  <input type="text" class="form-control" id="email" ng-model="user.email" placeholder="Email">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="row">
+                <label for="birthday" class="col-lg-2 control-label">Birthday</label>
+                <div class="col-lg-10">
+                  <input type="date" class="form-control" id="birthday" ng-model="user.birthday" placeholder="Birthday">
+
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" ng-model="user.show_birthday">
+                      <span class="ripple"></span>
+                      <span class="check"></span>
+                      Show birthday
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="form-group">
+              <label>Gender</label>
+              <select class="form-control" ng-model="user.gender" ng-options="gender.name as gender.name for gender in genders"></select>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" ng-model="user.show_gender">
+                  <span class="ripple"></span>
+                  <span class="check"></span>
+                  Show gender
+                </label>
+              </div>
+            </div>
+
+
+
+            <button type="submit" class="btn btn-primary">Save profile</button>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="well">
+            <div class="form-group">
+              <div class="row">
+                <label for="bio" class="col-lg-2 control-label">Bio</label>
+                <div class="col-lg-10">
+                  <textarea class="form-control" rows="5" id="bio" ng-model="user.bio" placeholder="Bio"></textarea>
+                  <span class="help-block">Write something beautiful about yourself</span>
+
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" ng-model="user.show_bio">
+                      <span class="ripple"></span>
+                      <span class="check"></span>
+                      Show bio
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+
+
+    <div class="row" ng-if="page == 'username'">
+      <div class="col-md-6">
+        <div class="well">
+
+          <h2>Change username</h2>
+
+          <div class="form-group">
+            <div class="row">
+              <label for="username" class="col-lg-2 control-label">New username</label>
+              <div class="col-lg-10">
+                <input type="text" class="form-control" id="username" ng-model="new_username" placeholder="New username">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="row">
+              <label for="confirm-username" class="col-lg-2 control-label">Confirm new username</label>
+              <div class="col-lg-10">
+                <input type="text" class="form-control" id="confirm-username" ng-model="confirm_new_username" placeholder="Confirm new username">
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Save password</button>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row" ng-if="page == 'password'">
+      <div class="col-md-6">
+        <div class="well">
+
+          <h2>Change password</h2>
+
+          <div class="form-group">
+            <div class="row">
+              <label for="password" class="col-lg-2 control-label">New password</label>
+              <div class="col-lg-10">
+                <input type="password" class="form-control" id="password" ng-model="new_password" placeholder="Username">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="row">
+              <label for="confirm-password" class="col-lg-2 control-label">Confirm new Password</label>
+              <div class="col-lg-10">
+                <input type="password" class="form-control" id="confirm-password" ng-model="confirm_new_password" placeholder="Confirm password">
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Save password</button>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row" ng-if="page == 'employment'">
+      <div class="col-md-6">
+        <div class="well">
+          <h2>TODO employment</h2>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row" ng-if="page == 'education'">
+      <div class="col-md-6">
+        <div class="well">
+          <h2>TODO education</h2>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row" ng-if="page == 'interests'">
+      <div class="col-md-6">
+        <div class="well">
+          <h2>TODO interests</h2>
+        </div>
+      </div>
+    </div>
+
   </div>
 </form>

@@ -124,6 +124,9 @@ a {
 .chat-messages ul li:hover {
   background: #f7f7f7;
 }
+.row.spacing {
+  margin-bottom: 15px;
+}
 .purple {
   color: #ec008c;
 }

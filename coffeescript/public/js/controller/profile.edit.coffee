@@ -2,12 +2,16 @@ app = angular.module('app')
 app.controller 'profile.edit', ($rootScope, $scope, $timeout, api) ->
   $scope.loggedin = api.checkLogin()
   $scope.edit_saved = false
+  $scope.page = 'details'
+  $scope.genders = api.getGenders()
 
   if !$scope.loggedin
     # TODO: goto frontpage
     console.log "not logged in"
 
-  $scope.genders = api.getGenders()
+  $scope.set_page = (page) ->
+    $scope.page = page
+
 
   # TODO: redo the architecture, watch should not be needed!
   # TODO: profile edit could be a directive, should fix these problems
@@ -21,7 +25,10 @@ app.controller 'profile.edit', ($rootScope, $scope, $timeout, api) ->
       $scope.$bio = $scope.user.bio
       $scope.user.bio = $scope.user.original_bio
 
-  $scope.save_edit = ->
+  $scope.save_password = ->
+    console.log "scope", $scope
+
+  $scope.save_details = ->
     data = angular.copy($scope.user)
     if data.bio
       $scope.user.original_bio = data.bio

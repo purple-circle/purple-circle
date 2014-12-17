@@ -439,10 +439,14 @@
     var done;
     $scope.loggedin = api.checkLogin();
     $scope.edit_saved = false;
+    $scope.page = 'details';
+    $scope.genders = api.getGenders();
     if (!$scope.loggedin) {
       console.log("not logged in");
     }
-    $scope.genders = api.getGenders();
+    $scope.set_page = function(page) {
+      return $scope.page = page;
+    };
     done = false;
     $scope.$watch(function() {
       var username;
@@ -454,7 +458,10 @@
         return $scope.user.bio = $scope.user.original_bio;
       }
     });
-    return $scope.save_edit = function() {
+    $scope.save_password = function() {
+      return console.log("scope", $scope);
+    };
+    return $scope.save_details = function() {
       var data;
       data = angular.copy($scope.user);
       if (data.bio) {
