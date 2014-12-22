@@ -30,7 +30,7 @@
     });
   };
 
-  user.check_group_name = function(name) {
+  groups.check_group_name = function(name) {
     return api.createQueue("api.check_group_name", name);
   };
 

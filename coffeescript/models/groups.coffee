@@ -23,7 +23,7 @@ groups.create = (data) ->
       groups.joinGroup(joinData)
       group
 
-user.check_group_name = (name) ->
+groups.check_group_name = (name) ->
   api.createQueue("api.check_group_name", name)
 
 groups.joinGroup = (data) ->
