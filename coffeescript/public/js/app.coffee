@@ -87,6 +87,18 @@ app.config ($stateProvider, $locationProvider) ->
 app.run ($rootScope) ->
   $rootScope.page_title = "(><)"
 
+  $rootScope.$on '$stateChangeStart', (event, toState) ->
+    # before all states, run google analytics
+    # ga('send', 'pageview');
+    # ga('send', 'pageview', '/my-overridden-page?id=1');
+    # ga('send', 'pageview', {
+    #   'page': '/my-overridden-page?id=1',
+    #   'title': 'my overridden page'
+    # });
+
+    ga('send', 'pageview', toState.url)
+
+
 
 
 $(document).ready ->
