@@ -156,3 +156,26 @@ a {
     color: #ec008c;
   }
 }
+word-game .word-container {
+  height: 30px;
+}
+word-game .word-container .word {
+  font-weight: bold;
+}
+word-game table tr.first {
+  background: #2ecc40;
+}
+word-game table tr.last {
+  background: #ff4136;
+}
+word-game table td {
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+}
+word-game table td.selected {
+  background: #3d9970;
+}

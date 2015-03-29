@@ -1,0 +1,22 @@
+
+<div class="word-container">
+  <span
+    class="word"
+    ng-repeat="letter in selectedLetters track by $index">
+    {{letter.character}}
+  </span>
+</div>
+
+<table>
+  <tr
+    ng-repeat="row in rows track by $index"
+    ng-class="{first: $first, last: $last}"
+    >
+    <td
+      ng-repeat="letter in row track by $index"
+      ng-click="selectCharacter(letter)"
+      ng-class="{selected: letter.selected}">
+      {{letter.character}}
+    </td>
+  </tr>
+</table>

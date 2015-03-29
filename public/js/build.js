@@ -72,7 +72,10 @@
   }]);
 
   app.run(["$rootScope", function($rootScope) {
-    return $rootScope.page_title = "(><)";
+    $rootScope.page_title = "(><)";
+    return $rootScope.$on('$stateChangeStart', function(event, toState) {
+      return ga('send', 'pageview', toState.url);
+    });
   }]);
 
   $(document).ready(function() {
@@ -1022,5 +1025,76 @@
       }
     };
   }]);
+
+}).call(this);
+
+(function() {
+  var app;
+
+  app = angular.module('app');
+
+  app.directive('wordGame', function() {
+    return {
+      restrict: 'E',
+      templateUrl: 'directives/games/words.html',
+      controller: ["$scope", function($scope) {
+        var character, data, letters, position, randomCharacter, row, validateSelection, _i, _j;
+        randomCharacter = function() {
+          var possible;
+          possible = 'abcdefghijklmnopqrstuvwxyzöäå';
+          return possible.charAt(Math.floor(Math.random() * possible.length));
+        };
+        $scope.selectedLetters = [];
+        $scope.rows = [];
+        for (row = _i = 0; _i <= 9; row = ++_i) {
+          letters = [];
+          for (position = _j = 0; _j <= 9; position = ++_j) {
+            character = randomCharacter();
+            data = {
+              character: character,
+              row: row,
+              position: position
+            };
+            letters.push(data);
+          }
+          $scope.rows.push(letters);
+        }
+        validateSelection = function(letter) {
+          var lastLetter, rowIsOk;
+          lastLetter = _.last($scope.selectedLetters);
+          if (!lastLetter) {
+            return true;
+          }
+          rowIsOk = lastLetter.row === letter.row - 1 || lastLetter.row === letter.row + 1 || lastLetter.row === letter.row;
+          if (rowIsOk) {
+            return lastLetter.position === letter.position - 1 || lastLetter.position === letter.position + 1 || lastLetter.position === letter.position;
+          }
+        };
+        return $scope.selectCharacter = function(letter) {
+          var alreadySelected, copy, foundFrom, i, selectionAllowed;
+          selectionAllowed = validateSelection(letter);
+          alreadySelected = !!letter.selected;
+          if (!selectionAllowed && !alreadySelected) {
+            return false;
+          }
+          letter.selected = !letter.selected;
+          copy = angular.copy(letter);
+          if (copy.selected) {
+            return $scope.selectedLetters.push(copy);
+          } else {
+            i = 0;
+            foundFrom = null;
+            return $scope.selectedLetters = _.reduce($scope.selectedLetters, function(memo, selectedLetter) {
+              if (copy.row !== selectedLetter.row || copy.position !== selectedLetter.position) {
+                memo.push(selectedLetter);
+              }
+              i++;
+              return memo;
+            }, []);
+          }
+        };
+      }]
+    };
+  });
 
 }).call(this);

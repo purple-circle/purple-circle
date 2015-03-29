@@ -16,12 +16,14 @@
       </ul>
     </div>
 
+
     <div class="col-md-4">
       i'm logged in: {{loggedin}}
     </div>
 
   </div>
+
+  <login ng-if="!loggedin"></login>
+
 </div>
 
-
-<login ng-if="!loggedin"></login>

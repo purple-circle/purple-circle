@@ -186,3 +186,35 @@ a {
     color: @purple;
   }
 }
+
+word-game {
+  .word-container {
+    height: 30px;
+
+    .word {
+      font-weight: bold;
+    }
+  }
+  table {
+    tr {
+      &.first {
+        background: @green;
+      }
+      &.last {
+        background: @red;
+      }
+    }
+    td {
+      cursor: pointer;
+      margin: 0;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      text-align: center;
+
+      &.selected {
+        background: @olive;
+      }
+    }
+  }
+}
