@@ -78,26 +78,6 @@
     });
   }]);
 
-  $(document).ready(function() {
-    var barElement, bodyElement, height, scroll;
-    bodyElement = $("body");
-    barElement = $(".bar");
-    height = bodyElement.height();
-    scroll = function() {
-      var position, top;
-      top = bodyElement.scrollTop();
-      if (top < 0) {
-        top = 1;
-      }
-      if (top > height) {
-        top = height;
-      }
-      position = top / height * 100;
-      barElement.css("background-position", "left " + position + "%");
-    };
-    $(window).on("scroll", _.throttle(scroll, 24));
-  });
-
 }).call(this);
 
 (function() {

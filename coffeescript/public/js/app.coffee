@@ -9,7 +9,7 @@ app = angular.module('app', [
   'angularFileUpload'
   'ui.bootstrap'
   'ngSanitize'
-  'luegg.directives'
+  'luegg.directives' # scroll glue
 ])
 
 app.config ($stateProvider, $locationProvider) ->
@@ -98,24 +98,3 @@ app.run ($rootScope) ->
 
     ga('send', 'pageview', toState.url)
 
-
-
-
-$(document).ready ->
-
-  bodyElement = $("body")
-  barElement = $(".bar")
-
-  height = bodyElement.height()
-  scroll = ->
-    top = bodyElement.scrollTop()
-    if top < 0
-      top = 1
-    if top > height
-      top = height
-    position = top / height * 100
-    barElement.css "background-position", "left " + position + "%"
-    return
-
-  $(window).on "scroll", _.throttle(scroll, 24)
-  return
